@@ -557,3 +557,6 @@ To read a channel only when the UTAG value is even (bit 0 is 0):
  ...
 
 =cut
+
+registrar(infoInitialize)
+

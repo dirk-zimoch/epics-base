@@ -17,6 +17,7 @@ dbRecStd_SRCS += arr.c
 dbRecStd_SRCS += sync.c
 dbRecStd_SRCS += decimate.c
 dbRecStd_SRCS += utag.c
+dbRecStd_SRCS += info.c
 
 DOCS += filters.md
 HTMLS += filters.html
