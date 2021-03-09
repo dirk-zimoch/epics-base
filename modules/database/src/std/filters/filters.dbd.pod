@@ -24,8 +24,6 @@
 =item * L<Subarray Modifier C<<< [E<hellip>] >>>
     |/"Subarray Field Modifier [start:increment:end]">
 
-=item * L<Info Field|/"Info Field Filter info">
-
 =back
 
 =item * L<JSON5 Channel Filters
@@ -50,6 +48,9 @@
 
 =item * L<User Tag Filter C<<< {utag:{E<hellip>}} >>>
     |/"User Tag Filter utag">
+
+=item * L<Info Field Filter C<<< {info:{E<hellip>}} >>>
+    |/"Info Field Filter info">
 
 =back
 
@@ -588,6 +589,6 @@ and array of C<CHAR> for long values.
 =head4 Example
 
  $ caget 'test:channel.{"info":{"name":"infofield"}}
- $ caget -S 'test:channel.{"info":{"name":"infofield","l":"yes"}} 
- 
+ $ caget -S 'test:channel.{"info":{"name":"infofield","l":"yes"}}
+
 =cut
