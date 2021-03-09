@@ -24,6 +24,8 @@
 =item * L<Subarray Modifier C<<< [E<hellip>] >>>
     |/"Subarray Field Modifier [start:increment:end]">
 
+=item * L<Info Field|/"Info Field Filter info">
+
 =back
 
 =item * L<JSON5 Channel Filters
@@ -560,3 +562,32 @@ To read a channel only when the UTAG value is even (bit 0 is 0):
 
 registrar(infoInitialize)
 
+=head3 Info Field Filter C<"info">
+
+This filter gives access to the info fields of a record.
+
+=head4 Parameters
+
+=over
+
+=item Name C<"name"> or C<"n">
+
+The name of the info field.
+
+=item Long String Flag C<"longstr"> or C<"l">
+
+If this optional flag is C<"yes">, C<"on">, or C<1>, the info field is returned
+as an array of C<CHAR>.
+If it is C<"no">, C<"off">, or C<0>, the info field is returned as a C<STRING>,
+truncated to 40 characters if necessary.
+The default is C<"auto">, which will use C<STRING> for sufficiently short values
+and array of C<CHAR> for long values.
+
+=back
+
+=head4 Example
+
+ $ caget 'test:channel.{"info":{"name":"infofield"}}
+ $ caget -S 'test:channel.{"info":{"name":"infofield","l":"yes"}} 
+ 
+=cut
