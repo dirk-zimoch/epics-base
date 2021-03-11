@@ -57,6 +57,9 @@ static void runSingleTest(const char *json, dbfType dbf_type, const char *type, 
     dbChannel *pch;
     db_field_log fl;
     db_field_log *pfl;
+    DBADDR addr;
+    char data[80];
+    long nreq;
     char name[80] = "x.";
 
     strncat(name, json, sizeof(name)-strlen(name)-1);
@@ -70,7 +73,14 @@ static void runSingleTest(const char *json, dbfType dbf_type, const char *type, 
     memset(&fl, 0, sizeof(fl));
     pfl = dbChannelRunPreChain(pch, &fl);
     testOk(pfl->field_type == dbf_type, "Field type should be %s", type);
-    testOk(pfl->u.r.field && strcmp(expected, (const char *)pfl->u.r.field) == 0, "Info string matches expected '%s'", expected);
+
+    dbNameToAddr(name, &addr);
+    dbScanLock(addr.precord);
+    nreq = strlen(expected) + 1;
+    dbGet(&addr, dbf_type, &data, NULL, &nreq, pfl);
+    dbScanUnlock(addr.precord);
+
+    testOk(strcmp(expected, data) == 0, "Info string matches expected '%s'", expected);
 
     dbChannelDelete(pch);
 }
@@ -84,7 +94,7 @@ MAIN(arrTest)
     DBENTRY dbentry;
     const char test_info_str[] = "xxxxxxxxxxxx";
     const char test_info_str_long[] = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-    const char test_info_str_truncated[] = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+    const char test_info_str_truncated[] = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
     testPlan(30);
 
@@ -140,12 +150,7 @@ MAIN(arrTest)
     runSingleTest("{info:{name:\"b\", l:\"auto\"}}", DBF_CHAR, "DBF_CHAR", test_info_str_long);
 
     testDiag("Testing long string, truncated");
-    /*
-     * Note: We compare to the long string here instead of the truncated string because the actual
-     * truncation occurs in the CA framework, not in this mockup framework.
-     */
-    //runSingleTest("{info:{name:\"b\", l:\"off\"}}", DBF_STRING, "DBF_STRING", test_info_str_truncated);
-    runSingleTest("{info:{name:\"b\", l:\"off\"}}", DBF_STRING, "DBF_STRING", test_info_str_long);
+    runSingleTest("{info:{name:\"b\", l:\"off\"}}", DBF_STRING, "DBF_STRING", test_info_str_truncated);
 
     db_close_events(evtctx);
 
