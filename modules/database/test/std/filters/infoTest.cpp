@@ -140,7 +140,12 @@ MAIN(arrTest)
     runSingleTest("{info:{name:\"b\", l:\"auto\"}}", DBF_CHAR, "DBF_CHAR", test_info_str_long);
 
     testDiag("Testing long string, truncated");
-    runSingleTest("{info:{name:\"b\", l:\"off\"}}", DBF_STRING, "DBF_STRING", test_info_str_truncated);
+    /*
+     * Note: We compare to the long string here instead of the truncated string because the actual
+     * truncation occurs in the CA framework, not in this mockup framework.
+     */
+    //runSingleTest("{info:{name:\"b\", l:\"off\"}}", DBF_STRING, "DBF_STRING", test_info_str_truncated);
+    runSingleTest("{info:{name:\"b\", l:\"off\"}}", DBF_STRING, "DBF_STRING", test_info_str_long);
 
     db_close_events(evtctx);
 
