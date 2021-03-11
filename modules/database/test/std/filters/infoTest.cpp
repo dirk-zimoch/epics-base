@@ -1,55 +1,27 @@
 /*************************************************************************\
-* Copyright (c) 2010 Brookhaven National Laboratory.
-* Copyright (c) 2010 Helmholtz-Zentrum Berlin
-*     fuer Materialien und Energie GmbH.
-* Copyright (c) 2008 UChicago Argonne LLC, as Operator of Argonne
-*     National Laboratory.
-* Copyright (c) 2003 The Regents of the University of California, as
-*     Operator of Los Alamos National Laboratory.
+* Copyright (c) 2021 European Spallation Source (ERIC)
 * SPDX-License-Identifier: EPICS
 * EPICS BASE is distributed subject to the Software License Agreement
 * found in the file LICENSE that is included with this distribution.
 \*************************************************************************/
 
 /*
- *  Author: Ralph Lange <Ralph.Lange@bessy.de>
+ *  Author: Simon Rose <simon.rose@ess.eu>
  */
 
-/* using stuff from softIoc.cpp by Andrew Johnson */
-
-#include <stddef.h>
-#include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
-#include <stdio.h>
 
-#include "registryFunction.h"
-#include "epicsThread.h"
-#include "epicsExit.h"
 #include "epicsStdio.h"
-#include "envDefs.h"
 #include "dbStaticLib.h"
-#include "dbmf.h"
 #include "errlog.h"
-#include "registry.h"
-#include "dbAddr.h"
 #include "dbAccess.h"
-#include "asDbLib.h"
-#include "iocInit.h"
-#include "iocsh.h"
 #include "dbChannel.h"
-#include "epicsUnitTest.h"
 #include "dbUnitTest.h"
 #include "testMain.h"
-#include "osiFileName.h"
 
 extern "C" {
     void filterTest_registerRecordDeviceDriver(struct dbBase *);
 }
-
-#define CA_SERVER_PORT "65535"
-
-const char *server_port = CA_SERVER_PORT;
 
 #define DEBUG(fmt, x) printf("DEBUG (%d): %s: " fmt "\n", __LINE__, #x, x)
 
@@ -99,8 +71,6 @@ MAIN(arrTest)
     testPlan(30);
 
     /* Prepare the IOC */
-
-    epicsEnvSet("EPICS_CA_SERVER_PORT", server_port);
 
     testdbPrepare();
 
