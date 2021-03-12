@@ -17,6 +17,15 @@ should also be read to understand what has changed since earlier releases.
 
 <!-- Insert new items immediately below here ... -->
 
+### New channel filter for info fields
+
+A new filter `info` is available to access info fields of a record
+using Channel Access or links.
+The text value can be read as a `DBF_STRING` or an array of `DBF_CHAR`.
+
+```
+caget 'recordname.{info:{name="infotag"}}'
+```
 
 -----
 
