@@ -13,9 +13,6 @@ include $(TOP)/configure/CONFIG
 
 USR_CPPFLAGS += -DUSE_TYPED_RSET
 
-USR_CFLAGS += -ggdb -O0
-USR_CXXFLAGS += -ggdb -O0
-
 TESTLIBRARY = Recs
 
 Recs_SRCS += xRecord.c
