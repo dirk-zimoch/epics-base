@@ -6,15 +6,17 @@ The following filters are available in this release:
 
 =over
 
-=item * L<TimeStamp|/"TimeStamp Filter ts">
+=item * L<TimeStamp|/TimeStamp Filter "ts">
 
-=item * L<Deadband|/"Deadband Filter dbnd">
+=item * L<Deadband|/Deadband Filter "dbnd">
 
-=item * L<Array|/"Array Filter arr">
+=item * L<Array|/Array Filter "arr">
 
-=item * L<Synchronize|/"Synchronize Filter sync">
+=item * L<Synchronize|/Synchronize Filter "sync">
 
-=item * L<Decimation|/"Decimation Filter dec">
+=item * L<Decimation|/Decimation Filter "dec">
+
+=item * L<Info Field|/Info Field Filter "info">
 
 =back
 
@@ -284,4 +286,44 @@ once every minute:
  Hal$ camonitor 'test:channel' 'test:channel.{"dec":{"n":60}}'
  ...
 
+=cut
+
+registrar(infoInitialize)
+
+=head3 Info Field Filter C<"info">
+
+This filter gives access to the info fields of a record.
+
+=head4 Parameters
+
+=over
+
+=item Name C<"name"> or C<"n">
+
+The name of the info field.
+Currently, there is an implementation limit of 50 chars
+for the name length.
+
+=item Long String Flag C<"longstr"> or C<"l">
+
+If this optional flag is C<"yes">, C<"on">, or C<1>, the info field is returned
+as an array of C<CHAR>.
+If it is C<"no">, C<"off">, or C<0>, the info field is returned as a C<STRING>,
+truncated to 40 characters if necessary.
+The default is C<"auto">, which will use C<STRING> for sufficiently short values
+and array of C<CHAR> for long values.
+
+=back
+
+=head4 Example
+
+Assuming the record C<test:channel> has:
+
+ info(infofieldname, "value of the info field")
+
+To read the value of the info field:
+
+ $ caget 'test:channel.{"info":{"name":"infofieldname"}}
+ $ caget -S 'test:channel.{"info":{"name":"infofieldname","l":"yes"}} 
+ 
 =cut
