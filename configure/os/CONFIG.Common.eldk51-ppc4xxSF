@@ -1,0 +1,17 @@
+# Virtex FPGA embedded Processor with ELDK 5.1
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = ppc
+
+SDK = eldk
+SDK_DIR = /opt/eldk-5.1
+SDK_HOST_ARCH = $(GNU_HOST_ARCH)-$(SDK)-$(GNU_HOST_OS)
+GNU_TARGET = powerpc-4xx-softfloat
+GNU_ARCH = ppc405-linux
+GNU_DIR = $(SDK_DIR)/$(GNU_TARGET)/sysroots/$(SDK_HOST_ARCH)/usr
+GNU_BIN = $(GNU_DIR)/bin/$(GNU_ARCH)
+
+# have no full C++11
+STD_CXXFLAGS = -std=c++0x

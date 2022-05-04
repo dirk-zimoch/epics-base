@@ -1,0 +1,16 @@
+# "cross compile" for older Linux version
+# Use older compiler and older libraries
+# Used packages:
+# compat-gcc-44-c++-4.4.7
+# compat-gcc-44-4.4.7
+# compat-glibc-headers-2.12
+# compat-glibc-2.12
+#-------------------------------------------------------
+
+include $(CONFIG)/os/CONFIG.linux-x86.linux-x86
+CC = $(GNU_BIN)/$(CMPLR_PREFIX)gcc44
+CCC = $(GNU_BIN)/$(CMPLR_PREFIX)g++44
+
+TARGET_CPPFLAGS = -isystem /usr/lib/x86_64-redhat-linux6E/include
+TARGET_LDFLAGS = -B /usr/lib/x86_64-redhat-linux6E/lib64
+LINK.cpp += --as-needed -lc -lm -lrt -lpthread -lreadline -ltinfo

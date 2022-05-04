@@ -1,0 +1,6 @@
+include $(CONFIG)/os/CONFIG.Common.vxWorks-ppc604_long
+VXWORKS_VERSION = 5.4
+WIND_BASE = /afs/psi.ch/project/vxworks/Tornado2.0.2
+
+OPT_CFLAGS_YES = -O0
+OPT_CXXFLAGS_YES = -O0

@@ -1,0 +1,18 @@
+# National Instruments CompactRIO running LabView RT 19.5.1
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = arm
+
+GNU_TARGET = arm-linux-gnu
+
+SYSROOT = /opt/LabVIEW-RT-19.5.1/arm/sysroots/armv7a-vfp-neon-nilrt-linux-gnueabi
+
+ARCH_DEP_CPPFLAGS += -march=armv7-a -mthumb-interwork -mfloat-abi=softfp -mfpu=neon
+ARCH_DEP_CPPFLAGS += --sysroot=$(SYSROOT)
+ARCH_DEP_CPPFLAGS += -I$(SYSROOT)/usr/include/c++/4.7.2/arm-nilrt-linux-gnueabi/
+ARCH_DEP_CPPFLAGS += -I$(SYSROOT)/usr/include/c++/4.7.2/
+ARCH_DEP_LDFLAGS  += --sysroot=$(SYSROOT)
+
+COMMANDLINE_LIBRARY = READLINE_NCURSES

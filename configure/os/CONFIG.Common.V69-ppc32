@@ -1,0 +1,3 @@
+include $(CONFIG)/os/CONFIG.Common.vxWorks-ppc32
+VXWORKS_VERSION = 6.9
+#export LD_LIBRARY_PATH=$(WIND_BASE)/lmapi-5.0/$(WIND_HOST_TYPE)/lib

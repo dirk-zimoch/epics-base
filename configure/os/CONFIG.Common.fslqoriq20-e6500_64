@@ -1,0 +1,23 @@
+# IOxOS IFC1211 with Freescale QorIQ 2.0 toolchain
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = ppc
+
+SDK = fslsdk
+SDK_DIR = /opt/fsl-qoriq/2.0
+SDK_HOST_ARCH = $(GNU_HOST_ARCH_64)-$(SDK)-$(GNU_HOST_OS)
+SDK_TARGET = ppc64e6500-fsl-linux
+GNU_TARGET = powerpc64-fsl-linux
+SDKTARGETSYSROOT = $(SDK_DIR)/sysroots/$(SDK_TARGET)
+GNU_DIR = $(SDK_DIR)/sysroots/$(SDK_HOST_ARCH)/usr
+GNU_BIN = $(GNU_DIR)/bin/$(GNU_TARGET)
+
+ARCH_DEP_CPPFLAGS = --sysroot=$(SDKTARGETSYSROOT)
+ARCH_DEP_CFLAGS = -mcpu=e6500 -m64 -mhard-float
+ARCH_DEP_LDFLAGS = --sysroot=$(SDKTARGETSYSROOT)
+
+# warning -O2 and higher are broken!
+#OPT_CFLAGS_YES = -O1
+#OPT_CXXFLAGS_YES = -O1

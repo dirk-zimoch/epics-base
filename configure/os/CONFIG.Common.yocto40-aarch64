@@ -1,0 +1,20 @@
+# XILINX Zynq with Yocto 4.0 toolchain
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = arm64
+
+SDK = pokysdk
+SDK_DIR = /opt/yocto40-aarch64
+SDK_HOST_ARCH = $(GNU_HOST_ARCH_64)-$(SDK)-$(GNU_HOST_OS)
+SDK_TARGET = cortexa53-poky-linux
+GNU_TARGET = aarch64-poky-linux
+SDKTARGETSYSROOT = $(SDK_DIR)/sysroots/$(SDK_TARGET)
+GNU_DIR = $(SDK_DIR)/sysroots/$(SDK_HOST_ARCH)/usr
+GNU_BIN = $(GNU_DIR)/bin/$(GNU_TARGET)
+
+ARCH_DEP_CPPFLAGS = --sysroot=$(SDKTARGETSYSROOT) -mcpu=cortex-a53 -march=armv8-a+crc
+ARCH_DEP_LDFLAGS = --sysroot=$(SDKTARGETSYSROOT)
+
+STD_CXXFLAGS = -std=c++20

@@ -8,3 +8,7 @@
 # They must be set in the host+target specific file instead:
 #   CONFIG_SITE.<linux-arch>.<linux-arch>
 
+COMMANDLINE_LIBRARY = READLINE
+CODE_CPPFLAGS += -fno-strict-aliasing
+USR_CXXFLAGS += $(STD_CXXFLAGS)
+STD_CXXFLAGS = -std=c++11

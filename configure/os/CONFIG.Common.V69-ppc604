@@ -1,0 +1,6 @@
+include $(CONFIG)/os/CONFIG.Common.vxWorks-ppc604_long
+VXWORKS_VERSION = 6.9
+#export LD_LIBRARY_PATH=$(WIND_BASE)/lmapi-5.0/$(WIND_HOST_TYPE)/lib
+
+# -fno-implicit-fp causes error: "unable to find a register to spill in class 'FLOAT_REGS'"
+ARCH_DEP_CFLAGS = -mcpu=604 -mstrict-align

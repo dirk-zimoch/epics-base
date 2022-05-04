@@ -1,0 +1,19 @@
+# Moxa DA-66x with SDK 4.2 and ARM7 processor
+
+# Include definitions common to all Linux ARM targets
+include $(CONFIG)/os/CONFIG.Common.linux-arm
+
+GNU_DIR=/afs/psi.ch/project/embeddedlinux/moxa/arm-linux-4.4.2-v4
+GNU_TARGET=arm
+ARCH_DEP_LDFLAGS+=-Wl,-rpath-link,$(GNU_DIR)/arm-none-linux-gnueabi/lib
+ARCH_DEP_LDFLAGS+=-Wl,-rpath-link,$(INSTALL_LIB)
+
+COMMANDLINE_LIBRARY = READLINE_NCURSES
+
+# suppress note "the mangling of 'va_list' has changed in GCC 4.4"
+ARCH_DEP_CXXFLAGS += -Wno-psabi
+
+ARCH_DEP_CFLAGS += -funwind-tables
+
+# have no full C++11
+STD_CXXFLAGS = -std=c++0x

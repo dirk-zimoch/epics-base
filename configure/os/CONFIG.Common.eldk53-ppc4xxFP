@@ -1,0 +1,21 @@
+# DeltaTau PowerPMAC with ELDK 5.3
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = ppc
+
+SDK = eldk
+SDK_DIR = /opt/eldk-5.3
+SDK_HOST_ARCH = $(GNU_HOST_ARCH)-$(SDK)-$(GNU_HOST_OS)
+GNU_ARCH = ppc440e-linux
+SDKTARGETSYSROOT=$(SDK_DIR)/powerpc-4xx/sysroots
+GNU_DIR = $(SDKTARGETSYSROOT)/$(SDK_HOST_ARCH)/usr
+GNU_BIN = $(GNU_DIR)/bin/$(GNU_ARCH)
+GNU_TARGET_INCLUDE_DIR =
+GNU_TARGET=powerpc-linux
+
+ARCH_DEP_CPPFLAGS =  -m32 -mcpu=440fp -mhard-float
+ARCH_DEP_CPPFLAGS += --sysroot=$(SDKTARGETSYSROOT)/$(GNU_ARCH)
+ARCH_DEP_LDFLAGS =   --sysroot=$(SDKTARGETSYSROOT)/$(GNU_ARCH)
+AS=$(GNU_BIN)/$(GNU_TARGET)-as

@@ -1,0 +1,5 @@
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+GNU         = NO
+CMPLR_CLASS = clang
+CC          = clang
+CCC         = clang++

@@ -1,0 +1,18 @@
+# Moxa DA-66x with Montavista Linux 4.0
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+COMMANDLINE_LIBRARY = READLINE_CURSES
+
+ARCH_CLASS = xscale
+
+GNU_DIR=/afs/psi.ch/project/embeddedlinux/moxa/xscale_be/armv5teb-montavista-linuxeabi
+
+ARCH_DEP_CFLAGS += -funwind-tables
+
+# have no C++11
+STD_CXXFLAGS =
+
+# Cannot build PVA because of missing boost support
+SKIP_BUILDS = pv% normativeTypes

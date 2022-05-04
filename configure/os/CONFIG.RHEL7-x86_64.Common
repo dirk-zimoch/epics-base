@@ -1,0 +1,3 @@
+#CONFIG.$(EPICS_HOST_ARCH).Common is required by build system
+#Include definitions common to linux hosts
+include $(CONFIG)/os/CONFIG.linux-x86_64.Common

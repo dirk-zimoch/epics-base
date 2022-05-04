@@ -1,0 +1,18 @@
+# IOxOS IFC1210 with ELDK 5.2
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = ppc
+
+SDK = eldk
+SDK_DIR = /opt/eldk-5.2
+SDK_HOST_ARCH = $(GNU_HOST_ARCH)-$(SDK)-$(GNU_HOST_OS)
+GNU_TARGET = powerpc-e500v2
+GNU_ARCH = ppce500v2-linux-gnuspe
+GNU_DIR = $(SDK_DIR)/$(GNU_TARGET)/sysroots/$(SDK_HOST_ARCH)/usr
+GNU_BIN = $(GNU_DIR)/bin/$(GNU_ARCH)
+GNU_TARGET_INCLUDE_DIR =
+
+# have no full C++11
+STD_CXXFLAGS = -std=c++0x

@@ -5,3 +5,55 @@
 
 #CROSS_COMPILER_TARGET_ARCHS = vxWorks-ppc32
 #CROSS_COMPILER_TARGET_ARCHS = RTEMS-mvme2100 RTEMS-pc386-qemu
+
+###INSTALL_LOCATION=/usr/local/epics/base-$(EPICS_VERSION).$(EPICS_REVISION).$(EPICS_MODIFICATION)
+
+GNU_HOST_ARCH=i686
+GNU_HOST_OS=linux
+
+# LD_LIBRARY_PATH may cause problems for eldk53-ppc4xxFP
+LD_LIBRARY_PATH=
+
+## vxWorks 5.5 for MVxxxx boards
+# unsupported, needs several patches
+CROSS_COMPILER_TARGET_ARCHS += T2-ppc604
+
+# vxWorks 6.7 for MVxxxx boards
+#CROSS_COMPILER_TARGET_ARCHS += V67-ppc604
+
+# vxWorks 6.9 for MVxxxx boards
+CROSS_COMPILER_TARGET_ARCHS += V69-ppc604
+#CROSS_COMPILER_TARGET_ARCHS += V69-ppc32
+
+# NI compact RIO
+CROSS_COMPILER_TARGET_ARCHS += V63-ppc603
+
+# MOXA montavista linux (No PVA because of missing boost support)
+CROSS_COMPILER_TARGET_ARCHS += mvl40-xscale_be
+
+# MOXA SDK 4.2
+CROSS_COMPILER_TARGET_ARCHS += moxa42-armv6l
+
+# Virtex embedded PPC
+CROSS_COMPILER_TARGET_ARCHS += eldk51-ppc4xxSF
+
+# IOxOS IFC1210
+CROSS_COMPILER_TARGET_ARCHS += eldk52-e500v2
+
+# DeltaTau PowerPMAC
+CROSS_COMPILER_TARGET_ARCHS += eldk42-ppc4xxFP
+CROSS_COMPILER_TARGET_ARCHS += eldk53-ppc4xxFP
+
+# Test other vxWorks versions
+#CROSS_COMPILER_TARGET_ARCHS += V66-ppc603
+#CROSS_COMPILER_TARGET_ARCHS += V66-ppc604
+#CROSS_COMPILER_TARGET_ARCHS += V63-ppc604
+#CROSS_COMPILER_TARGET_ARCHS += V64-ppc604
+# (No PVA because of old compiler)
+#CROSS_COMPILER_TARGET_ARCHS += V62-ppc604
+
+# Raspberry Pi
+CROSS_COMPILER_TARGET_ARCHS += raspbian-arm
+
+# RTEMS
+CROSS_COMPILER_TARGET_ARCHS += RTEMS-pc386

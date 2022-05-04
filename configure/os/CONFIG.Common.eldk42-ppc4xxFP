@@ -1,0 +1,25 @@
+# DeltaTau PowerPMAC with ELDK 4.2
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+COMMANDLINE_LIBRARY = READLINE_NCURSES
+
+ARCH_CLASS = ppc
+
+ELDK=/opt/eldk-4.2
+GNU_TARGET=ppc_4xxFP
+GNU_DIR=$(ELDK)/usr
+
+# This cross tool chain is installed in a somehow weired way
+# Without the following lines it does not work on RHEL7
+# but it worked on SL6
+ARCH_DEP_CXXFLAGS += -I $(ELDK)/$(GNU_TARGET)/usr/include/c++/4.2.2
+ARCH_DEP_CXXFLAGS += -I $(ELDK)/$(GNU_TARGET)/usr/include/c++/4.2.2/powerpc-linux
+ARCH_DEP_CXXFLAGS += -I $(ELDK)/$(GNU_TARGET)/usr/include/c++/4.2.2/backward
+
+ARCH_DEP_LDFLAGS += -Wl,-rpath-link,$(ELDK)/$(GNU_TARGET)/lib
+ARCH_DEP_LDFLAGS += -Wl,-rpath-link,$(ELDK)/$(GNU_TARGET)/usr/lib
+
+# have no C++11
+STD_CXXFLAGS =

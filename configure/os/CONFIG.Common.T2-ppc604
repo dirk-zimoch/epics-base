@@ -1,0 +1,8 @@
+include $(CONFIG)/os/CONFIG.Common.vxWorks-ppc604_long
+VXWORKS_VERSION = 5.5.1
+WIND_BASE = /afs/psi.ch/project/vxworks/Tornado2.2.1
+
+#there is a problem with our ccppc and optimization
+# -O0 works, -O and -O1 and higher are buggy
+OPT_CFLAGS_YES = -O0
+OPT_CXXFLAGS_YES = -O0

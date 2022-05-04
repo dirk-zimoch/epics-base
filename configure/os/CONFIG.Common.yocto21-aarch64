@@ -1,0 +1,18 @@
+# XILINX Zynq with Yocto 2.1 / Petalinux toolchain
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = arm64
+
+SDK = petalinux
+SDK_DIR = /opt/petalinux-gfa/2017.2
+SDK_HOST_ARCH = $(GNU_HOST_ARCH_64)-$(SDK)-$(GNU_HOST_OS)
+SDK_TARGET = aarch64-xilinx-linux
+GNU_TARGET = $(SDK_TARGET)
+SDKTARGETSYSROOT = $(SDK_DIR)/sysroots/$(SDK_TARGET)
+GNU_DIR = $(SDK_DIR)/sysroots/$(SDK_HOST_ARCH)/usr
+GNU_BIN = $(GNU_DIR)/bin/$(GNU_TARGET)
+
+ARCH_DEP_CPPFLAGS = --sysroot=$(SDKTARGETSYSROOT)
+ARCH_DEP_LDFLAGS = --sysroot=$(SDKTARGETSYSROOT)

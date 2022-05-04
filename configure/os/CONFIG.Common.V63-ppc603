@@ -1,0 +1,5 @@
+include $(CONFIG)/os/CONFIG.Common.vxWorks-ppc603_long
+VXWORKS_VERSION = 6.3
+
+# Buggy "uninitialized variable" warning produces many false positives
+ARCH_DEP_CXXFLAGS += -Wno-uninitialized

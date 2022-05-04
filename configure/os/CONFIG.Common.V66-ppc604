@@ -1,0 +1,2 @@
+include $(CONFIG)/os/CONFIG.Common.vxWorks-ppc604_long
+VXWORKS_VERSION = 6.6

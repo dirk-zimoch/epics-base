@@ -1,0 +1,41 @@
+# RaspberryPi with github.com/raspberrypi/tools toolchain
+# Tested on:
+# * Raspberry 3B+ Raspbian 9
+# * Raspberry 2   Raspbian 7
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+# Using readline:
+# Due to missing/messed up libs in the toolchain, readline needs copies of
+# libtinfo.so.5.9 and libreadline.so.6.2 from a Raspbian 7 rootfs
+# /lib/arm-linux-gnueabihf/ to the toolchain, e.g.
+# $(SDK_DIR)/gcc-linaro-arm-linux-gnueabihf-raspbian/arm-linux-gnueabihf/libc/lib/arm-linux-gnueabihf/
+# and manually created links libtinfo.so.5 and libreadline.so.
+# For gcc-linaro-arm-linux-gnueabihf-raspbian, an existing incompatible
+# libtinfo.so.5 is in the way. Remove it.
+# (Built with glibc 2.16 like installed on Raspbian 9 but toolchain uses glibc 2.13.)
+# Also copy /usr/include/readline/ directory from some readline 6 installation
+# to $(SDK_DIR)/gcc-linaro-arm-linux-gnueabihf-raspbian/arm-linux-gnueabihf/libc/usr/include/
+
+ARCH_CLASS = arm
+
+SDK_DIR = /opt/raspberrypi/arm-bcm2708
+
+# Available SDK_TARGETs:
+
+# gcc 4.8.3 for 32 bit hosts with GLIBC 2.3 or higher
+SDK_TARGET = gcc-linaro-arm-linux-gnueabihf-raspbian
+
+# gcc 4.8.3 for 64 bit hosts with GLIBC 2.14 or higher
+# SDK_TARGET = gcc-linaro-arm-linux-gnueabihf-raspbian-x64
+
+# gcc 4.7.1 for 64 bit hosts with GLIBC 2.8 or higher
+# SDK_TARGET = arm-linux-gnueabihf
+
+# gcc 4.7.1 for 32 bit hosts with GLIBC 2.4 or higher
+# SDK_TARGET = arm-bcm2708hardfp-linux-gnueabi
+# SDK_TARGET = arm-bcm2708-linux-gnueabi
+
+GNU_DIR = $(SDK_DIR)/$(SDK_TARGET)
+GNU_TARGET = $(if $(filter arm-bcm2708%,SDK_TARGET),$(SDK_TARGET),arm-linux-gnueabihf)

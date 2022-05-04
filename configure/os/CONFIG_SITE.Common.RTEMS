@@ -24,6 +24,9 @@
 #RTEMS_VERSION = 5
 #RTEMS_BASE = /usr/local/vw/rtems/rtems-5.1
 
+RTEMS_VERSION = 4.9
+RTEMS_BASE = /opt/rtems/$(RTEMS_VERSION)
+
 # Cross-compile toolchain in $(RTEMS_TOOLS)/bin
 #
 RTEMS_TOOLS = $(RTEMS_BASE)

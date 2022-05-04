@@ -1,0 +1,8 @@
+include $(CONFIG)/os/CONFIG.Common.vxWorks-ppc604_long
+VXWORKS_VERSION = 6.7
+
+# needed when including memPartLib.h, e.g. through moduleLib.h or loadLib.h
+ARCH_DEP_CFLAGS += -D_VSB_CONFIG_FILE='<../lib/h/config/vsbConfig.h>'
+
+# compiler tries to access license server (even though no license isneeded)
+export LM_LICENSE_FILE=37000@lic-windriver.psi.ch

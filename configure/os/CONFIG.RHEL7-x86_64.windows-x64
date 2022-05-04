@@ -1,0 +1,5 @@
+include $(CONFIG)/os/CONFIG.windows-x64.windows-x64
+
+#PATH_FILTER = $(subst /,/,$(1))
+
+PATH := /opt/wine-msvc-2017/bin/x64:$(PATH)

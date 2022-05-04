@@ -1,0 +1,7 @@
+# Build 32 bit version as a cross architecture
+#CROSS_COMPILER_TARGET_ARCHS += SL6-x86
+
+# Improved error checking with clang
+#CROSS_COMPILER_TARGET_ARCHS += SL6-x86_64-clang
+
+include $(CONFIG)/os/CONFIG_SITE.linux-x86_64.Common

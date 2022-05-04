@@ -1,0 +1,6 @@
+# "cross compile" for older Linux version (32 bit)
+# It was neccessary to install 32 bit compatibility libraries manually
+#-------------------------------------------------------
+
+include $(CONFIG)/os/CONFIG.RHEL7-x86_64.SL6-x86_64
+TARGET_LDFLAGS = -B /usr/lib/x86_64-redhat-linux6E/lib
