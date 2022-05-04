@@ -151,6 +151,11 @@ Com_SRCS_vxWorks += strtoull.c
 #This forces the vxWorks compatibility stuff to be loaded
 OBJS_vxWorks = vxComLibrary
 
+#Some vxWorks 5 compatibility stuff
+INC_vxWorks += vxWorks5/taskLib.h
+INC_vxWorks += vxWorks5/ostream
+vpath %/ostream $(USR_VPATH) $(SRC_DIRS)
+
 INC_WIN32 += epicsAtomicMS.h
 
 Com_SRCS_WIN32 += epicsGetopt.c 

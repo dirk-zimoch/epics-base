@@ -101,6 +101,23 @@ include $(CONFIG)/RULES_FILE_TYPE
 include $(CONFIG)/RULES.Db
 
 #---------------------------------------------------------------
+# Do not build anything if current path matches SKIP_BUILDS
+
+ifneq (,$(strip $(SKIP_BUILDS)))
+CURRENT_MODULE=$(subst modules/,,$(subst $(realpath $(TOP)/..)/,,$(subst $(realpath $(dir $(lastword $(MAKEFILE_LIST)))..)/,,$(realpath ..))))
+ifneq ($(filter $(SKIP_BUILDS) $(addsuffix /%,$(SKIP_BUILDS)),$(CURRENT_MODULE)),)
+$(info Skipping $(CURRENT_MODULE) for $(T_A))
+PROD=
+TESTPROD=
+LIBRARY=
+TESTLIBRARY=
+LOADABLE_LIBRARY=
+TESTS=
+SRC_FILES=
+endif
+endif
+
+#---------------------------------------------------------------
 # Include defines and rules for prod, library and test* targets
 
 ifneq (,$(strip $(PROD) $(TESTPROD) $(LIBRARY) $(TESTLIBRARY) \

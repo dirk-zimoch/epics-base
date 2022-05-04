@@ -13,6 +13,8 @@
 #include "epicsUnitTest.h"
 #include "testMain.h"
 
+using namespace epics::atomic;
+
 namespace {
 
 template < class T >
@@ -57,7 +59,7 @@ static void add ( void *arg )
     using epics::atomic::increment;
     TestDataAddSub < T > * const pTestData =
         reinterpret_cast < TestDataAddSub < T > * > ( arg );
-    add ( pTestData->m_testValue, TestDataAddSub < T > :: delta  );
+    epics::atomic::add ( pTestData->m_testValue, TestDataAddSub < T > :: delta  );
     increment ( pTestData->m_testIterations );
 }
 

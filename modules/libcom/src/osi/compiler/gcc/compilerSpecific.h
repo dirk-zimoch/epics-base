@@ -25,7 +25,11 @@
 #   error compiler/gcc/compilerSpecific.h is not for use with the clang compiler
 #endif
 
+#if __GNUC__ > 2
 #define EPICS_ALWAYS_INLINE __inline__ __attribute__((always_inline))
+#else
+#define EPICS_ALWAYS_INLINE __inline__
+#endif
 
 /* Expands to a 'const char*' which describes the name of the current function scope */
 #define EPICS_FUNCTION __PRETTY_FUNCTION__
@@ -54,7 +58,9 @@
 /*
  * Deprecation marker
  */
+#if  __GNUC__ > 2
 #define EPICS_DEPRECATED __attribute__((deprecated))
+#endif
 
 /*
  * Unused marker

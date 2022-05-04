@@ -18,8 +18,83 @@ VXWORKS_VERSION = 6.9
 # architecture by adding it to an appropriate
 # CONFIG_SITE.$(EPICS_HOST_ARCH).vxWorksCommon file.
 
+#### Fixes for CONFIG.Common.vxWorksCommon  #######
+
+VX_GNU_VERSION_7 = 4.8.1.11
+
+
+# These are needed for vxWorks 6.x; the GNU toolset version number
+# is in the path to the compiler tools:
+VX_GNU_VERSION_5   = 2.96
+VX_GNU_VERSION_6 = $(VX_GNU_VERSION_$(VXWORKS_VERSION))
+VX_GNU_VERSION = $(VX_GNU_VERSION_$(VXWORKS_MAJOR_VERSION))
+VX_GNU_MAJOR_VERSION = $(firstword $(subst ., ,$(VX_GNU_VERSION)))
+VX_GNU_MINOR_VERSION = $(word 2,$(subst ., ,$(VX_GNU_VERSION)))
+
+# gcc version before 3.4 are "old" and need special treatment
+VX_OLD_GCC_2   = OLD
+VX_OLD_GCC_3.3 = OLD
+VX_OLD_GCC_3   = $(VX_OLD_GCC_3.$(VX_GNU_MINOR_VERSION))
+VX_OLD_GCC = $(VX_OLD_GCC_$(VX_GNU_MAJOR_VERSION))
+
+# vxWorks directory definitions
+VX_DIR_5 = $(WIND_BASE)
+VX_DIR_6 = $(WIND_BASE)/vxworks-$(VXWORKS_VERSION)
+VX_DIR_7 = $(WIND_BASE)/vxworks-$(VXWORKS_VERSION)/pkgs/os
+VX_DIR = $(VX_DIR_$(VXWORKS_MAJOR_VERSION))
+
+VX_INCLUDE_DIRS_5  = $(VX_DIR)/target/h
+VX_INCLUDE_DIRS_6  = $(VX_DIR)/target/h
+VX_INCLUDE_DIRS_6 += $(VX_DIR)/target/h/wrn/coreip
+VX_INCLUDE_DIRS_7  = $(VX_DIR)/core/kernel-1.2.8.0/h
+VX_INCLUDE_DIRS_7 += $(VX_DIR)/lang-lib/libc-1.0.0.1/libc-kernel-1.0.8.0/h
+VX_INCLUDE_DIRS_7 += $(VX_DIR)/utils/ostools-1.0.5.0/h
+VX_INCLUDE_DIRS_7 += $(VX_DIR)/utils/ostools-1.0.5.0/shareh
+VX_INCLUDE_DIRS_7 += $(VX_DIR)/arch/ppc-1.3.4.0/kernel/base/h/
+VX_INCLUDE_DIRS_7 += $(VX_DIR)/arch/ppc-1.3.4.0/kernel/60x/h/arch/ppc/
+VX_INCLUDE_DIRS_7 += $(WIND_BASE)/vxworks-$(VXWORKS_VERSION)/samples/prebuilt_projects/vsb_vxsim_linux/krnl/h/public
+GNU_TARGET_INCLUDE_DIR = $(VX_INCLUDE_DIRS_$(VXWORKS_MAJOR_VERSION))
+
+TARGET_CPPFLAGS_5 = -isystem $(VX_DIR)/target/h
+TARGET_CPPFLAGS_6 = -isystem $(VX_DIR)/target/h
+TARGET_CPPFLAGS_7 = -isystem $(VX_DIR)/core/kernel-1.2.8.0/h -D_VSB_CONFIG_FILE='<$(WIND_BASE)/vxworks-$(VXWORKS_VERSION)/samples/prebuilt_projects/vsb_vxsim_linux/h/config/vsbConfig.h>'
+TARGET_CPPFLAGS = $(TARGET_CPPFLAGS_$(VXWORKS_MAJOR_VERSION))
+
+# vxWorks GNU directories
+
+GNU_DIR_5 = $(WIND_BASE)/host/$(WIND_HOST_TYPE)
+GNU_DIR_6 = $(WIND_BASE)/gnu/$(VX_GNU_VERSION)-vxworks-$(VXWORKS_VERSION)/$(WIND_HOST_TYPE)
+GNU_DIR_7 = $(WIND_BASE)/compilers/gnu-$(VX_GNU_VERSION)/$(WIND_HOST_TYPE)
+GNU_DIR = $(GNU_DIR_$(VXWORKS_MAJOR_VERSION))
+
+# Operating system flags
+OP_SYS_CFLAGS += -fno-strict-aliasing
+
+OP_SYS_INCLUDE_CPPFLAGS_5 += -include $(VX_DIR)/target/h/vxWorks.h
+OP_SYS_INCLUDE_CPPFLAGS_5 += -I$(EPICS_BASE)/include/os/vxWorks/vxWorks5
+OP_SYS_INCLUDE_CPPFLAGS_6 += -include $(VX_DIR)/target/h/vxWorks.h
+OP_SYS_INCLUDE_CPPFLAGS_7 += -include vxWorks.h
+OP_SYS_INCLUDE_CPPFLAGS = $(OP_SYS_INCLUDE_CPPFLAGS_$(VXWORKS_MAJOR_VERSION))
+
+OP_SYS_LDFLAGS += $(OP_SYS_LDFLAGS_$@)
+OP_SYS_LDFLAGS_softIoc = -whole-archive
+OP_SYS_LDFLAGS_softIocPVA = -whole-archive
+
+# code flags (delete -fno-implicit-templates)
+CODE_CXXFLAGS =
+
 # WIND_BASE is where you installed the Wind River software.
 
 #WIND_BASE = /usr/local/vw/tornado22-$(ARCH_CLASS)
 WIND_BASE = /usr/local/vw/vxWorks-$(VXWORKS_VERSION)
 #WIND_BASE = /ade/vxWorks/$(VXWORKS_VERSION)
+WIND_BASE = /afs/psi.ch/project/vxworks/VxWorks$(VXWORKS_VERSION)
+
+#--------------------------------------------------
+# Modules we cannot build with old compiler
+
+PV_MODULES = pv% normativeTypes
+SKIP_BUILDS_5 = $(PV_MODULES)
+SKIP_BUILDS_OLD = $(PV_MODULES)
+SKIP_BUILDS_6 = $(SKIP_BUILDS_$(VX_OLD_GCC))
+SKIP_BUILDS = $(SKIP_BUILDS_$(VXWORKS_MAJOR_VERSION))
