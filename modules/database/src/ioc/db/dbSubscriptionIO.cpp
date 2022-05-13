@@ -56,14 +56,14 @@ dbSubscriptionIO::~dbSubscriptionIO ()
 {
 }
 
-void dbSubscriptionIO::destructor ( CallbackGuard & cbGuard,
+void dbSubscriptionIO::destructor ( CallbackGuard &,
                               epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );
     this->~dbSubscriptionIO ();
 }
 
-void dbSubscriptionIO::unsubscribe ( CallbackGuard & cbGuard,
+void dbSubscriptionIO::unsubscribe ( CallbackGuard &,
     epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );

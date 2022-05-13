@@ -35,7 +35,7 @@
 int dbConvertStrict = 0;
 epicsExportAddress(int, dbConvertStrict);
 
-static long do_nothing(struct dbCommon *precord) { return 0; }
+static long do_nothing(struct dbCommon *precord EPICS_UNUSED) { return 0; }
 
 /* Dummy DSXT used for soft device supports */
 struct dsxt devSoft_DSXT = {
@@ -215,7 +215,7 @@ char *dbRecordName(DBENTRY *pdbentry)
     return(precord + pflddes->offset);
 }
 
-int dbIsMacroOk(DBENTRY *pdbentry) { return(FALSE); }
+int dbIsMacroOk(DBENTRY *pdbentry EPICS_UNUSED) { return(FALSE); }
 
 DBCORE_API int dbIsDefaultValue(DBENTRY *pdbentry)
 {

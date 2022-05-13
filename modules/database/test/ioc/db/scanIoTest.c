@@ -71,7 +71,7 @@ static void testcb(xpriv *priv, void *raw)
     td->hasprocd[prio] = 1;
 }
 
-static void testcomp(void *raw, IOSCANPVT scan, int prio)
+static void testcomp(void *raw, IOSCANPVT scan EPICS_UNUSED, int prio)
 {
     testsingle *td = raw;
 
@@ -205,7 +205,7 @@ static void testcbmulti(xpriv *priv, void *raw)
     td->getcomplete = 1;
 }
 
-static void testcompmulti(void *raw, IOSCANPVT scan, int prio)
+static void testcompmulti(void *raw, IOSCANPVT scan EPICS_UNUSED, int prio)
 {
     int *mask = raw;
     testOk(((*mask)&(1<<prio))==0, "(0x%x)&(0x%x)==0", *mask, 1<<prio);

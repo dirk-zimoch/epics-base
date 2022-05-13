@@ -34,7 +34,7 @@ static long init_record(dbCommon *common)
     return 0;
 }
 
-static long readLocked(struct link *pinp, void *dummy)
+static long readLocked(struct link *pinp, void *dummy EPICS_UNUSED)
 {
     int64inRecord *prec = (int64inRecord *) pinp->precord;
     long status = dbGetLink(&prec->inp, DBR_INT64, &prec->val, 0, 0);

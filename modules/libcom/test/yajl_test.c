@@ -24,6 +24,8 @@
 
 #include <assert.h>
 
+#include "compilerDependencies.h"
+
 /* memory debugging routines */
 typedef struct
 {
@@ -66,25 +68,25 @@ static void * yajlTestRealloc(void * ctx, void * ptr, size_t sz)
 /* begin parsing callback routines */
 #define BUF_SIZE 2048
 
-static int test_yajl_null(void *ctx)
+static int test_yajl_null(void *ctx EPICS_UNUSED)
 {
     printf("null\n");
     return 1;
 }
 
-static int test_yajl_boolean(void * ctx, int boolVal)
+static int test_yajl_boolean(void * ctx EPICS_UNUSED, int boolVal)
 {
     printf("bool: %s\n", boolVal ? "true" : "false");
     return 1;
 }
 
-static int test_yajl_integer(void *ctx, long long integerVal)
+static int test_yajl_integer(void *ctx EPICS_UNUSED, long long integerVal)
 {
     printf("integer: %lld\n", integerVal);
     return 1;
 }
 
-static int test_yajl_double(void *ctx, double doubleVal)
+static int test_yajl_double(void *ctx EPICS_UNUSED, double doubleVal)
 {
     if (isnan(doubleVal)) {
         printf("double: NaN\n");
@@ -98,7 +100,7 @@ static int test_yajl_double(void *ctx, double doubleVal)
     return 1;
 }
 
-static int test_yajl_string(void *ctx, const unsigned char * stringVal,
+static int test_yajl_string(void *ctx EPICS_UNUSED, const unsigned char * stringVal,
                             size_t stringLen)
 {
     printf("string: '");
@@ -107,7 +109,7 @@ static int test_yajl_string(void *ctx, const unsigned char * stringVal,
     return 1;
 }
 
-static int test_yajl_map_key(void *ctx, const unsigned char * stringVal,
+static int test_yajl_map_key(void *ctx EPICS_UNUSED, const unsigned char * stringVal,
                              size_t stringLen)
 {
     char * str = (char *) malloc(stringLen + 1);
@@ -118,26 +120,26 @@ static int test_yajl_map_key(void *ctx, const unsigned char * stringVal,
     return 1;
 }
 
-static int test_yajl_start_map(void *ctx)
+static int test_yajl_start_map(void *ctx EPICS_UNUSED)
 {
     printf("map open '{'\n");
     return 1;
 }
 
 
-static int test_yajl_end_map(void *ctx)
+static int test_yajl_end_map(void *ctx EPICS_UNUSED)
 {
     printf("map close '}'\n");
     return 1;
 }
 
-static int test_yajl_start_array(void *ctx)
+static int test_yajl_start_array(void *ctx EPICS_UNUSED)
 {
     printf("array open '['\n");
     return 1;
 }
 
-static int test_yajl_end_array(void *ctx)
+static int test_yajl_end_array(void *ctx EPICS_UNUSED)
 {
     printf("array close ']'\n");
     return 1;

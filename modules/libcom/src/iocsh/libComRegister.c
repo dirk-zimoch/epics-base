@@ -115,7 +115,7 @@ static void chdirCallFunc(const iocshArgBuf *args)
 /* print current working directory */
 static const iocshFuncDef pwdFuncDef = {"pwd", 0, 0,
                                         "Print name of current/working directory\n"};
-static void pwdCallFunc (const iocshArgBuf *args)
+static void pwdCallFunc (const iocshArgBuf *args EPICS_UNUSED)
 {
     char buf[1024];
     char *pwd = getcwd ( buf, sizeof(buf) );
@@ -171,7 +171,7 @@ IOCSH_STATIC_FUNC void epicsParamShow()
 
 static const iocshFuncDef epicsParamShowFuncDef = {"epicsParamShow",0,NULL,
                                                    "Show the environment variable parameters used by iocCore\n"};
-static void epicsParamShowCallFunc(const iocshArgBuf *args)
+static void epicsParamShowCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     epicsParamShow ();
 }
@@ -179,7 +179,7 @@ static void epicsParamShowCallFunc(const iocshArgBuf *args)
 /* epicsPrtEnvParams */
 static const iocshFuncDef epicsPrtEnvParamsFuncDef = {"epicsPrtEnvParams",0,0,
                                                       "Show the environment variable parameters used by iocCore\n"};
-static void epicsPrtEnvParamsCallFunc(const iocshArgBuf *args)
+static void epicsPrtEnvParamsCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     epicsPrtEnvParams ();
 }
@@ -199,7 +199,7 @@ static void epicsEnvShowCallFunc(const iocshArgBuf *args)
 /* registryDump */
 static const iocshFuncDef registryDumpFuncDef = {"registryDump",0,NULL,
                                                  "Dump a hash table of EPICS registry\n"};
-static void registryDumpCallFunc(const iocshArgBuf *args)
+static void registryDumpCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     registryDump ();
 }
@@ -210,7 +210,7 @@ static const iocshFuncDef iocLogInitFuncDef = {"iocLogInit",0,0,
                                                "  * EPICS environment variable 'EPICS_IOC_LOG_INET' has to be defined\n"
                                                "  * Logging controled via 'iocLogDisable' variable\n"
                                                "       see 'setIocLogDisable' command\n"};
-static void iocLogInitCallFunc(const iocshArgBuf *args)
+static void iocLogInitCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     iocLogInit ();
 }
@@ -462,7 +462,7 @@ static const iocshFuncDef installLastResortEventProviderFuncDef = {"installLastR
                                                                    "Installs the optional Last Resort event provider"
                                                                    " at priority 999,\nwhich returns the current time"
                                                                    " for every event number\n"};
-static void installLastResortEventProviderCallFunc(const iocshArgBuf *args)
+static void installLastResortEventProviderCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     installLastResortEventProvider();
 }

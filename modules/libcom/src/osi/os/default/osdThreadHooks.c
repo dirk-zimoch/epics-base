@@ -33,7 +33,7 @@ static ELLLIST hookList = ELLLIST_INIT;
 static epicsMutexId hookLock;
 
 
-static void threadHookOnce(void *arg)
+static void threadHookOnce(void *arg EPICS_UNUSED)
 {
     hookLock = epicsMutexMustCreate();
 

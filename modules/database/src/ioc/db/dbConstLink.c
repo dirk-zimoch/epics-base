@@ -52,7 +52,7 @@ static long cvt_st_st(const char *from, void *pfield, const dbAddr *paddr)
 
 /* Most integer conversions are identical */
 #define cvt_st_int(TYPE) static long \
-cvt_st_ ## TYPE(const char *from, void *pfield, const dbAddr *paddr) { \
+cvt_st_ ## TYPE(const char *from, void *pfield, const dbAddr *paddr EPICS_UNUSED) { \
     epics##TYPE *to = pfield; \
     char *end; \
 \
@@ -71,7 +71,7 @@ cvt_st_int(UInt16)
 cvt_st_int(Int32)
 
 /* Conversion for ULONG is different... */
-static long cvt_st_UInt32(const char *from, void *pfield, const dbAddr *paddr)
+static long cvt_st_UInt32(const char *from, void *pfield, const dbAddr *paddr EPICS_UNUSED)
 {
     epicsUInt32 *to = pfield;
     char *end;
@@ -106,7 +106,7 @@ cvt_st_int(UInt64)
 
 /* Float conversions are identical */
 #define cvt_st_float(TYPE) static long \
-cvt_st_ ## TYPE(const char *from, void *pfield, const dbAddr *paddr) { \
+cvt_st_ ## TYPE(const char *from, void *pfield, const dbAddr *paddr EPICS_UNUSED) { \
     epics##TYPE *to = pfield; \
     char *end; \
 \
@@ -200,13 +200,13 @@ static long dbConstLoadArray(struct link *plink, short dbrType, void *pbuffer,
     return dbPutConvertJSON(pstr, dbrType, pbuffer, pnReq);
 }
 
-static long dbConstGetNelements(const struct link *plink, long *nelements)
+static long dbConstGetNelements(const struct link *plink EPICS_UNUSED, long *nelements)
 {
     *nelements = 0;
     return 0;
 }
 
-static long dbConstGetValue(struct link *plink, short dbrType, void *pbuffer,
+static long dbConstGetValue(struct link *plink EPICS_UNUSED, short dbrType EPICS_UNUSED, void *pbuffer EPICS_UNUSED,
         long *pnRequest)
 {
     if (pnRequest)
@@ -214,8 +214,8 @@ static long dbConstGetValue(struct link *plink, short dbrType, void *pbuffer,
     return 0;
 }
 
-static long dbConstPutValue(struct link *plink, short dbrType,
-            const void *pbuffer, long nRequest)
+static long dbConstPutValue(struct link *plink EPICS_UNUSED, short dbrType EPICS_UNUSED,
+            const void *pbuffer EPICS_UNUSED, long nRequest EPICS_UNUSED)
 {
     return 0;
 }

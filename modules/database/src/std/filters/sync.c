@@ -89,7 +89,7 @@ static int parse_ok(void *pvt)
     return 0;
 }
 
-static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl) {
+static db_field_log* filter(void* pvt, dbChannel *chan EPICS_UNUSED, db_field_log *pfl) {
     db_field_log *passfl = NULL;
     myStruct *my = (myStruct*) pvt;
     int actstate;
@@ -156,14 +156,14 @@ no_shift:
     return passfl;
 }
 
-static void channelRegisterPre(dbChannel *chan, void *pvt,
-                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
+static void channelRegisterPre(dbChannel *chan EPICS_UNUSED, void *pvt,
+                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe EPICS_UNUSED)
 {
     *cb_out = filter;
     *arg_out = pvt;
 }
 
-static void channel_report(dbChannel *chan, void *pvt, int level, const unsigned short indent)
+static void channel_report(dbChannel *chan EPICS_UNUSED, void *pvt, int level EPICS_UNUSED, const unsigned short indent)
 {
     myStruct *my = (myStruct*) pvt;
     printf("%*sSynchronize (sync): mode=%s, state=%s\n", indent, "",
@@ -184,7 +184,7 @@ static chfPluginIf pif = {
     NULL /* channel_close */
 };
 
-static void syncShutdown(void* ignore)
+static void syncShutdown(void* ignore EPICS_UNUSED)
 {
     if(myStructFreeList)
         freeListCleanup(myStructFreeList);

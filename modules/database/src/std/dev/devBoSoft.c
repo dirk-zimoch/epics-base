@@ -39,7 +39,7 @@ bodset devBoSoft = {
 };
 epicsExportAddress(dset, devBoSoft);
 
-static long init_record(dbCommon *pcommon)
+static long init_record(dbCommon *pcommon EPICS_UNUSED)
 {
    long status=0;
 

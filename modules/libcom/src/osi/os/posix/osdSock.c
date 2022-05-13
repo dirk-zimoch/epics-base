@@ -44,7 +44,7 @@
  * Protect some routines which are not thread-safe
  */
 static epicsMutexId infoMutex;
-static void createInfoMutex (void *unused)
+static void createInfoMutex (void *unused EPICS_UNUSED)
 {
     infoMutex = epicsMutexMustCreate ();
 }

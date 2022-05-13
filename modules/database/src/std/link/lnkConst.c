@@ -259,12 +259,12 @@ static jlif_result lnkConst_start_array(jlink *pjlink)
     return jlif_continue;
 }
 
-static jlif_result lnkConst_end_array(jlink *pjlink)
+static jlif_result lnkConst_end_array(jlink *pjlink EPICS_UNUSED)
 {
     return jlif_continue;
 }
 
-static struct lset* lnkConst_get_lset(const jlink *pjlink)
+static struct lset* lnkConst_get_lset(const jlink *pjlink EPICS_UNUSED)
 {
     return &lnkConst_lset;
 }
@@ -352,7 +352,7 @@ static void lnkConst_report(const jlink *pjlink, int level, int indent)
 
 /*************************** lset Routines **************************/
 
-static void lnkConst_remove(struct dbLocker *locker, struct link *plink)
+static void lnkConst_remove(struct dbLocker *locker EPICS_UNUSED, struct link *plink)
 {
     lnkConst_free(plink->value.json.jlink);
 }
@@ -544,13 +544,13 @@ static long lnkConst_loadArray(struct link *plink, short dbrType, void *pbuffer,
     return status;
 }
 
-static long lnkConst_getNelements(const struct link *plink, long *nelements)
+static long lnkConst_getNelements(const struct link *plink EPICS_UNUSED, long *nelements)
 {
     *nelements = 0;
     return 0;
 }
 
-static long lnkConst_getValue(struct link *plink, short dbrType, void *pbuffer,
+static long lnkConst_getValue(struct link *plink EPICS_UNUSED, short dbrType EPICS_UNUSED, void *pbuffer EPICS_UNUSED,
         long *pnRequest)
 {
     if (pnRequest)
@@ -558,8 +558,8 @@ static long lnkConst_getValue(struct link *plink, short dbrType, void *pbuffer,
     return 0;
 }
 
-static long lnkConst_putValue(struct link *plink, short dbrType,
-            const void *pbuffer, long nRequest)
+static long lnkConst_putValue(struct link *plink EPICS_UNUSED, short dbrType EPICS_UNUSED,
+            const void *pbuffer EPICS_UNUSED, long nRequest EPICS_UNUSED)
 {
     return 0;
 }

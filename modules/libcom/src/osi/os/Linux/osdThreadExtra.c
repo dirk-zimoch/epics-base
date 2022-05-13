@@ -28,7 +28,7 @@
 #include "epicsEvent.h"
 #include "epicsThread.h"
 
-void epicsThreadShowInfo(epicsThreadId pthreadInfo, unsigned int level)
+void epicsThreadShowInfo(epicsThreadId pthreadInfo, unsigned int level EPICS_UNUSED)
 {
     if (!pthreadInfo) {
         fprintf(epicsGetStdout(), "            NAME       EPICS ID   "

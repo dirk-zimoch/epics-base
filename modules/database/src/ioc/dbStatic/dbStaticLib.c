@@ -2371,7 +2371,7 @@ fail:
     return S_dbLib_badField;
 }
 
-long dbCanSetLink(DBLINK *plink, dbLinkInfo *pinfo, devSup *devsup)
+long dbCanSetLink(DBLINK *plink EPICS_UNUSED, dbLinkInfo *pinfo, devSup *devsup)
 {
     /* Release pinfo resources on failure */
     int expected_type = devsup ? devsup->link_type : CONSTANT;

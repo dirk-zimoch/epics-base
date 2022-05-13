@@ -831,7 +831,7 @@ static long getDoubleDouble GET_NOCONVERT(epicsFloat64, epicsFloat64)
 static long getDoubleEnum GET(epicsFloat64, epicsEnum16)
 
 static long getEnumString(const dbAddr *paddr,
-    void *pto, long nRequest, long no_elements, long offset)
+    void *pto, long nRequest EPICS_UNUSED, long no_elements EPICS_UNUSED, long offset EPICS_UNUSED)
 {
     char *pdst = (char *) pto;
     rset *prset;
@@ -859,7 +859,7 @@ static long getEnumDouble GET(epicsEnum16, epicsFloat64)
 static long getEnumEnum GET_NOCONVERT(epicsEnum16, epicsEnum16)
 
 static long getMenuString(const dbAddr *paddr,
-    void *pto, long nRequest, long no_elements, long offset)
+    void *pto, long nRequest EPICS_UNUSED, long no_elements, long offset EPICS_UNUSED)
 {
     char                *pdst = (char *) pto;
     dbFldDes            *pdbFldDes = paddr->pfldDes;
@@ -885,7 +885,7 @@ static long getMenuString(const dbAddr *paddr,
 }
 
 static long getDeviceString(const dbAddr *paddr,
-    void *pto, long nRequest, long no_elements, long offset)
+    void *pto, long nRequest EPICS_UNUSED, long no_elements, long offset EPICS_UNUSED)
 {
     char                *pdst = (char *) pto;
     dbFldDes            *pdbFldDes = paddr->pfldDes;
@@ -1147,7 +1147,7 @@ static long putStringDouble(dbAddr *paddr,
 }
 
 static long putStringEnum(dbAddr *paddr,
-    const void *pfrom, long nRequest, long no_elements, long offset)
+    const void *pfrom, long nRequest EPICS_UNUSED, long no_elements, long offset EPICS_UNUSED)
 {
     epicsEnum16 *pfield = paddr->pfield;
     rset *prset = dbGetRset(paddr);
@@ -1191,7 +1191,7 @@ static long putStringEnum(dbAddr *paddr,
 }
 
 static long putStringMenu(dbAddr *paddr,
-    const void *pfrom, long nRequest, long no_elements, long offset)
+    const void *pfrom, long nRequest EPICS_UNUSED, long no_elements, long offset EPICS_UNUSED)
 {
     dbFldDes *pdbFldDes = paddr->pfldDes;
     epicsEnum16 *pfield = paddr->pfield;
@@ -1230,7 +1230,7 @@ static long putStringMenu(dbAddr *paddr,
 }
 
 static long putStringDevice(dbAddr *paddr,
-    const void *pfrom, long nRequest, long no_elements, long offset)
+    const void *pfrom, long nRequest EPICS_UNUSED, long no_elements, long offset EPICS_UNUSED)
 {
     dbFldDes *pdbFldDes = paddr->pfldDes;
     dbDeviceMenu *pdbDeviceMenu = pdbFldDes->ftPvt;

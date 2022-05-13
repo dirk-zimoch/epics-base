@@ -42,7 +42,7 @@ static void asSetSubstitutionsCallFunc(const iocshArgBuf *args)
 /* asInit */
 static const iocshFuncDef asInitFuncDef = {"asInit",0,0,
                                            "(Re)load ACF file.\n"};
-static void asInitCallFunc(const iocshArgBuf *args)
+static void asInitCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     iocshSetError(asInit());
 }
@@ -50,7 +50,7 @@ static void asInitCallFunc(const iocshArgBuf *args)
 /* asdbdump */
 static const iocshFuncDef asdbdumpFuncDef = {"asdbdump",0,0,
                                              "Dump processed ACF file (as read).\n"};
-static void asdbdumpCallFunc(const iocshArgBuf *args)
+static void asdbdumpCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     asdbdump();
 }
@@ -122,7 +122,7 @@ static void ascarCallFunc(const iocshArgBuf *args)
 static const iocshFuncDef asDumpHashFuncDef = {"asDumpHash",0,0,
                                                "Show the contents of the hash table used "
                                                "to locate UAGs and HAGs.\n"};
-static void asDumpHashCallFunc(const iocshArgBuf *args)
+static void asDumpHashCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     asDumpHash();
 }

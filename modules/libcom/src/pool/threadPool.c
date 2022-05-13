@@ -321,7 +321,7 @@ static
 epicsThreadOnceId sharedPoolsOnce = EPICS_THREAD_ONCE_INIT;
 
 static
-void sharedPoolsInit(void* unused)
+void sharedPoolsInit(void* unused EPICS_UNUSED)
 {
     sharedPoolsGuard = epicsMutexMustCreate();
 }

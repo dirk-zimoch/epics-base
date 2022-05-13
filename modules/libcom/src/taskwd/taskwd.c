@@ -86,7 +86,7 @@ static void freeNode(union twdNode *);
 
 /* Initialization, lazy */
 
-static void twdTask(void *arg)
+static void twdTask(void *arg EPICS_UNUSED)
 {
     struct tNode *pt;
     struct mNode *pm;
@@ -129,7 +129,7 @@ static void twdTask(void *arg)
 }
 
 
-static void twdShutdown(void *arg)
+static void twdShutdown(void *arg EPICS_UNUSED)
 {
     ELLNODE *cur;
     twdCtl = twdctlExit;
@@ -142,7 +142,7 @@ static void twdShutdown(void *arg)
     VALGRIND_DESTROY_MEMPOOL(&fList);
 }
 
-static void twdInitOnce(void *arg)
+static void twdInitOnce(void *arg EPICS_UNUSED)
 {
     epicsThreadId tid;
 

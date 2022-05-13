@@ -84,26 +84,12 @@ rset aSubRSET = {
 epicsExportAddress(rset, aSubRSET);
 
 static long initFields(epicsEnum16 *pft, epicsUInt32 *pno, epicsUInt32 *pne,
-    epicsUInt32 *pon, const char **fldnames, void **pval, void **povl);
+    epicsUInt32 *pon, void **pval, void **povl);
 static long fetch_values(aSubRecord *prec);
 static void monitor(aSubRecord *);
 static long do_sub(aSubRecord *);
 
 #define NUM_ARGS        21
-
-/* These are the names of the Input fields */
-static const char *Ifldnames[] = {
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
-    "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"
-};
-
-/* These are the names of the Output fields */
-static const char *Ofldnames[] = {
-    "VALA", "VALB", "VALC", "VALD", "VALE", "VALF", "VALG",
-    "VALH", "VALI", "VALJ", "VALK", "VALL", "VALM", "VALN",
-    "VALO", "VALP", "VALQ", "VALR", "VALS", "VALT", "VALU"
-};
-
 
 static long init_record(struct dbCommon *pcommon, int pass)
 {
@@ -115,9 +101,9 @@ static long init_record(struct dbCommon *pcommon, int pass)
     if (pass == 0) {
         /* Allocate memory for arrays */
         initFields(&prec->fta,  &prec->noa,  &prec->nea,  NULL,
-            Ifldnames, &prec->a,    NULL);
+            &prec->a,    NULL);
         initFields(&prec->ftva, &prec->nova, &prec->neva, &prec->onva,
-            Ofldnames, &prec->vala, &prec->ovla);
+            &prec->vala, &prec->ovla);
         return 0;
     }
 
@@ -173,7 +159,7 @@ static long init_record(struct dbCommon *pcommon, int pass)
 
 
 static long initFields(epicsEnum16 *pft, epicsUInt32 *pno, epicsUInt32 *pne,
-    epicsUInt32 *pon, const char **fldnames, void **pval, void **povl)
+    epicsUInt32 *pon, void **pval, void **povl)
 {
     int i;
     long status = 0;

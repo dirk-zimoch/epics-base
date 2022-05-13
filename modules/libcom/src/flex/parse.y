@@ -30,6 +30,7 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include "compilerDependencies.h"
 #include "flexdef.h"
 
 int pat, scnum, eps, headcnt, trailcnt, anyccl, lastchar, i, actvp, rulelen;
@@ -691,7 +692,7 @@ char str[];
  */
 
 void yyerror( msg )
-char msg[];
+char msg[] EPICS_UNUSED;
 
     {
     }

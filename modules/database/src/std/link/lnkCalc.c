@@ -371,7 +371,7 @@ errOut:
     plink->value.json.jlink = child;
 }
 
-static struct lset* lnkCalc_get_lset(const jlink *pjlink)
+static struct lset* lnkCalc_get_lset(const jlink *pjlink EPICS_UNUSED)
 {
     return &lnkCalc_lset;
 }
@@ -520,12 +520,12 @@ static int lnkCalc_isConn(const struct link *plink)
     return connected;
 }
 
-static int lnkCalc_getDBFtype(const struct link *plink)
+static int lnkCalc_getDBFtype(const struct link *plink EPICS_UNUSED)
 {
     return DBF_DOUBLE;
 }
 
-static long lnkCalc_getElements(const struct link *plink, long *nelements)
+static long lnkCalc_getElements(const struct link *plink EPICS_UNUSED, long *nelements)
 {
     *nelements = 1;
     return 0;
@@ -631,7 +631,7 @@ static long lnkCalc_getValue(struct link *plink, short dbrType, void *pbuffer,
 }
 
 static long lnkCalc_putValue(struct link *plink, short dbrType,
-    const void *pbuffer, long nRequest)
+    const void *pbuffer, long nRequest EPICS_UNUSED)
 {
     calc_link *clink = CONTAINER(plink->value.json.jlink,
         struct calc_link, jlink);

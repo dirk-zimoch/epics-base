@@ -40,7 +40,7 @@ static void testPriority(const char *who)
         who,id,oldPriority,newPriority);
 }
 
-extern "C" void testPriorityThread(void *arg)
+extern "C" void testPriorityThread(void *)
 {
     testPriority("thread");
 }

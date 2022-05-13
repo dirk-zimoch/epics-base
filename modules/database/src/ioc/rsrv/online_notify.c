@@ -36,7 +36,7 @@
 /*
  *  RSRV_ONLINE_NOTIFY_TASK
  */
-void rsrv_online_notify_task(void *pParm)
+void rsrv_online_notify_task(void *pParm EPICS_UNUSED)
 {
     double                      delay;
     double                      maxdelay;

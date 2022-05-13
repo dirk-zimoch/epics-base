@@ -7,11 +7,12 @@
 #include <stdlib.h>
 
 #include <devSup.h>
+#include <compilerDependencies.h>
 
 #include <epicsExport.h>
 
 static
-long link_test_extend(struct dbCommon *junk)
+long link_test_extend(struct dbCommon *junk EPICS_UNUSED)
 { return 0; }
 
 static dsxt xrecextend = {&link_test_extend, &link_test_extend};
@@ -25,7 +26,7 @@ long link_test_init(int pass)
 }
 
 static
-long link_test_noop(void *junk)
+long link_test_noop(void *junk EPICS_UNUSED)
 { return 0; }
 
 

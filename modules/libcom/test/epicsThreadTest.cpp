@@ -93,7 +93,7 @@ struct joinStuff {
     epicsEvent *finished;
 };
 
-void donothing(void *arg)
+void donothing(void *)
 {}
 
 void dowait(void *arg)
@@ -103,7 +103,7 @@ void dowait(void *arg)
     epicsThreadSleep(0.1);
 }
 
-void dodelay(void *arg)
+void dodelay(void *)
 {
     epicsThreadSleep(2.0);
 }

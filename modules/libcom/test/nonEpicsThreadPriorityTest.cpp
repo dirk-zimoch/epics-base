@@ -22,7 +22,7 @@ MAIN(nonEpicsThreadPriorityTest)
 
 #else
 
-static void *nonEpicsTestFunc(void *arg)
+static void *nonEpicsTestFunc(void *)
 {
     unsigned int pri;
     // epicsThreadGetIdSelf()  creates an EPICS context

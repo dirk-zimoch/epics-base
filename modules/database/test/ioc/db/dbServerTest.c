@@ -32,12 +32,12 @@ enum {
 
 char *oneSim;
 
-void oneReport(unsigned level)
+void oneReport(unsigned level EPICS_UNUSED)
 {
     oneState = REPORT_CALLED;
 }
 
-void oneStats(unsigned *channels, unsigned *clients)
+void oneStats(unsigned *channels EPICS_UNUSED, unsigned *clients EPICS_UNUSED)
 {
     oneState = STATS_CALLED;
 }

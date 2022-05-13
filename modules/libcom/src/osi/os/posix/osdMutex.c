@@ -184,7 +184,7 @@ epicsMutexLockStatus epicsMutexOsdTryLock(struct epicsMutexOSD * pmutex)
     return epicsMutexLockOK;
 }
 
-void epicsMutexOsdShow(struct epicsMutexOSD * pmutex, unsigned int level)
+void epicsMutexOsdShow(struct epicsMutexOSD * pmutex, unsigned int level EPICS_UNUSED)
 {
     /* GLIBC w/ NTPL is passing the &lock.__data.__lock as the first argument (UADDR)
      * of the futex() syscall.  __lock is at offset 0 of the enclosing structures.

@@ -2181,7 +2181,7 @@ void SearchDestTCP :: searchRequest (
 }
 
 void SearchDestTCP :: show (
-    epicsGuard < epicsMutex > & guard, unsigned level ) const
+    epicsGuard < epicsMutex > &, unsigned level EPICS_UNUSED) const
 {
     :: printf ( "tcpiiu :: SearchDestTCP\n" );
 }

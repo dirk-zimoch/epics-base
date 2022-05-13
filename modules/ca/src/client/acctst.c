@@ -1675,7 +1675,7 @@ void channelClearWithEventTrafficTest ( const char *pName, unsigned interestLeve
 
 evid globalEventID;
 
-void selfDeleteEvent ( struct event_handler_args args )
+void selfDeleteEvent ( struct event_handler_args args EPICS_UNUSED )
 {
     int status;
     status = ca_clear_event ( globalEventID );
@@ -1728,7 +1728,7 @@ void eventClearTest ( chid chan )
 }
 
 unsigned acctstExceptionCount = 0u;
-void acctstExceptionNotify ( struct exception_handler_args args )
+void acctstExceptionNotify ( struct exception_handler_args args EPICS_UNUSED )
 {
     acctstExceptionCount++;
 }
@@ -2857,7 +2857,7 @@ void eventClearAndMultipleMonitorTest ( chid chan, unsigned interestLevel )
     monitorUpdateTest ( chan, interestLevel );
 }
 
-void fdcb ( void * parg )
+void fdcb ( void * parg EPICS_UNUSED )
 {
     ca_poll ();
 }
@@ -3201,12 +3201,12 @@ void verifyClearChannelOnDisconnectCallback (
     }
 }
 
-void noopExceptionCallback ( struct exception_handler_args args )
+void noopExceptionCallback ( struct exception_handler_args args EPICS_UNUSED )
 {
 }
 
 void verifyDisconnect (
-    const char * pName, unsigned interestLevel )
+    const char * pName, unsigned interestLevel EPICS_UNUSED )
 {
     int disconnectFlag = 0;
     unsigned count = 0;
@@ -3276,7 +3276,7 @@ void verifyDisconnect (
 }
 
 void verifyName (
-    const char * pName, unsigned interestLevel )
+    const char * pName, unsigned interestLevel EPICS_UNUSED )
 {
     chid chan;
     int status = ca_create_channel  (

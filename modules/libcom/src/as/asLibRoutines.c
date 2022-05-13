@@ -79,7 +79,7 @@ static long asAsgRuleCalc(ASGRULE *pasgrule,const char *calc);
      the old memberList is moved from old to new.
      the old structures are freed.
 */
-static void asInitializeOnce(void *arg)
+static void asInitializeOnce(void *arg EPICS_UNUSED)
 {
     osiSockAttach();
     asLock  = epicsMutexMustCreate();
@@ -274,7 +274,7 @@ static int memInputFunction(char *buf, int max_size)
     return ret;
 }
 
-long epicsStdCall asInitMem(const char *acf, const char *substitutions)
+long epicsStdCall asInitMem(const char *acf, const char *substitutions EPICS_UNUSED)
 {
     long ret = S_asLib_InitFailed;
     if(!acf) return ret;

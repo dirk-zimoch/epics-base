@@ -56,13 +56,13 @@ static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl) {
     return pfl;
 }
 
-static void channelRegisterPre(dbChannel *chan, void *pvt,
-                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
+static void channelRegisterPre(dbChannel *chan EPICS_UNUSED, void *pvt EPICS_UNUSED,
+                               chPostEventFunc **cb_out, void **arg_out EPICS_UNUSED, db_field_log *probe EPICS_UNUSED)
 {
     *cb_out = filter;
 }
 
-static void channel_report(dbChannel *chan, void *pvt, int level, const unsigned short indent)
+static void channel_report(dbChannel *chan EPICS_UNUSED, void *pvt EPICS_UNUSED, int level EPICS_UNUSED, const unsigned short indent)
 {
     printf("%*sTimestamp (ts)\n", indent, "");
 }

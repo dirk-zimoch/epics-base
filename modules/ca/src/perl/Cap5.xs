@@ -504,7 +504,7 @@ void CA_DESTROY(SV *ca_ref) {
 
 /* CA::context_destroy($class) */
 
-void CA_context_destroy(const char *class) {
+void CA_context_destroy(const char *class EPICS_UNUSED) {
     ca_context_destroy();
     destroyed = 1;
 }
@@ -1006,7 +1006,7 @@ exit_croak:
 
 /* CA::clear_subscription($class, $subscription) */
 
-void CA_clear_subscription(const char *class, SV *mon_ref) {
+void CA_clear_subscription(const char *class EPICS_UNUSED, SV *mon_ref) {
     evid event = (evid)SvIV(SvRV(mon_ref));
     int status;
 
@@ -1024,7 +1024,7 @@ void CA_clear_subscription(const char *class, SV *mon_ref) {
 
 /* CA::pend_io($class, $timeout) */
 
-void CA_pend_io(const char *class, double timeout) {
+void CA_pend_io(const char *class EPICS_UNUSED, double timeout) {
     int status = ca_pend_io(timeout);
     if (status != ECA_NORMAL) {
         croak("%s", get_error_msg(status));
@@ -1033,13 +1033,13 @@ void CA_pend_io(const char *class, double timeout) {
 
 /* CA::test_io($class) */
 
-int CA_test_io(const char *class) {
+int CA_test_io(const char *class EPICS_UNUSED) {
     return (ca_test_io() == ECA_IODONE);
 }
 
 /* CA::pend_event($class, $timeout) */
 
-void CA_pend_event(const char *class, double timeout) {
+void CA_pend_event(const char *class EPICS_UNUSED, double timeout) {
     int status = ca_pend_event(timeout);
     if (status != ECA_TIMEOUT) {
         croak("%s", get_error_msg(status));
@@ -1048,21 +1048,21 @@ void CA_pend_event(const char *class, double timeout) {
 
 /* CA::poll($class) */
 
-void CA_poll(const char *class) {
+void CA_poll(const char *class EPICS_UNUSED) {
     ca_poll();
 }
 
 
 /* CA::flush_io($class) */
 
-void CA_flush_io(const char *class) {
+void CA_flush_io(const char *class EPICS_UNUSED) {
     ca_flush_io();
 }
 
 
 /* CA::version($class) */
 
-const char * CA_version(const char *class) {
+const char * CA_version(const char *class EPICS_UNUSED) {
     return EPICS_VERSION_STRING;
 }
 
@@ -1124,7 +1124,7 @@ void exception_handler(struct exception_handler_args eha) {
     }
 }
 
-void CA_add_exception_event(const char *class, SV *sub) {
+void CA_add_exception_event(const char *class EPICS_UNUSED, SV *sub) {
     caExceptionHandler *handler = exception_handler;
     int status;
 
@@ -1192,7 +1192,7 @@ int printf_handler(const char *format, va_list args) {
     return 0;
 }
 
-void CA_replace_printf_handler(const char *class, SV *sub) {
+void CA_replace_printf_handler(const char *class EPICS_UNUSED, SV *sub) {
     caPrintfFunc *handler = printf_handler;
     int status;
 

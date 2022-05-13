@@ -94,14 +94,14 @@ static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl) {
     } else return pfl;
 }
 
-static void channelRegisterPre(dbChannel *chan, void *pvt,
-                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
+static void channelRegisterPre(dbChannel *chan EPICS_UNUSED, void *pvt,
+                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe EPICS_UNUSED)
 {
     *cb_out = filter;
     *arg_out = pvt;
 }
 
-static void channel_report(dbChannel *chan, void *pvt, int level, const unsigned short indent)
+static void channel_report(dbChannel *chan EPICS_UNUSED, void *pvt, int level EPICS_UNUSED, const unsigned short indent)
 {
     myStruct *my = (myStruct*) pvt;
     printf("%*sDeadband (dbnd): mode=%s, delta=%g%s\n", indent, "",
@@ -123,7 +123,7 @@ static chfPluginIf pif = {
     NULL /* channel_close */
 };
 
-static void dbndShutdown(void* ignore)
+static void dbndShutdown(void* ignore EPICS_UNUSED)
 {
     if(myStructFreeList)
         freeListCleanup(myStructFreeList);

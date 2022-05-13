@@ -27,7 +27,7 @@
 static epicsMutexId globalLock = NULL;
 static epicsThreadOnceId onceId = EPICS_THREAD_ONCE_INIT;
 
-static void initOnce(void *junk)
+static void initOnce(void *junk EPICS_UNUSED)
 {
     globalLock = epicsMutexMustCreate();
 }
@@ -39,7 +39,7 @@ LIBCOM_API int epicsInterruptLock()
     return 0;
 }
 
-LIBCOM_API void epicsInterruptUnlock(int key)
+LIBCOM_API void epicsInterruptUnlock(int key EPICS_UNUSED)
 {
     if (!globalLock)
         cantProceed("epicsInterruptUnlock called before epicsInterruptLock\n");

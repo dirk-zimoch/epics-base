@@ -860,7 +860,7 @@ static int setupSIGHUP(struct ioc_log_server *pserver)
  *
  *
  */
-static void sighupHandler(int signo)
+static void sighupHandler(int signo EPICS_UNUSED)
 {
     const char msg[] = "SIGHUP\n";
     const ssize_t bytesWritten = write(sighupPipe[1], msg, sizeof(msg));

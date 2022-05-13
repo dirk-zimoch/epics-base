@@ -182,7 +182,7 @@ public:
     }
     int maxPrecision (void) const { return digits; }
     const char *name (void) const { return "cvtFloatToString"; }
-    void target (double srcD, float srcF, char *dst, size_t len, int prec) const
+    void target (double srcD EPICS_UNUSED, float srcF, char *dst, size_t len EPICS_UNUSED, int prec) const
     {
         cvtFloatToString ( srcF, dst, prec );
         cvtFloatToString ( srcF, dst, prec );
@@ -217,7 +217,7 @@ public:
     }
     int maxPrecision (void) const { return digits; }
     const char *name (void) const { return "cvtDoubleToString"; }
-    void target (double srcD, float srcF, char *dst, size_t len, int prec) const
+    void target (double srcD, float srcF EPICS_UNUSED, char *dst, size_t len EPICS_UNUSED, int prec) const
     {
         cvtDoubleToString ( srcD, dst, prec );
         cvtDoubleToString ( srcD, dst, prec );
@@ -252,7 +252,7 @@ public:
     }
     int maxPrecision (void) const { return digits; }
     const char *name (void) const { return "epicsSnprintf"; }
-    void target (double srcD, float srcF, char *dst, size_t len, int prec) const
+    void target (double srcD, float srcF EPICS_UNUSED, char *dst, size_t len, int prec) const
     {
         epicsSnprintf ( dst, len, "%.*g", prec, srcD );
         epicsSnprintf ( dst, len, "%.*g", prec, srcD );
@@ -309,7 +309,7 @@ public:
     }
     int maxPrecision (void) const { return digits; }
     const char *name (void) const { return "std::streambuf"; }
-    void target (double srcD, float srcF, char *dst, size_t len, int prec) const
+    void target (double srcD, float srcF EPICS_UNUSED, char *dst, size_t len, int prec) const
     {
         ossConvertD ( dst, len, prec, srcD );
         ossConvertD ( dst, len, prec, srcD );

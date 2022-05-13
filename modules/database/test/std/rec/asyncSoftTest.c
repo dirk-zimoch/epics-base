@@ -37,7 +37,7 @@ long asyncSubr(subRecord *prec)
 }
 
 static
-long doneSubr(subRecord *prec)
+long doneSubr(subRecord *prec EPICS_UNUSED)
 {
     epicsEventTrigger(doneEvent);
     return 0;

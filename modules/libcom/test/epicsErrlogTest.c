@@ -511,7 +511,7 @@ static void testPrefixLogandCompare( const char* logmessage ) {
     fdmgr_pend_event(pfdctx, &timeout);
 }
 
-static void acceptNewClient ( void *pParam )
+static void acceptNewClient ( void *pParam EPICS_UNUSED)
 {
     osiSocklen_t addrSize;
     struct sockaddr_in addr;
@@ -528,7 +528,7 @@ static void acceptNewClient ( void *pParam )
     testOk(status >= 0, "Client read configured");
 }
 
-static void readFromClient(void *pParam)
+static void readFromClient(void *pParam EPICS_UNUSED)
 {
     char recvbuf[1024];
     int recvLength;

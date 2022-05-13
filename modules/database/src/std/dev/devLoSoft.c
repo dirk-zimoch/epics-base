@@ -35,7 +35,7 @@ longoutdset devLoSoft = {
 };
 epicsExportAddress(dset, devLoSoft);
 
-static long init_record(dbCommon *pcommon)
+static long init_record(dbCommon *pcommon EPICS_UNUSED)
 {
     return 0;
 } /* end init_record() */

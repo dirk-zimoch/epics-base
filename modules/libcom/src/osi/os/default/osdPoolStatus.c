@@ -8,6 +8,7 @@
 * in file LICENSE that is included with this distribution.
 \*************************************************************************/
 
+#include "compilerDependencies.h"
 #include "osiPoolStatus.h"
 
 /*
@@ -16,7 +17,7 @@
  * @@@@@ not implemented @@@@@
  *
  */
-LIBCOM_API int epicsStdCall osiSufficentSpaceInPool ( size_t contiguousBlockSize )
+LIBCOM_API int epicsStdCall osiSufficentSpaceInPool ( size_t contiguousBlockSize EPICS_UNUSED)
 {
     return 1;
 }

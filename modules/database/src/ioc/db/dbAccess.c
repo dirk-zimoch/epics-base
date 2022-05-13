@@ -1283,8 +1283,8 @@ long dbPutField(DBADDR *paddr, short dbrType,
     return status;
 }
 
-static long putAckt(DBADDR *paddr, const void *pbuffer, long nRequest,
-    long no_elements, long offset)
+static long putAckt(DBADDR *paddr, const void *pbuffer, long nRequest EPICS_UNUSED,
+    long no_elements EPICS_UNUSED, long offset EPICS_UNUSED)
 {
     dbCommon *precord = paddr->precord;
     const unsigned short *ptrans = pbuffer;
@@ -1301,8 +1301,8 @@ static long putAckt(DBADDR *paddr, const void *pbuffer, long nRequest,
     return 0;
 }
 
-static long putAcks(DBADDR *paddr, const void *pbuffer, long nRequest,
-    long no_elements, long offset)
+static long putAcks(DBADDR *paddr, const void *pbuffer, long nRequest EPICS_UNUSED,
+    long no_elements EPICS_UNUSED, long offset EPICS_UNUSED)
 {
     dbCommon *precord = paddr->precord;
     const unsigned short *psev = pbuffer;

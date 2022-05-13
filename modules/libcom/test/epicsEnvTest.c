@@ -32,7 +32,7 @@
 #define PARENT "Parent"
 #define CHILD "Child"
 
-static void child(void *arg)
+static void child(void *arg EPICS_UNUSED)
 {
     const char *value = getenv(PARENT);
 

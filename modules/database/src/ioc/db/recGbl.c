@@ -152,7 +152,7 @@ void recGblGetGraphicDouble(const struct dbAddr *paddr,
         &pgd->upper_disp_limit, &pgd->lower_disp_limit);
 }
 
-void recGblGetAlarmDouble(const struct dbAddr *paddr,
+void recGblGetAlarmDouble(const struct dbAddr *paddr EPICS_UNUSED,
     struct dbr_alDouble *pad)
 {
     pad->upper_alarm_limit   = epicsNAN;

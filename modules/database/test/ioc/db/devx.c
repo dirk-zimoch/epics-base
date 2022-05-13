@@ -112,7 +112,7 @@ static long xscanio_init_record(xRecord *prec)
     return 0;
 }
 
-static long xscanio_get_ioint_info(int cmd, xRecord *prec, IOSCANPVT *ppvt)
+static long xscanio_get_ioint_info(int cmd EPICS_UNUSED, xRecord *prec, IOSCANPVT *ppvt)
 {
     xpriv *priv = prec->dpvt;
     if(!priv || !priv->drv)

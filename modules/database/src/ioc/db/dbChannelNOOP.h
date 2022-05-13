@@ -21,8 +21,8 @@ public:
     {}
 
     virtual void destroy (
-            CallbackGuard & /*callbackGuard*/,
-            epicsGuard < epicsMutex > & /*mutualExclusionGuard*/ )
+            CallbackGuard & ,
+            epicsGuard < epicsMutex > & )
     {
         delete this; // goodbye cruel world
     }
@@ -42,12 +42,12 @@ public:
 
     // !! deprecated, avoid use  !!
     virtual const char * pName (
-            epicsGuard < epicsMutex > & guard ) const throw ()
+            epicsGuard < epicsMutex > & ) const throw ()
     {return myname.c_str();}
 
     virtual void show (
             epicsGuard < epicsMutex > &,
-            unsigned level ) const
+            unsigned level EPICS_UNUSED ) const
     {}
 
     virtual void initiateConnect (
@@ -55,11 +55,11 @@ public:
     {}
 
     virtual unsigned requestMessageBytesPending (
-            epicsGuard < epicsMutex > & /*mutualExclusionGuard*/ )
+            epicsGuard < epicsMutex > & )
     {return 0;}
 
     virtual void flush (
-            epicsGuard < epicsMutex > & /*mutualExclusionGuard*/ )
+            epicsGuard < epicsMutex > & )
     {}
 
     virtual ioStatus read (
@@ -73,14 +73,14 @@ public:
 
     virtual void write (
             epicsGuard < epicsMutex > &,
-            unsigned type, arrayElementCount count,
-            const void *pValue )
+            unsigned type EPICS_UNUSED, arrayElementCount ,
+            const void *pValue EPICS_UNUSED )
     {}
 
     virtual ioStatus write (
             epicsGuard < epicsMutex > &mut,
             unsigned type, arrayElementCount count,
-            const void */*pValue*/, cacWriteNotify & notify, ioid * = 0 )
+            const void *pValue EPICS_UNUSED, cacWriteNotify & notify, ioid * = 0 )
     {
         notify.exception(mut, ECA_NOWTACCESS, "dbChannelNOOP", type, count);
         return iosSynch;
@@ -88,7 +88,7 @@ public:
 
     virtual void subscribe (
             epicsGuard < epicsMutex > &mut, unsigned type,
-            arrayElementCount count, unsigned /*mask*/, cacStateNotify & notify,
+            arrayElementCount count, unsigned mask EPICS_UNUSED, cacStateNotify & notify,
             ioid * = 0 )
     {
         // should never subscribe
@@ -96,14 +96,14 @@ public:
     }
 
     virtual void ioCancel (
-            CallbackGuard & callbackGuard,
-            epicsGuard < epicsMutex > & mutualExclusionGuard,
+            CallbackGuard & ,
+            epicsGuard < epicsMutex > & ,
             const ioid & )
     {}
 
     virtual void ioShow (
             epicsGuard < epicsMutex > &,
-            const ioid &, unsigned level ) const
+            const ioid &, unsigned level EPICS_UNUSED ) const
     {}
 
     virtual short nativeType (

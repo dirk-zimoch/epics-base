@@ -73,14 +73,14 @@ static int t_ReceivedUpdates[NO_OF_PATTERNS][NO_OF_VALUES_PER_SEQUENCE];
 
 /* Dummy subroutine needed for sub record */
 
-static long myTestSub(void *p) {
+static long myTestSub(void *p EPICS_UNUSED) {
     return 0;
 }
 
 
 /* Minimal pre-chain plugin to divert all monitors back into the test (before they hit the queue) */
 
-static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl) {
+static db_field_log* filter(void* pvt EPICS_UNUSED, dbChannel *chan, db_field_log *pfl) {
     double val = *((double*)chan->addr.pfield);
 
     /* iseq == -1 is the value reset before the test pattern -> do not count */
@@ -94,8 +94,8 @@ static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl) {
     return NULL;
 }
 
-static void channelRegisterPre(dbChannel *chan, void *pvt,
-                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
+static void channelRegisterPre(dbChannel *chan EPICS_UNUSED, void *pvt EPICS_UNUSED,
+                               chPostEventFunc **cb_out, void **arg_out EPICS_UNUSED, db_field_log *probe EPICS_UNUSED)
 {
     *cb_out = filter;
 }
