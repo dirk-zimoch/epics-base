@@ -243,7 +243,7 @@ $(LOADABLE_SHRLIBNAME): FINAL_DIR=$(INSTALL_SHRLIB)
 
 $(TESTPRODNAME) $(PRODNAME): $(PRODUCT_OBJS) $(PROD_RESS) $(PROD_DEPLIBS)
 
-$(TESTPRODNAME) $(PRODNAME): %$(EXE): | $(INSTALL_LIB)
+$(TESTPRODNAME) $(PRODNAME): %$(EXE):
 	@$(RM) $@
 	$(LINK.cpp)
 	$(MT_EXE_COMMAND)
@@ -346,9 +346,10 @@ $(LOADABLE_SHRLIBNAME): $(LOADABLE_SHRLIB_PREFIX)%$(LOADABLE_SHRLIB_SUFFIX):
 	$(LINK.shrlib)
 	$(MT_DLL_COMMAND)
 
-$(LIBNAME) $(SHRLIBNAME) $(LOADABLE_SHRLIBNAME): | $(INSTALL_LIB)
-$(INSTALL_LIB):
-	@$(MKDIR) $@
+# This rule is incompatible with driver.makefile
+#$(LIBNAME) $(SHRLIBNAME) $(LOADABLE_SHRLIBNAME): | $(INSTALL_LIB)
+#$(INSTALL_LIB):
+#	@$(MKDIR) $@
 
 #---------------------------------------------------------------
 # C++ munching for VxWorks

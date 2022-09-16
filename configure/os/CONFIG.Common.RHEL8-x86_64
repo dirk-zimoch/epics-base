@@ -1,0 +1,2 @@
+# Include definitions common to linux pentium targets
+include $(CONFIG)/os/CONFIG.Common.linux-x86_64

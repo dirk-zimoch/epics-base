@@ -6,3 +6,6 @@ WIND_BASE = /afs/psi.ch/project/vxworks/Tornado2.2.1
 # -O0 works, -O and -O1 and higher are buggy
 OPT_CFLAGS_YES = -O0
 OPT_CXXFLAGS_YES = -O0
+
+#compatibility stuff
+epicsStringTest_CFLAGS += -Dstrdup=epicsStrDup

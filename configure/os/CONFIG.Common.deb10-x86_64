@@ -1,0 +1,20 @@
+# Cross Debian 10 with gcc 8.3
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = x86_64
+
+LDLIBS_SHARED_YES=LDLIBS
+
+SDK = gcc
+SDK_DIR  = /opt/xgcc/gcc-8.3.0-deb10
+GNU_ARCH = x86_64-deb10-linux-gnu
+SDKTARGETSYSROOT=$(SDK_DIR)/$(GNU_ARCH)/sys-root/
+GNU_DIR = $(SDK_DIR)
+GNU_BIN = $(GNU_DIR)/bin/
+GNU_TARGET_INCLUDE_DIR =
+GNU_TARGET=x86_64-deb10-linux-gnu
+
+ARCH_DEP_CPPFLAGS =
+AS=$(GNU_BIN)/$(GNU_TARGET)-as

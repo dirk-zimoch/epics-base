@@ -1,0 +1,4 @@
+include $(CONFIG)/os/CONFIG.windows-x64.windows-x64
+
+PATH := /opt/wine-msvc-2017/bin/x64:$(PATH)
+export WINEPREFIX = $(HOME)/.wine-$(EPICS_HOST_ARCH)

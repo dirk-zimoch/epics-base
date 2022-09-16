@@ -11,27 +11,18 @@ include $(CONFIG)/os/CONFIG_SITE.linux-x86.Common
 
 GNU_HOST_ARCH_64=x86_64
 
-# Improved error checking with clang
-CROSS_COMPILER_TARGET_ARCHS += RHEL7-x86_64-clang
-CROSS_COMPILER_RUNTEST_ARCHS += RHEL7-x86_64-clang
-
-# Build for old SL6 64 bit
-CROSS_COMPILER_TARGET_ARCHS += SL6-x86_64
-CROSS_COMPILER_RUNTEST_ARCHS += SL6-x86_64
-
-# Build for old SL6 32 bit
-#CROSS_COMPILER_TARGET_ARCHS += SL6-x86
-#CROSS_COMPILER_RUNTEST_ARCHS += SL6-x86
-
-# NI Linux Real-Time 7.x
-# requires RPM gcc-c++-arm-linux-gnu
-CROSS_COMPILER_TARGET_ARCHS += nilrt7-armv7a
-
 # Windows cross builds using Wine
-ROSS_COMPILER_TARGET_ARCHS += win32-x86 windows-x64
+CROSS_COMPILER_TARGET_ARCHS += win32-x86 windows-x64
+
 # IOxOS IFC1211
 CROSS_COMPILER_TARGET_ARCHS += fslqoriq20-e6500_64
 
 # Zynq
 CROSS_COMPILER_TARGET_ARCHS += yocto21-aarch64
 CROSS_COMPILER_TARGET_ARCHS += yocto40-aarch64
+
+# Debian 10
+CROSS_COMPILER_TARGET_ARCHS += deb10-x86_64
+
+# Newer DeltaTau PowerPMAC
+CROSS_COMPILER_TARGET_ARCHS += gcc8-ppc4xxFP

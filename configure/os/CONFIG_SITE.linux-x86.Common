@@ -55,5 +55,7 @@ CROSS_COMPILER_TARGET_ARCHS += eldk53-ppc4xxFP
 # Raspberry Pi
 CROSS_COMPILER_TARGET_ARCHS += raspbian-arm
 
-# RTEMS
-CROSS_COMPILER_TARGET_ARCHS += RTEMS-pc386
+# RTEMS (Can only have 1 RTEMS major version in 1 EPICS installation
+# because they overwrite their header files.)
+#CROSS_COMPILER_TARGET_ARCHS += RTEMS49-pc386
+CROSS_COMPILER_TARGET_ARCHS += RTEMS51-pc686

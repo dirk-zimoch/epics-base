@@ -1,0 +1,8 @@
+# Include common linux definitions
+include $(CONFIG)/os/CONFIG.linux-x86.linux-x86
+
+# Use gcc 11 from gcc-toolset-11
+GNU_BIN = /opt/rh/gcc-toolset-11/root/usr/bin
+# Fix bug in gcc-toolset-11 calling the old assembler
+TARGET_CFLAGS += -B$(GNU_BIN)
+STD_CXXFLAGS = -std=c++17

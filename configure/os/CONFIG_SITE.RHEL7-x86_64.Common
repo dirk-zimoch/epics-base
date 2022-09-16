@@ -1,1 +1,18 @@
 include $(CONFIG)/os/CONFIG_SITE.linux-x86_64.Common
+
+# Improved error checking with clang
+CROSS_COMPILER_TARGET_ARCHS += RHEL7-x86_64-clang
+CROSS_COMPILER_RUNTEST_ARCHS += RHEL7-x86_64-clang
+
+# Build for old SL6 64 bit
+CROSS_COMPILER_TARGET_ARCHS += SL6-x86_64
+CROSS_COMPILER_RUNTEST_ARCHS += SL6-x86_64
+
+# Build for old SL6 32 bit
+CROSS_COMPILER_TARGET_ARCHS += SL6-x86
+CROSS_COMPILER_RUNTEST_ARCHS += SL6-x86
+
+# NI Linux Real-Time 7.x
+# requires RPM gcc-c++-arm-linux-gnu
+# Not available on RHEL8
+CROSS_COMPILER_TARGET_ARCHS += nilrt7-armv7a

@@ -1,0 +1,4 @@
+include $(CONFIG)/os/CONFIG.Cross_64.RHEL7-x86_64
+
+#TOOLSET = devtoolset-11
+#STD_CXXFLAGS = -std=c++17

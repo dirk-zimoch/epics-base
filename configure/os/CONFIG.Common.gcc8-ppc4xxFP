@@ -1,0 +1,21 @@
+# DeltaTau PowerPMAC with gcc 8.5
+
+# Include definitions common to all Linux targets
+include $(CONFIG)/os/CONFIG.Common.linuxCommon
+
+ARCH_CLASS = ppc
+
+SDK = gcc
+SDK_DIR = /opt/xgcc/gcc-8.5.0
+GNU_ARCH = powerpc-ppmac-linux-gnu
+SDKTARGETSYSROOT=$(SDK_DIR)/$(GNU_ARCH)/sys-root/
+GNU_DIR = $(SDK_DIR)
+GNU_BIN = $(GNU_DIR)/bin/
+GNU_TARGET_INCLUDE_DIR =
+GNU_TARGET=powerpc-ppmac-linux-gnu
+
+ARCH_DEP_CPPFLAGS =  -m32 -mcpu=440fp -mhard-float
+ARCH_DEP_LDFLAGS+=-Wl,-rpath,/opt/xgcc/gcc-8.5.0/$(GNU_ARCH)/lib
+ARCH_DEP_LDFLAGS+=-Wl,-rpath-link,$(SDKTARGETSYSROOT)/lib/powerpc-linux-gnu/
+ARCH_DEP_LDFLAGS+=-Wl,-rpath-link,$(SDKTARGETSYSROOT)/usr/lib/powerpc-linux-gnu/
+AS=$(GNU_BIN)/$(GNU_TARGET)-as

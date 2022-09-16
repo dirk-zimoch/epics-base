@@ -17,3 +17,7 @@ ARCH_DEP_CFLAGS += -funwind-tables
 
 # have no full C++11
 STD_CXXFLAGS = -std=c++0x
+
+# accept4() exists but does not work
+# Give fake __rtems__ macro to posix/osdSock.c because that disables accept4()
+osdSock_CFLAGS += -D__rtems__

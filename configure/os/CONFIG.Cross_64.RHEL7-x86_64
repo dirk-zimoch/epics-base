@@ -1,0 +1,21 @@
+# "cross compile" for RHEL7-x86_64 on other 64 bit Linux version
+# Expects RHEL7 RPMs c++ and readline-devel installed in $(SYSROOT)
+# This can be installed on RHEL7 with:
+#    yum install --installroot=$(SYSROOT) <packages>
+# (Assuming $(SYSROOT) is on a shared network volume.)
+# Optionally use a newer toolset (installed on $(SYSROOT)).
+
+include $(CONFIG)/os/CONFIG.linux-x86.linux-x86
+
+SYSROOT          = /opt/RHEL7
+TOOLSET_LOCATION = /opt/rh
+
+# Do NOT set GNU_BIN (or else ...)!
+TOOLSET_DIR      = $(TOOLSET:%=$(TOOLSET_LOCATION)/%/root)
+CC  = $(SYSROOT)$(TOOLSET_DIR)/bin/gcc
+CCC = $(SYSROOT)$(TOOLSET_DIR)/bin/g++
+# Set LD_LIBRARY_PATH and BFLAG only with TOOLSET
+LD_LIBRARY_PATH  = $(if $(TOOLSET),$(SYSROOT)$(TOOLSET_DIR)/lib64)
+BFLAG            = $(if $(TOOLSET),-B$(SYSROOT)$(TOOLSET_DIR)/bin)
+TARGET_CPPFLAGS += --sysroot=$(SYSROOT) $(BFLAG)
+TARGET_LDFLAGS  += --sysroot=$(SYSROOT) $(BFLAG)

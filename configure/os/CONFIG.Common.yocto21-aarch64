@@ -6,7 +6,7 @@ include $(CONFIG)/os/CONFIG.Common.linuxCommon
 ARCH_CLASS = arm64
 
 SDK = petalinux
-SDK_DIR = /opt/petalinux-gfa/2017.2
+SDK_DIR = /opt/petalinux-gfa/2018.1
 SDK_HOST_ARCH = $(GNU_HOST_ARCH_64)-$(SDK)-$(GNU_HOST_OS)
 SDK_TARGET = aarch64-xilinx-linux
 GNU_TARGET = $(SDK_TARGET)

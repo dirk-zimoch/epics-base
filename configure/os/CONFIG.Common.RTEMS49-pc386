@@ -1,0 +1,2 @@
+RTEMS_VERSION = 4.9
+include $(CONFIG)/os/CONFIG.Common.RTEMS-pc386

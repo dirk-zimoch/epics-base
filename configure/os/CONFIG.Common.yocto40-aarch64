@@ -17,4 +17,4 @@ GNU_BIN = $(GNU_DIR)/bin/$(GNU_TARGET)
 ARCH_DEP_CPPFLAGS = --sysroot=$(SDKTARGETSYSROOT) -mcpu=cortex-a53 -march=armv8-a+crc
 ARCH_DEP_LDFLAGS = --sysroot=$(SDKTARGETSYSROOT)
 
-STD_CXXFLAGS = -std=c++20
+STD_CXXFLAGS = -std=c++23

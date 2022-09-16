@@ -1,1 +1,3 @@
 include $(CONFIG)/os/CONFIG.Common.linux-clang
+
+STD_CXXFLAGS = -std=c++2a
