@@ -34,7 +34,7 @@ static epicsThreadOnceId osiLocalAddrId = EPICS_THREAD_ONCE_INIT;
  * osiSockDiscoverBroadcastAddresses ()
  */
 LIBCOM_API void epicsStdCall osiSockDiscoverBroadcastAddresses
-     (ELLLIST *pList, SOCKET socket, const osiSockAddr *pMatchAddr)
+     (ELLLIST *pList, SOCKET socket EPICS_UNUSED, const osiSockAddr *pMatchAddr)
 {
     osiSockAddrNode *pNewNode;
     struct ifaddrs *ifa;
@@ -164,7 +164,7 @@ LIBCOM_API void epicsStdCall osiSockDiscoverBroadcastAddresses
 /*
  * osiLocalAddrOnce ()
  */
-static void osiLocalAddrOnce (void *raw)
+static void osiLocalAddrOnce (void *raw EPICS_UNUSED)
 {
     struct ifaddrs *ifaddr, *ifa;
     int result = getifaddrs (&ifaddr);

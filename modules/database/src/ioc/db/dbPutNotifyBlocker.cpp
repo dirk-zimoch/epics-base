@@ -61,7 +61,7 @@ void dbPutNotifyBlocker::destructor ( CallbackGuard & cbGuard,
 }
 
 void dbPutNotifyBlocker::cancel (
-    CallbackGuard & cbGuard,
+    CallbackGuard &,
     epicsGuard < epicsMutex > & guard )
 {
     guard.assertIdenticalMutex ( this->mutex );

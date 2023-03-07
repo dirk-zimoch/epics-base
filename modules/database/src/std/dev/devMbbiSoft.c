@@ -45,7 +45,7 @@ static long init_record(dbCommon *pcommon)
     return 0;
 }
 
-static long readLocked(struct link *pinp, void *dummy)
+static long readLocked(struct link *pinp, void *dummy EPICS_UNUSED)
 {
     mbbiRecord *prec = (mbbiRecord *) pinp->precord;
     long status = dbGetLink(pinp, DBR_USHORT, &prec->val, 0, 0);

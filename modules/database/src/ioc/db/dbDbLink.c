@@ -85,7 +85,7 @@ static long processTarget(dbCommon *psrc, dbCommon *pdst);
 
 #define linkChannel(plink) ((dbChannel *) (plink)->value.pv_link.pvt)
 
-long dbDbInitLink(struct link *plink, short dbfType)
+long dbDbInitLink(struct link *plink, short dbfType EPICS_UNUSED)
 {
     long status;
     dbChannel *chan;
@@ -112,7 +112,7 @@ long dbDbInitLink(struct link *plink, short dbfType)
     return 0;
 }
 
-void dbDbAddLink(struct dbLocker *locker, struct link *plink, short dbfType,
+void dbDbAddLink(struct dbLocker *locker, struct link *plink, short dbfType EPICS_UNUSED,
     dbChannel *chan)
 {
     plink->lset = &dbDb_lset;
@@ -143,7 +143,7 @@ static void dbDbRemoveLink(struct dbLocker *locker, struct link *plink)
     dbChannelDelete(chan);
 }
 
-static int dbDbIsConnected(const struct link *plink)
+static int dbDbIsConnected(const struct link *plink EPICS_UNUSED)
 {
     return TRUE;
 }

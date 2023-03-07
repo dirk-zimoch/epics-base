@@ -22,7 +22,7 @@
 static epicsThreadOnceId stackTraceInitId = EPICS_THREAD_ONCE_INIT;
 static epicsMutexId      stackTraceMtx;
 
-static void stackTraceInit(void *unused)
+static void stackTraceInit(void *unused EPICS_UNUSED)
 {
     stackTraceMtx = epicsMutexMustCreate();
 }

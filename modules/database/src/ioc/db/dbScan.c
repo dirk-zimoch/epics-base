@@ -456,7 +456,7 @@ static void eventCallback(epicsCallback *pcallback)
     scanList(psl);
 }
 
-static void eventOnce(void *arg)
+static void eventOnce(void *arg EPICS_UNUSED)
 {
     event_lock = epicsMutexMustCreate();
 }
@@ -546,7 +546,7 @@ void post_event(int event)
     postEvent(pevent_list[event]);
 }
 
-static void ioscanOnce(void *arg)
+static void ioscanOnce(void *arg EPICS_UNUSED)
 {
     ioscan_lock = epicsMutexMustCreate();
 }
@@ -687,7 +687,7 @@ int scanOnceCallback(struct dbCommon *precord, once_complete cb, void *usr)
     return !pushOK;
 }
 
-static void onceTask(void *arg)
+static void onceTask(void *arg EPICS_UNUSED)
 {
     taskwdInsert(0, NULL, NULL);
     epicsEventSignal(startStopEvent);

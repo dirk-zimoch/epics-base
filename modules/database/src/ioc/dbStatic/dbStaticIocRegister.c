@@ -24,7 +24,7 @@ static const iocshArg argRecType = { "recordTypeName", iocshArgString};
 static const iocshArg * const dbDumpPathArgs[] = {&argPdbbase};
 static const iocshFuncDef dbDumpPathFuncDef = {"dbDumpPath",1,dbDumpPathArgs,
                                                "Dump .db/.dbd file search path.\n"};
-static void dbDumpPathCallFunc(const iocshArgBuf *args)
+static void dbDumpPathCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     dbDumpPath(*iocshPpdbbase);
 }
@@ -99,7 +99,7 @@ static const iocshArg * const dbDumpDriverArgs[] = { &argPdbbase};
 static const iocshFuncDef dbDumpDriverFuncDef = {"dbDumpDriver",1,dbDumpDriverArgs,
                           "Dump device support information.\n"
                           "Example: dbDumpDriver pdbbase\n"};
-static void dbDumpDriverCallFunc(const iocshArgBuf *args)
+static void dbDumpDriverCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     dbDumpDriver(*iocshPpdbbase);
 }
@@ -107,7 +107,7 @@ static void dbDumpDriverCallFunc(const iocshArgBuf *args)
 /* dbDumpLink */
 static const iocshArg * const dbDumpLinkArgs[] = { &argPdbbase};
 static const iocshFuncDef dbDumpLinkFuncDef = {"dbDumpLink",1,dbDumpLinkArgs};
-static void dbDumpLinkCallFunc(const iocshArgBuf *args)
+static void dbDumpLinkCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     dbDumpLink(*iocshPpdbbase);
 }
@@ -118,7 +118,7 @@ static const iocshFuncDef dbDumpRegistrarFuncDef = {"dbDumpRegistrar",1,dbDumpRe
                           "Dump list of registered functions including ones for subroutine records,\n"
                           "and ones that can be invoked from iocsh.\n"
                           "Example: dbDumpRegistrar pdbbase\n"};
-static void dbDumpRegistrarCallFunc(const iocshArgBuf *args)
+static void dbDumpRegistrarCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     dbDumpRegistrar(*iocshPpdbbase);
 }
@@ -128,7 +128,7 @@ static const iocshArg * const dbDumpFunctionArgs[] = { &argPdbbase};
 static const iocshFuncDef dbDumpFunctionFuncDef = {"dbDumpFunction",1,dbDumpFunctionArgs,
                           "Dump list of registered subroutine functions.\n"
                           "Example: dbDumpFunction pddbase\n"};
-static void dbDumpFunctionCallFunc(const iocshArgBuf *args)
+static void dbDumpFunctionCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     dbDumpFunction(*iocshPpdbbase);
 }
@@ -138,7 +138,7 @@ static const iocshArg * const dbDumpVariableArgs[] = { &argPdbbase};
 static const iocshFuncDef dbDumpVariableFuncDef = {"dbDumpVariable",1,dbDumpVariableArgs,
                           "Dump list of variables used in the database.\n"
                           "Example: dbDumpVariable pddbase\n"};
-static void dbDumpVariableCallFunc(const iocshArgBuf *args)
+static void dbDumpVariableCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     dbDumpVariable(*iocshPpdbbase);
 }
@@ -176,7 +176,7 @@ static void dbPvdTableSizeCallFunc(const iocshArgBuf *args)
 /* dbReportDeviceConfig */
 static const iocshArg * const dbReportDeviceConfigArgs[] = {&argPdbbase};
 static const iocshFuncDef dbReportDeviceConfigFuncDef = {"dbReportDeviceConfig",1,dbReportDeviceConfigArgs};
-static void dbReportDeviceConfigCallFunc(const iocshArgBuf *args)
+static void dbReportDeviceConfigCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     dbReportDeviceConfig(*iocshPpdbbase,stdout);
 }

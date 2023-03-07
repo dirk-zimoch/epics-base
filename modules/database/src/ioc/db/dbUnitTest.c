@@ -376,8 +376,8 @@ dbCommon* testdbRecordPtr(const char* pv)
 }
 
 static
-void testmonupdate(void *user_arg, struct dbChannel *chan,
-                   int eventsRemaining, struct db_field_log *pfl)
+void testmonupdate(void *user_arg, struct dbChannel *chan EPICS_UNUSED,
+                   int eventsRemaining EPICS_UNUSED, struct db_field_log *pfl EPICS_UNUSED)
 {
     testMonitor *mon = user_arg;
 
@@ -387,7 +387,7 @@ void testmonupdate(void *user_arg, struct dbChannel *chan,
     epicsEventMustTrigger(mon->event);
 }
 
-testMonitor* testMonitorCreate(const char* pvname, unsigned mask, unsigned opt)
+testMonitor* testMonitorCreate(const char* pvname, unsigned mask, unsigned opt EPICS_UNUSED)
 {
     long status;
     testMonitor *mon;
@@ -470,7 +470,7 @@ static
 epicsThreadOnceId test_global_once = EPICS_THREAD_ONCE_INIT;
 
 static
-void test_global_init(void* ignored)
+void test_global_init(void* ignored EPICS_UNUSED)
 {
     test_global = epicsMutexMustCreate();
 }

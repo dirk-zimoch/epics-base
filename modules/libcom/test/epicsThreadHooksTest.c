@@ -60,7 +60,7 @@ static int findThreadIndex(epicsThreadId id)
     return i;
 }
 
-static void atExitHook1 (void *arg)
+static void atExitHook1 (void *arg EPICS_UNUSED)
 {
     int no = findThreadIndex(epicsThreadGetIdSelf());
 
@@ -68,7 +68,7 @@ static void atExitHook1 (void *arg)
         order[no][3] = cnt[no]++;
 }
 
-static void atExitHook2 (void *arg)
+static void atExitHook2 (void *arg EPICS_UNUSED)
 {
     int no = findThreadIndex(epicsThreadGetIdSelf());
 

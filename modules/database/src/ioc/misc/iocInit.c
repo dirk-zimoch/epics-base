@@ -143,7 +143,7 @@ static int iocBuild_1(void)
     return 0;
 }
 
-static void prepareLinks(dbRecordType *rtyp, dbCommon *prec, void *junk)
+static void prepareLinks(dbRecordType *rtyp, dbCommon *prec, void *junk EPICS_UNUSED)
 {
     dbInitRecordLinks(rtyp, prec);
 }
@@ -493,7 +493,7 @@ static void iterateRecords(recIterFunc func, void *user)
 }
 
 static void doInitRecord0(dbRecordType *pdbRecordType, dbCommon *precord,
-    void *user)
+    void *user EPICS_UNUSED)
 {
     rset *prset = pdbRecordType->prset;
     devSup *pdevSup;
@@ -520,7 +520,7 @@ static void doInitRecord0(dbRecordType *pdbRecordType, dbCommon *precord,
 }
 
 static void doResolveLinks(dbRecordType *pdbRecordType, dbCommon *precord,
-    void *user)
+    void *user EPICS_UNUSED)
 {
     dbFldDes **papFldDes = pdbRecordType->papFldDes;
     short *link_ind = pdbRecordType->link_ind;
@@ -547,7 +547,7 @@ static void doResolveLinks(dbRecordType *pdbRecordType, dbCommon *precord,
 }
 
 static void doInitRecord1(dbRecordType *pdbRecordType, dbCommon *precord,
-    void *user)
+    void *user EPICS_UNUSED)
 {
     rset *prset = pdbRecordType->prset;
 
@@ -578,7 +578,7 @@ typedef struct {
     epicsEnum16 pini;
 } phaseData_t;
 
-static void doRecordPini(dbRecordType *rtype, dbCommon *precord, void *user)
+static void doRecordPini(dbRecordType *rtype EPICS_UNUSED, dbCommon *precord, void *user)
 {
     phaseData_t *pphase = (phaseData_t *)user;
     int phas;
@@ -650,7 +650,7 @@ static void initialProcess(void)
  * Delete record scans
  */
 static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
-    void *user)
+    void *user EPICS_UNUSED)
 {
     devSup *pdevSup;
     struct dsxt *pdsxt;
@@ -691,7 +691,7 @@ static void doCloseLinks(dbRecordType *pdbRecordType, dbCommon *precord,
 }
 
 static void doFreeRecord(dbRecordType *pdbRecordType, dbCommon *precord,
-    void *user)
+    void *user EPICS_UNUSED)
 {
     int j;
 
@@ -751,7 +751,7 @@ int iocShutdown(void)
     return 0;
 }
 
-static void exitDatabase(void *dummy)
+static void exitDatabase(void *dummy EPICS_UNUSED)
 {
     iocShutdown();
 }

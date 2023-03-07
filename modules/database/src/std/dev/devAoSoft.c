@@ -41,7 +41,7 @@ aodset devAoSoft = {
 };
 epicsExportAddress(dset, devAoSoft);
 
-static long init_record(dbCommon *pcommon)
+static long init_record(dbCommon *pcommon EPICS_UNUSED)
 {
 
     long status=0;

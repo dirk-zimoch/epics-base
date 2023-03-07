@@ -21,7 +21,7 @@
 /* iocInit */
 static const iocshFuncDef iocInitFuncDef = {"iocInit",0,NULL,
              "Initializes the various epics components and starts the IOC running.\n"};
-static void iocInitCallFunc(const iocshArgBuf *args)
+static void iocInitCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     iocshSetError(iocInit());
 }
@@ -30,7 +30,7 @@ static void iocInitCallFunc(const iocshArgBuf *args)
 static const iocshFuncDef iocBuildFuncDef = {"iocBuild",0,NULL,
              "First step of the IOC initialization, puts the IOC into a ready-to-run (quiescent) state.\n"
              "Needs iocRun() to make the IOC live.\n"};
-static void iocBuildCallFunc(const iocshArgBuf *args)
+static void iocBuildCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     iocshSetError(iocBuild());
 }
@@ -39,7 +39,7 @@ static void iocBuildCallFunc(const iocshArgBuf *args)
 static const iocshFuncDef iocRunFuncDef = {"iocRun",0,NULL, 
              "Bring the IOC out of its initial quiescent state to the running state.\n"
              "See more: iocBuild, iocPause"};
-static void iocRunCallFunc(const iocshArgBuf *args)
+static void iocRunCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     iocshSetError(iocRun());
 }
@@ -48,7 +48,7 @@ static void iocRunCallFunc(const iocshArgBuf *args)
 static const iocshFuncDef iocPauseFuncDef = {"iocPause",0,NULL,
              "Brings a running IOC to a quiescent state with all record processing frozen.\n"
              "See more: iocBuild, iocRub, iocInit"};
-static void iocPauseCallFunc(const iocshArgBuf *args)
+static void iocPauseCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     iocshSetError(iocPause());
 }
@@ -56,7 +56,7 @@ static void iocPauseCallFunc(const iocshArgBuf *args)
 /* coreRelease */
 static const iocshFuncDef coreReleaseFuncDef = {"coreRelease",0,NULL,
              "Print release information for iocCore.\n"};
-static void coreReleaseCallFunc(const iocshArgBuf *args)
+static void coreReleaseCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     coreRelease ();
 }

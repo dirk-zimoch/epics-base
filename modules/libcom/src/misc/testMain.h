@@ -44,7 +44,7 @@
   #ifdef __cplusplus
     #define MAIN(prog) int main(int /*argc*/, char * /*argv*/ [] )
   #else
-    #define MAIN(prog) int main(int argc, char *argv[] )
+    #define MAIN(prog) int main()
   #endif
 #endif
 

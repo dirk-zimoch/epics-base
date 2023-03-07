@@ -54,7 +54,7 @@ typedef void tf ( ti *pItems, unsigned iterations, unsigned *pInlineIter );
  * test_pend()
  */
 static void test_pend(
-ti          *pItems,
+ti          *pItems EPICS_UNUSED,
 unsigned    iterations,
 unsigned    *pInlineIter
 )

@@ -269,7 +269,7 @@ size_t epicsStdCall epicsTimeToStrftime (char *pBuff, size_t bufLength, const ch
 //
 // epicsTime::show (unsigned)
 //
-void epicsStdCall epicsTimeShow (const epicsTimeStamp *pTS, unsigned level)
+void epicsStdCall epicsTimeShow (const epicsTimeStamp *pTS, unsigned level EPICS_UNUSED)
 {
     char bigBuffer[256];
 

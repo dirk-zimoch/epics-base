@@ -66,7 +66,7 @@ static long init_record(dbCommon *pcommon)
     return 0;
 }
 
-static long readLocked(struct link *pinp, void *dummy)
+static long readLocked(struct link *pinp, void *dummy EPICS_UNUSED)
 {
     aaiRecord *prec = (aaiRecord *) pinp->precord;
     long nRequest = prec->nelm;

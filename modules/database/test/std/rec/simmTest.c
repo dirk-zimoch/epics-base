@@ -426,7 +426,7 @@ ping(CALLBACK *pcb)
 }
 
 static
-void testSimmDelay(const char *name,
+void testSimmDelay(const char *name EPICS_UNUSED,
                    epicsFloat64 *psdly,
                    const epicsTimeStamp *mytime)
 {

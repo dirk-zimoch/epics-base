@@ -29,7 +29,7 @@ static epicsThreadPrivateId stdinThreadPrivateId;
 static epicsThreadPrivateId stdoutThreadPrivateId;
 static epicsThreadPrivateId stderrThreadPrivateId = 0;
 
-static void once(void *junk)
+static void once(void *junk EPICS_UNUSED)
 {
     stdinThreadPrivateId = epicsThreadPrivateCreate();
     stdoutThreadPrivateId = epicsThreadPrivateCreate();

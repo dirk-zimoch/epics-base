@@ -44,7 +44,7 @@ static int parse_ok(void *raw)
     return 0;
 }
 
-static db_field_log* filter(void* raw, dbChannel *chan, db_field_log *pfl)
+static db_field_log* filter(void* raw, dbChannel *chan EPICS_UNUSED, db_field_log *pfl)
 {
     utagPvt *pvt = (utagPvt*)raw;
     epicsUTag utag = pfl->utag;
@@ -65,14 +65,14 @@ static db_field_log* filter(void* raw, dbChannel *chan, db_field_log *pfl)
     return pfl;
 }
 
-static void channelRegisterPre(dbChannel *chan, void *pvt,
-                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
+static void channelRegisterPre(dbChannel *chan EPICS_UNUSED, void *pvt,
+                               chPostEventFunc **cb_out, void **arg_out, db_field_log *probe EPICS_UNUSED)
 {
     *cb_out = filter;
     *arg_out = pvt;
 }
 
-static void channel_report(dbChannel *chan, void *raw, int level, const unsigned short indent)
+static void channel_report(dbChannel *chan EPICS_UNUSED, void *raw, int level EPICS_UNUSED, const unsigned short indent)
 {
     utagPvt *pvt = (utagPvt*)raw;
     printf("%*sutag : mask=0x%08x value=0x%08x\n", indent, "", (epicsUInt32)pvt->mask, (epicsUInt32)pvt->value);

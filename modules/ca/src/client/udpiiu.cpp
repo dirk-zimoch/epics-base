@@ -1026,7 +1026,7 @@ void udpiiu :: SearchDestUDP :: searchRequest (
 }
 
 void udpiiu :: SearchDestUDP :: show (
-    epicsGuard < epicsMutex > & guard, unsigned level ) const
+    epicsGuard < epicsMutex > & guard, unsigned level EPICS_UNUSED ) const
 {
     guard.assertIdenticalMutex ( _udpiiu.cacMutex );
     char buf[64];
@@ -1108,14 +1108,14 @@ void udpiiu :: SearchRespCallback :: notify (
 }
 
 void udpiiu :: SearchRespCallback :: show (
-    epicsGuard < epicsMutex > & guard, unsigned level ) const
+    epicsGuard < epicsMutex > & guard, unsigned level EPICS_UNUSED ) const
 {
     guard.assertIdenticalMutex ( _udpiiu.cacMutex );
     ::printf ( "udpiiu :: SearchRespCallback\n" );
 }
 
 bool udpiiu :: datagramFlush (
-    epicsGuard < epicsMutex > & guard, const epicsTime & currentTime )
+    epicsGuard < epicsMutex > & guard, const epicsTime & currentTime EPICS_UNUSED )
 {
     guard.assertIdenticalMutex ( cacMutex );
 

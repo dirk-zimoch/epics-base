@@ -1433,6 +1433,7 @@ int caNetConvert ( unsigned type, const void *pSrc, void *pDest,
         if ( pSrc != pDest ) {
             memcpy ( pDest, pSrc, dbr_size_n ( type, count ) );
         }
+        (void)hton; /* silence unused parameter warning */
 #   endif
     return ECA_NORMAL;
 }

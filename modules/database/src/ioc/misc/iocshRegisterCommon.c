@@ -30,7 +30,7 @@ static const iocshArg rrddArg0 = {"pdbbase", iocshArgPdbbase};
 static const iocshArg *rrddArgs[] = {&rrddArg0};
 static const iocshFuncDef rrddFuncDef =
     {"registerAllRecordDeviceDrivers", 1, rrddArgs};
-static void rrddCallFunc(const iocshArgBuf *args)
+static void rrddCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     iocshSetError(registerAllRecordDeviceDrivers(*iocshPpdbbase));
 }

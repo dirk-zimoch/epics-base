@@ -242,7 +242,7 @@ static int parse_ok(void *user)
     return p_ok_return;
 }
 
-static long channel_open(dbChannel *chan, void *user)
+static long channel_open(dbChannel *chan EPICS_UNUSED, void *user)
 {
     if (user == puser1) {
         testOk(e1 & e_open, "channel_open (1) called");
@@ -270,7 +270,7 @@ static void dbfl_free2(db_field_log *pfl) {
     c2 |= e_dtor;
 }
 
-static db_field_log * pre(void *user, dbChannel *chan, db_field_log *pLog) {
+static db_field_log * pre(void *user, dbChannel *chan EPICS_UNUSED, db_field_log *pLog) {
     myStruct *my = (myStruct*)user;
     dbfl_freeFunc *dtor = NULL;
 
@@ -313,7 +313,7 @@ static db_field_log * pre(void *user, dbChannel *chan, db_field_log *pLog) {
     return pLog;
 }
 
-static db_field_log * post(void *user, dbChannel *chan, db_field_log *pLog) {
+static db_field_log * post(void *user, dbChannel *chan EPICS_UNUSED, db_field_log *pLog) {
     myStruct *my = (myStruct*)user;
     dbfl_freeFunc *dtor = NULL;
 
@@ -356,7 +356,7 @@ static db_field_log * post(void *user, dbChannel *chan, db_field_log *pLog) {
     return pLog;
 }
 
-static void channelRegisterPre(dbChannel *chan, void *user,
+static void channelRegisterPre(dbChannel *chan EPICS_UNUSED, void *user,
     chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
 {
     myStruct *my = (myStruct*)user;
@@ -386,7 +386,7 @@ static void channelRegisterPre(dbChannel *chan, void *user,
     *arg_out = user;
 }
 
-static void channelRegisterPost(dbChannel *chan, void *user,
+static void channelRegisterPost(dbChannel *chan EPICS_UNUSED, void *user,
     chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
 {
     myStruct *my = (myStruct*)user;
@@ -416,8 +416,8 @@ static void channelRegisterPost(dbChannel *chan, void *user,
     *arg_out = user;
 }
 
-static void channel_report(dbChannel *chan, void *user, int level,
-    const unsigned short indent)
+static void channel_report(dbChannel *chan EPICS_UNUSED, void *user, int level,
+    const unsigned short indent EPICS_UNUSED)
 {
     testOk(level == R_LEVEL - 2, "channel_report: level correct %u == %u", level, R_LEVEL-2);
     if (user == puser1) {
@@ -430,7 +430,7 @@ static void channel_report(dbChannel *chan, void *user, int level,
         testFail("channel_report: user pointer invalid");
 }
 
-static void channel_close(dbChannel *chan, void *user)
+static void channel_close(dbChannel *chan EPICS_UNUSED, void *user)
 {
     if (user == puser1) {
         testOk(e1 & e_close, "channel_close (1) called");

@@ -26,7 +26,7 @@ static long init_record(dbCommon *common)
     return 0;
 }
 
-static long readLocked(struct link *pinp, void *dummy)
+static long readLocked(struct link *pinp, void *dummy EPICS_UNUSED)
 {
     lsiRecord *prec = (lsiRecord *) pinp->precord;
     long status = dbGetLinkLS(pinp, prec->val, prec->sizv, &prec->len);

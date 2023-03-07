@@ -64,7 +64,7 @@ void putLink(DBLINK *plink, short dbr, const void*buf, long nReq)
     }
 }
 
-static long getTwice(struct link *psrclnk, void *dummy)
+static long getTwice(struct link *psrclnk, void *dummy EPICS_UNUSED)
 {
     epicsInt32 val1, val2;
     long status = dbGetLink(psrclnk, DBR_LONG, &val1, 0, 0);
@@ -242,7 +242,7 @@ static void testStringLink(void)
     testdbCleanup();
 }
 
-static void wasproc(xRecord *prec)
+static void wasproc(xRecord *prec EPICS_UNUSED)
 {
     waitCounter++;
     epicsEventTrigger(waitEvent);

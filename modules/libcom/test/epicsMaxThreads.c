@@ -26,7 +26,7 @@
 
 static epicsEventId started;
 
-static void thread(void *arg)
+static void thread(void *arg EPICS_UNUSED)
 {
     epicsEventSignal(started);
     epicsThreadSuspendSelf();

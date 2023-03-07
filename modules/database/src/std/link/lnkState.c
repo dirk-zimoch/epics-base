@@ -93,12 +93,12 @@ static jlif_result lnkState_string(jlink *pjlink, const char *val, size_t len)
     return jlif_continue;
 }
 
-static struct lset* lnkState_get_lset(const jlink *pjlink)
+static struct lset* lnkState_get_lset(const jlink *pjlink EPICS_UNUSED)
 {
     return &lnkState_lset;
 }
 
-static void lnkState_report(const jlink *pjlink, int level, int indent)
+static void lnkState_report(const jlink *pjlink, int level EPICS_UNUSED, int indent)
 {
     state_link *slink = CONTAINER(pjlink, struct state_link, jlink);
 
@@ -116,7 +116,7 @@ static void lnkState_open(struct link *plink)
     slink->state = dbStateCreate(slink->name);
 }
 
-static void lnkState_remove(struct dbLocker *locker, struct link *plink)
+static void lnkState_remove(struct dbLocker *locker EPICS_UNUSED, struct link *plink)
 {
     state_link *slink = CONTAINER(plink->value.json.jlink,
         struct state_link, jlink);
@@ -127,19 +127,19 @@ static void lnkState_remove(struct dbLocker *locker, struct link *plink)
     plink->value.json.jlink = NULL;
 }
 
-static int lnkState_getDBFtype(const struct link *plink)
+static int lnkState_getDBFtype(const struct link *plink EPICS_UNUSED)
 {
     return DBF_SHORT;
 }
 
-static long lnkState_getElements(const struct link *plink, long *nelements)
+static long lnkState_getElements(const struct link *plink EPICS_UNUSED, long *nelements)
 {
     *nelements = 1;
     return 0;
 }
 
 static long lnkState_getValue(struct link *plink, short dbrType, void *pbuffer,
-    long *pnRequest)
+    long *pnRequest EPICS_UNUSED)
 {
     state_link *slink = CONTAINER(plink->value.json.jlink,
         struct state_link, jlink);

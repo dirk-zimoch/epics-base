@@ -99,7 +99,7 @@ static int testReportHook(int reportType, char *message, int *returnValue)
 }
 #endif
 
-static void testOnce(void *dummy) {
+static void testOnce(void *dummy EPICS_UNUSED) {
     testLock = epicsMutexMustCreate();
     perlHarness = (getenv("HARNESS_ACTIVE") != NULL);
 #ifdef __rtems__
@@ -302,7 +302,7 @@ int testImpreciseTiming(void)
 
 /* Our test harness, for RTEMS and vxWorks */
 
-void testHarnessExit(void *dummy) {
+void testHarnessExit(void *dummy EPICS_UNUSED) {
     epicsTimeStamp ended;
     int Faulty;
 

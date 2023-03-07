@@ -29,11 +29,11 @@ typedef struct parseContext {
     int elems;
 } parseContext;
 
-static int dbcj_null(void *ctx) {
+static int dbcj_null(void *ctx EPICS_UNUSED) {
     return 0;    /* Illegal */
 }
 
-static int dbcj_boolean(void *ctx, int val) {
+static int dbcj_boolean(void *ctx EPICS_UNUSED, int val EPICS_UNUSED) {
     return 0;    /* Illegal */
 }
 
@@ -50,7 +50,7 @@ static int dbcj_integer(void *ctx, long long num) {
     return 1;
 }
 
-static int dblsj_integer(void *ctx, long long num) {
+static int dblsj_integer(void *ctx EPICS_UNUSED, long long num EPICS_UNUSED) {
     return 0;    /* Illegal */
 }
 
@@ -66,7 +66,7 @@ static int dbcj_double(void *ctx, double num) {
     return 1;
 }
 
-static int dblsj_double(void *ctx, double num) {
+static int dblsj_double(void *ctx EPICS_UNUSED, double num EPICS_UNUSED) {
     return 0;    /* Illegal */
 }
 
@@ -113,16 +113,16 @@ static int dblsj_string(void *ctx, const unsigned char *val, size_t len) {
     return 1;
 }
 
-static int dbcj_start_map(void *ctx) {
+static int dbcj_start_map(void *ctx EPICS_UNUSED) {
     errlogPrintf("dbConvertJSON: Map type not supported\n");
     return 0;    /* Illegal */
 }
 
-static int dbcj_map_key(void *ctx, const unsigned char *key, size_t len) {
+static int dbcj_map_key(void *ctx EPICS_UNUSED, const unsigned char *key EPICS_UNUSED, size_t len EPICS_UNUSED) {
     return 0;    /* Illegal */
 }
 
-static int dbcj_end_map(void *ctx) {
+static int dbcj_end_map(void *ctx EPICS_UNUSED) {
     return 0;    /* Illegal */
 }
 

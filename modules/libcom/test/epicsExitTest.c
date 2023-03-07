@@ -69,12 +69,12 @@ static void thread(void *arg)
 
 int count;
 
-static void counter(void *pvt)
+static void counter(void *pvt EPICS_UNUSED)
 {
     count++;
 }
 
-static void mainExit(void *pvt)
+static void mainExit(void *pvt EPICS_UNUSED)
 {
     testPass("Reached mainExit");
     testDone();

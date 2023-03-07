@@ -20,7 +20,7 @@ typedef struct xlink {
 
 static lset xlink_lset;
 
-static jlink* xlink_alloc(short dbfType)
+static jlink* xlink_alloc(short dbfType EPICS_UNUSED)
 {
     xlink *xlink = calloc(1, sizeof(struct xlink));
 
@@ -34,29 +34,29 @@ static void xlink_free(jlink *pjlink)
     free(xlink);
 }
 
-static jlif_result xlink_boolean(jlink *pjlink, int val)
+static jlif_result xlink_boolean(jlink *pjlink EPICS_UNUSED, int val)
 {
     return val; /* False triggers a parse failure */
 }
 
-static struct lset* xlink_get_lset(const jlink *pjlink)
+static struct lset* xlink_get_lset(const jlink *pjlink EPICS_UNUSED)
 {
     return &xlink_lset;
 }
 
 
-static void xlink_remove(struct dbLocker *locker, struct link *plink)
+static void xlink_remove(struct dbLocker *locker EPICS_UNUSED, struct link *plink)
 {
     xlink_free(plink->value.json.jlink);
 }
 
-static long xlink_getNelements(const struct link *plink, long *nelements)
+static long xlink_getNelements(const struct link *plink EPICS_UNUSED, long *nelements)
 {
     *nelements = 0;
     return 0;
 }
 
-static long xlink_getValue(struct link *plink, short dbrType, void *pbuffer,
+static long xlink_getValue(struct link *plink EPICS_UNUSED, short dbrType EPICS_UNUSED, void *pbuffer EPICS_UNUSED,
         long *pnRequest)
 {
     if (pnRequest)

@@ -24,7 +24,7 @@ epicsEventId done;
 static int waitFor;
 
 static
-long doneSubr(subRecord *prec)
+long doneSubr(subRecord *prec EPICS_UNUSED)
 {
     if (--waitFor <= 0)
         epicsEventMustTrigger(done);
@@ -32,7 +32,7 @@ long doneSubr(subRecord *prec)
 }
 
 static
-void dummydone(void *usr, struct dbCommon* prec)
+void dummydone(void *usr EPICS_UNUSED, struct dbCommon* prec EPICS_UNUSED)
 {
     epicsEventMustTrigger(done);
 }

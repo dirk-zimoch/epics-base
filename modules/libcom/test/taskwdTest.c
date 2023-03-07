@@ -22,7 +22,7 @@
 /* This is a unique prefix used for the names of the test threads */
 #define baseName "testTask"
 
-void monInsert(void *usr, epicsThreadId tid)
+void monInsert(void *usr EPICS_UNUSED, epicsThreadId tid)
 {
     char tname[32];
 
@@ -33,7 +33,7 @@ void monInsert(void *usr, epicsThreadId tid)
         testDiag("monInsert(thread='%s')", tname);
 }
 
-void monNotify(void *usr, epicsThreadId tid, int suspended)
+void monNotify(void *usr EPICS_UNUSED, epicsThreadId tid, int suspended)
 {
     char tname[32];
 
@@ -42,7 +42,7 @@ void monNotify(void *usr, epicsThreadId tid, int suspended)
     epicsThreadResume(tid);
 }
 
-void monRemove(void *usr, epicsThreadId tid)
+void monRemove(void *usr EPICS_UNUSED, epicsThreadId tid)
 {
     char tname[32];
 
@@ -55,7 +55,7 @@ void monRemove(void *usr, epicsThreadId tid)
 
 taskwdMonitor monFuncs = {monInsert, monNotify, monRemove};
 
-void anyNotify(void *usr, epicsThreadId tid)
+void anyNotify(void *usr EPICS_UNUSED, epicsThreadId tid)
 {
     char tname[32];
 
@@ -73,7 +73,7 @@ void taskNotify(void *usr)
     testPass("taskNotify id='%s'", id);
 }
 
-void testTask1(void *arg)
+void testTask1(void *arg EPICS_UNUSED)
 {
     taskwdInsert(0, taskNotify, "1");
     epicsThreadSleep(14.0);
@@ -81,7 +81,7 @@ void testTask1(void *arg)
     taskwdRemove(0);
 }
 
-void testTask2(void *arg)
+void testTask2(void *arg EPICS_UNUSED)
 {
     taskwdInsert(0, taskNotify, "2");
     epicsThreadSleep(1.0);

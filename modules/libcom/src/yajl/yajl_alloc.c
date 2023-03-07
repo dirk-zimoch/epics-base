@@ -22,20 +22,21 @@
 
 #include <stdlib.h>
 
+#include "compilerDependencies.h"
 #include "yajl_alloc.h"
 
-static void * yajl_internal_malloc(void *ctx, size_t sz)
+static void * yajl_internal_malloc(void *ctx EPICS_UNUSED, size_t sz)
 {
     return malloc(sz);
 }
 
-static void * yajl_internal_realloc(void *ctx, void * previous,
+static void * yajl_internal_realloc(void *ctx EPICS_UNUSED, void * previous,
                                     size_t sz)
 {
     return realloc(previous, sz);
 }
 
-static void yajl_internal_free(void *ctx, void * ptr)
+static void yajl_internal_free(void *ctx EPICS_UNUSED, void * ptr)
 {
     free(ptr);
 }

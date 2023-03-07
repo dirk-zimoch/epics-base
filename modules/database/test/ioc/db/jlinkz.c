@@ -39,7 +39,7 @@ void z_open(struct link *plink)
 }
 
 static
-void z_remove(struct dbLocker *locker, struct link *plink)
+void z_remove(struct dbLocker *locker EPICS_UNUSED, struct link *plink)
 {
     zpriv *priv = CONTAINER(plink->value.json.jlink, zpriv, base);
 
@@ -60,19 +60,19 @@ void z_remove(struct dbLocker *locker, struct link *plink)
 }
 
 static
-int z_connected(const struct link *plink)
+int z_connected(const struct link *plink EPICS_UNUSED)
 {
     return 1; /* TODO: not provided should be connected */
 }
 
 static
-int z_dbftype(const struct link *plink)
+int z_dbftype(const struct link *plink EPICS_UNUSED)
 {
     return DBF_LONG;
 }
 
 static
-long z_elements(const struct link *plink, long *nelements)
+long z_elements(const struct link *plink EPICS_UNUSED, long *nelements)
 {
     *nelements = 1;
     return 0;
@@ -157,7 +157,7 @@ static lset lsetZ = {
 };
 
 static
-jlink* z_alloc(short dbfType)
+jlink* z_alloc(short dbfType EPICS_UNUSED)
 {
     zpriv *priv;
     priv = calloc(1, sizeof(*priv));
@@ -205,7 +205,7 @@ jlif_result z_int(jlink *pj, long long num)
 }
 
 static
-jlif_key_result z_start(jlink *pj)
+jlif_key_result z_start(jlink *pj EPICS_UNUSED)
 {
     return jlif_key_continue;
 }
@@ -224,13 +224,13 @@ jlif_result z_key(jlink *pj, const char *key, size_t len)
 }
 
 static
-jlif_result z_end(jlink *pj)
+jlif_result z_end(jlink *pj EPICS_UNUSED)
 {
     return jlif_continue;
 }
 
 static
-struct lset* z_lset(const jlink *pj)
+struct lset* z_lset(const jlink *pj EPICS_UNUSED)
 {
     return &lsetZ;
 }

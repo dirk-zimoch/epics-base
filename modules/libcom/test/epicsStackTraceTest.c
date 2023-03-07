@@ -50,7 +50,7 @@ typedef void (*RecFn)(int);
 void epicsStackTraceRecurseGbl(int lvl);
 static void epicsStackTraceRecurseLcl(int lvl);
 
-void nopFn(int lvl)
+void nopFn(int lvl EPICS_UNUSED)
 {
 }
 

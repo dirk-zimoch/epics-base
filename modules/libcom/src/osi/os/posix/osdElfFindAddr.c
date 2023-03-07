@@ -109,7 +109,7 @@ static ESyms             elfs       = 0;
 static epicsMutexId      listMtx;
 static epicsThreadOnceId listMtxInitId = EPICS_THREAD_ONCE_INIT;
 
-static void listMtxInit(void *unused)
+static void listMtxInit(void *unused EPICS_UNUSED)
 {
     listMtx = epicsMutexMustCreate();
 }

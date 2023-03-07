@@ -57,7 +57,7 @@ static size_t recomputeCnt;
 #endif
 
 /*private routines */
-static void dbLockOnce(void* ignore)
+static void dbLockOnce(void* ignore EPICS_UNUSED)
 {
     lockSetsGuard = epicsMutexMustCreate();
 }
@@ -349,7 +349,7 @@ void dbLockerPrepare(struct dbLocker *locker,
 
 dbLocker *dbLockerAlloc(dbCommon * const *precs,
                         size_t nrecs,
-                        unsigned int flags)
+                        unsigned int flags EPICS_UNUSED)
 {
     size_t Nextra = nrecs>DBLOCKER_NALLOC ? nrecs-DBLOCKER_NALLOC : 0;
     dbLocker *locker = calloc(1, sizeof(*locker)+Nextra*sizeof(lockRecordRef));
@@ -503,7 +503,7 @@ done:
     return ret;
 }
 
-static int createLockRecord(void* junk, DBENTRY* pdbentry)
+static int createLockRecord(void* junk EPICS_UNUSED, DBENTRY* pdbentry)
 {
     dbCommon *prec = pdbentry->precnode->precord;
     lockRecord *lrec;
@@ -532,7 +532,7 @@ void dbLockInitRecords(dbBase *pdbbase)
     forEachRecord(NULL, pdbbase, &createLockRecord);
 }
 
-static int freeLockRecord(void* junk, DBENTRY* pdbentry)
+static int freeLockRecord(void* junk EPICS_UNUSED, DBENTRY* pdbentry)
 {
     dbCommon *prec = pdbentry->precnode->precord;
     lockRecord *lr = prec->lset;

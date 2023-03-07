@@ -16,6 +16,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#include "compilerDependencies.h"
 #include "epicsExit.h"
 
 static struct osdContext {
@@ -24,7 +25,7 @@ static struct osdContext {
 
 static enum {rlNone, rlIdle, rlBusy} rlState = rlNone;
 
-static void rlExit(void *dummy) {
+static void rlExit(void *dummy EPICS_UNUSED) {
     if (rlState == rlBusy)
         rl_cleanup_after_signal();
 }

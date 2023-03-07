@@ -1,4 +1,5 @@
 #include <signal.h>
+#include "compilerDependencies.h"
 #include "defs.h"
 
 /* Need this before the Com library can build it */
@@ -76,7 +77,7 @@ done(int k)
 
 
 static void
-onintr(int StupidInconsistantSignalTypes)
+onintr(int StupidInconsistantSignalTypes EPICS_UNUSED)
 {
     done(1);
 }

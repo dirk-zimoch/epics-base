@@ -50,7 +50,7 @@ void registerRecordTypes(DBBASE *pbase, int nRecordTypes,
     }
 }
 
-void registerDevices(DBBASE *pbase, int nDevices,
+void registerDevices(DBBASE *pbase EPICS_UNUSED, int nDevices,
     const char * const *deviceSupportNames, const dset * const *devsl)
 {
     int i;
@@ -64,7 +64,7 @@ void registerDevices(DBBASE *pbase, int nDevices,
     }
 }
 
-void registerDrivers(DBBASE *pbase, int nDrivers,
+void registerDrivers(DBBASE *pbase EPICS_UNUSED, int nDrivers,
     const char * const * driverSupportNames, struct drvet * const *drvsl)
 {
     int i;

@@ -35,7 +35,7 @@ public:
     bool done;
     notified() : epicsTimerNotify(), done(false) {}
 
-    expireStatus expire(const epicsTime &currentTime)
+    expireStatus expire(const epicsTime &)
     {done=true; return expireStatus(noRestart);}
 };
 

@@ -83,7 +83,7 @@ static void dbsCallFunc(const iocshArgBuf *args) { dbs(args[0].sval);}
 /* dbstat */
 static const iocshFuncDef dbstatFuncDef = {"dbstat",0,0,
                                            "print list of stopped records, and breakpoints set in locksets.\n"};
-static void dbstatCallFunc(const iocshArgBuf *args) { dbstat();}
+static void dbstatCallFunc(const iocshArgBuf *args EPICS_UNUSED) { dbstat();}
 
 /* dbp */
 static const iocshArg dbpArg0 = { "record name",iocshArgString};
@@ -258,7 +258,7 @@ static void dbiorCallFunc(const iocshArgBuf *args)
 /* dbhcr */
 static const iocshFuncDef dbhcrFuncDef = {"dbhcr",0,0,
                                           "Database Report Device Config.\n"};
-static void dbhcrCallFunc(const iocshArgBuf *args) { dbhcr();}
+static void dbhcrCallFunc(const iocshArgBuf *args EPICS_UNUSED) { dbhcr();}
 
 /* gft */
 static const iocshArg gftArg0 = { "record name",iocshArgString};
@@ -290,7 +290,7 @@ static void dbtpnCallFunc(const iocshArgBuf *args)
 /* dbNotifyDump */
 static const iocshFuncDef dbNotifyDumpFuncDef = {"dbNotifyDump",0,0,
                                                  "Report status of any active async processing with completion notification.\n"};
-static void dbNotifyDumpCallFunc(const iocshArgBuf *args) { dbNotifyDump();}
+static void dbNotifyDumpCallFunc(const iocshArgBuf *args EPICS_UNUSED) { dbNotifyDump();}
 
 /* dbPutAttribute */
 static const iocshArg dbPutAttrArg0 = { "record type",iocshArgString};
@@ -386,7 +386,7 @@ static void postEventCallFunc(const iocshArgBuf *args)
 /* scanpiol */
 static const iocshFuncDef scanpiolFuncDef = {"scanpiol",0,0,
                                              "Print info for records with SCAN = \"I/O Intr\".\n"};
-static void scanpiolCallFunc(const iocshArgBuf *args) { scanpiol();}
+static void scanpiolCallFunc(const iocshArgBuf *args EPICS_UNUSED) { scanpiol();}
 
 /* callbackSetQueueSize */
 static const iocshArg callbackSetQueueSizeArg0 = { "bufsize",iocshArgInt};

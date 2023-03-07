@@ -392,13 +392,13 @@ void dbCaAddLinkCallback(struct link *plink,
     epicsMutexUnlock(pca->lock);
 }
 
-long dbCaAddLink(struct dbLocker *locker, struct link *plink, short dbfType)
+long dbCaAddLink(struct dbLocker *locker EPICS_UNUSED, struct link *plink, short dbfType EPICS_UNUSED)
 {
     dbCaAddLinkCallback(plink, 0, 0, NULL);
     return 0;
 }
 
-void dbCaRemoveLink(struct dbLocker *locker, struct link *plink)
+void dbCaRemoveLink(struct dbLocker *locker EPICS_UNUSED, struct link *plink)
 {
     caLink *pca = (caLink *)plink->value.pv_link.pvt;
 
@@ -1114,7 +1114,7 @@ static void getAttribEventCallback(struct event_handler_args arg)
     if (connect) connect(userPvt);
 }
 
-static void dbCaTask(void *arg)
+static void dbCaTask(void *arg EPICS_UNUSED)
 {
     epicsEventId requestSync = NULL;
     taskwdInsert(0, NULL, NULL);

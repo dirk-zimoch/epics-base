@@ -82,7 +82,7 @@ double getRand(void)
 }
 
 static
-void doSingle(workerPriv *p)
+void doSingle(void)
 {
     size_t recn = (size_t)(getRand()*(nrecords-1));
     dbCommon *prec = precords[recn];
@@ -124,7 +124,7 @@ void doMulti(workerPriv *p)
 }
 
 static
-void doreTarget(workerPriv *p)
+void doreTarget(void)
 {
     char scratchsrc[60];
     char scratchdst[MAX_STRING_SIZE];
@@ -171,13 +171,13 @@ void worker(void *raw)
         before = epicsMonotonicGet();
 
         if(sel<0.33) {
-            doSingle(priv);
+            doSingle();
             act = 0;
         } else if(sel<0.66) {
             doMulti(priv);
             act = 1;
         } else {
-            doreTarget(priv);
+            doreTarget();
             act = 2;
         }
 

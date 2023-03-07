@@ -241,7 +241,7 @@ sender(void *arg)
 }
 
 #define NUM_SENDERS 4
-extern "C" void messageQueueTest(void *parm)
+extern "C" void messageQueueTest(void *)
 {
     epicsThreadId myThreadId = epicsThreadGetIdSelf();
     epicsThreadId rxThread;

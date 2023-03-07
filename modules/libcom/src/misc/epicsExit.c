@@ -73,7 +73,7 @@ static exitPvt * createExitPvt(void)
     return pep;
 }
 
-static void exitPvtOnceFunc(void *pParm)
+static void exitPvtOnceFunc(void *pParm EPICS_UNUSED)
 {
     exitPvtPerThread = epicsThreadPrivateCreate ();
     assert ( exitPvtPerThread );
@@ -187,7 +187,7 @@ LIBCOM_API void epicsExit(int status)
     exit(status);
 }
 
-static void exitNow(void *junk)
+static void exitNow(void *junk EPICS_UNUSED)
 {
     epicsExit(exitLaterStatus);
 }

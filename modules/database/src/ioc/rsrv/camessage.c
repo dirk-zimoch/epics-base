@@ -354,7 +354,7 @@ static int bad_tcp_cmd_action ( caHdrLargeArray *mp, void *pPayload,
 /*
  * tcp_version_action()
  */
-static int tcp_version_action ( caHdrLargeArray *mp, void *pPayload,
+static int tcp_version_action ( caHdrLargeArray *mp, void *pPayload EPICS_UNUSED,
                            struct client *client )
 {
     double tmp;
@@ -422,8 +422,8 @@ static int tcp_echo_action ( caHdrLargeArray *mp,
 /*
  * events_on_action ()
  */
-static int events_on_action ( caHdrLargeArray *mp,
-                       void *pPayload, struct client *pClient )
+static int events_on_action ( caHdrLargeArray *mp EPICS_UNUSED,
+                       void *pPayload EPICS_UNUSED, struct client *pClient )
 {
     db_event_flow_ctrl_mode_off ( pClient->evuser );
     return RSRV_OK;
@@ -432,8 +432,8 @@ static int events_on_action ( caHdrLargeArray *mp,
 /*
  * events_off_action ()
  */
-static int events_off_action ( caHdrLargeArray *mp,
-                       void *pPayload, struct client *pClient )
+static int events_off_action ( caHdrLargeArray *mp EPICS_UNUSED,
+                       void *pPayload EPICS_UNUSED, struct client *pClient )
 {
     db_event_flow_ctrl_mode_on ( pClient->evuser );
     return RSRV_OK;
@@ -609,7 +609,7 @@ static void read_reply ( void *pArg, struct dbChannel *dbch,
 /*
  * read_action ()
  */
-static int read_action ( caHdrLargeArray *mp, void *pPayloadIn, struct client *pClient )
+static int read_action ( caHdrLargeArray *mp, void *pPayloadIn EPICS_UNUSED, struct client *pClient )
 {
     struct channel_in_use *pciu = MPTOPCIU ( mp );
     int readAccess;
@@ -2076,7 +2076,7 @@ static int event_cancel_reply ( caHdrLargeArray *mp, void *pPayload, struct clie
 /*
  *  read_sync_reply()
  */
-static int read_sync_reply ( caHdrLargeArray *mp, void *pPayload, struct client *client )
+static int read_sync_reply ( caHdrLargeArray *mp, void *pPayload EPICS_UNUSED, struct client *client )
 {
     int status;
     SEND_LOCK(client);
@@ -2098,7 +2098,7 @@ static int read_sync_reply ( caHdrLargeArray *mp, void *pPayload, struct client 
  *  Only when requested by the client
  *  send search failed reply
  */
-static void search_fail_reply ( caHdrLargeArray *mp, void *pPayload, struct client *client)
+static void search_fail_reply ( caHdrLargeArray *mp, void *pPayload EPICS_UNUSED, struct client *client)
 {
     int status;
     SEND_LOCK ( client );
@@ -2117,7 +2117,7 @@ static void search_fail_reply ( caHdrLargeArray *mp, void *pPayload, struct clie
 /*
  * udp_version_action()
  */
-static int udp_version_action ( caHdrLargeArray *mp, void *pPayload, struct client *client )
+static int udp_version_action ( caHdrLargeArray *mp, void *pPayload EPICS_UNUSED, struct client *client )
 {
     client->minor_version_number = mp->m_count;
 

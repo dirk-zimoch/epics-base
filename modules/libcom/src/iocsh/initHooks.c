@@ -35,7 +35,7 @@ static epicsMutexId listLock;
 /*
  * Lazy initialization functions
  */
-static void initHookOnce(void *arg)
+static void initHookOnce(void *arg EPICS_UNUSED)
 {
     listLock = epicsMutexMustCreate();
 }

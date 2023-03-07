@@ -30,7 +30,7 @@ int initCount = 0;
 char initBy[20];
 int doneCount = 0;
 
-void onceInit(void *ctx)
+void onceInit(void *ctx EPICS_UNUSED)
 {
     initCount++;
     strcpy(initBy, epicsThreadGetNameSelf());
@@ -58,7 +58,7 @@ void onceThread(void *ctx)
 
 
 void recurseInit(void);
-void onceRecurse(void *ctx)
+void onceRecurse(void *ctx EPICS_UNUSED)
 {
     recurseInit();
 }
@@ -68,7 +68,7 @@ void recurseInit(void)
     epicsThreadOnce(&twiceFlag, onceRecurse, 0);
 }
 
-void recurseThread(void *ctx)
+void recurseThread(void *ctx EPICS_UNUSED)
 {
     recurseInit();
     testFail("Recursive epicsThreadOnce() not detected");

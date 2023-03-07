@@ -52,7 +52,7 @@ static void myCallback(epicsCallback *pcallback)
     dbScanUnlock((dbCommon *)precord);
 }
 
-long asSubInit(subRecord *precord,void *process)
+long asSubInit(subRecord *precord)
 {
     ASDBCALLBACK *pcallback;
 

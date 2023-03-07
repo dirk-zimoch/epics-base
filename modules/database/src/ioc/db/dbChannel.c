@@ -245,17 +245,17 @@ static const yajl_callbacks chf_callbacks =
     { chf_null, chf_boolean, chf_integer, chf_double, NULL, chf_string,
       chf_start_map, chf_map_key, chf_end_map, chf_start_array, chf_end_array };
 
-static void * chf_malloc(void *ctx, size_t sz)
+static void * chf_malloc(void *ctx EPICS_UNUSED, size_t sz)
 {
     return malloc(sz);
 }
 
-static void * chf_realloc(void *ctx, void *ptr, size_t sz)
+static void * chf_realloc(void *ctx EPICS_UNUSED, void *ptr, size_t sz)
 {
     return realloc(ptr, sz);
 }
 
-static void chf_free(void *ctx, void *ptr)
+static void chf_free(void *ctx EPICS_UNUSED, void *ptr)
 {
     free(ptr);
 }

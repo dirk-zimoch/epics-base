@@ -447,7 +447,7 @@ parse_string(chFilter *filter, const char *stringVal, size_t stringLen)
     }
 }
 
-static parse_result parse_start_map(chFilter *filter)
+static parse_result parse_start_map(chFilter *filter EPICS_UNUSED)
 {
     return parse_continue;
 }
@@ -489,7 +489,7 @@ parse_map_key(chFilter *filter, const char *key, size_t stringLen)
     return parse_continue;
 }
 
-static parse_result parse_end_map(chFilter *filter)
+static parse_result parse_end_map(chFilter *filter EPICS_UNUSED)
 {
     return parse_continue;
 }

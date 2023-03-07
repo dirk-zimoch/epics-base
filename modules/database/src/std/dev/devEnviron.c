@@ -33,7 +33,7 @@ static long add_lsi(dbCommon *pcommon) {
     return 0;
 }
 
-static long del_lsi(dbCommon *pcommon) {
+static long del_lsi(dbCommon *pcommon EPICS_UNUSED) {
     return 0;
 }
 
@@ -86,7 +86,7 @@ static long add_stringin(dbCommon *pcommon) {
     return 0;
 }
 
-static long del_stringin(dbCommon *pcommon) {
+static long del_stringin(dbCommon *pcommon EPICS_UNUSED) {
     return 0;
 }
 

@@ -78,7 +78,7 @@ static const iocshFuncDef ShutdownFuncDef = {"ClockTime_Shutdown", 0, NULL,
                                              "     * OS clock will free run\n"
                                              "  - On workstation (WIN,*NIX):\n"
                                              "     * no change\n"};
-static void ShutdownCallFunc(const iocshArgBuf *args)
+static void ShutdownCallFunc(const iocshArgBuf *args EPICS_UNUSED)
 {
     ClockTime_Shutdown(NULL);
 }
@@ -146,7 +146,7 @@ void ClockTime_Init(int synchronize)
 
 /* Shutdown */
 
-void ClockTime_Shutdown(void *dummy)
+void ClockTime_Shutdown(void *dummy EPICS_UNUSED)
 {
     ClockTimePvt.synchronize = CLOCKTIME_NOSYNC;
     epicsEventSignal(ClockTimePvt.loopEvent);

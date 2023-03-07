@@ -53,95 +53,95 @@
 unsigned int e, r;
 #define p_ret(x) return r & x ? parse_continue : parse_stop
 
-parse_result p_start(chFilter *filter)
+parse_result p_start(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_start, "parse_start called");
     p_ret(e_start);
 }
 
-void p_abort(chFilter *filter)
+void p_abort(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_abort, "parse_abort called");
 }
 
-parse_result p_end(chFilter *filter)
+parse_result p_end(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_end, "parse_end called");
     p_ret(e_end);
 }
 
-parse_result p_null(chFilter *filter)
+parse_result p_null(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_null, "parse_null called");
     p_ret(e_null);
 }
-parse_result p_boolean(chFilter *filter, int boolVal)
+parse_result p_boolean(chFilter *filter EPICS_UNUSED, int boolVal)
 {
     testOk(e & e_boolean, "parse_boolean called, val = %d", boolVal);
     p_ret(e_boolean);
 }
-parse_result p_integer(chFilter *filter, long integerVal)
+parse_result p_integer(chFilter *filter EPICS_UNUSED, long integerVal)
 {
     testOk(e & e_integer, "parse_integer called, val = %ld", integerVal);
     p_ret(e_integer);
 }
-parse_result p_double(chFilter *filter, double doubleVal)
+parse_result p_double(chFilter *filter EPICS_UNUSED, double doubleVal)
 {
     testOk(e & e_double, "parse_double called, val = %g", doubleVal);
     p_ret(e_double);
 }
-parse_result p_string(chFilter *filter, const char *stringVal, size_t stringLen)
+parse_result p_string(chFilter *filter EPICS_UNUSED, const char *stringVal, size_t stringLen)
 {
     testOk(e & e_string, "parse_string called, val = '%.*s'", (int) stringLen,
             stringVal);
     p_ret(e_string);
 }
 
-parse_result p_start_map(chFilter *filter)
+parse_result p_start_map(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_start_map, "parse_start_map called");
     p_ret(e_start_map);
 }
-parse_result p_map_key(chFilter *filter, const char *key, size_t stringLen)
+parse_result p_map_key(chFilter *filter EPICS_UNUSED, const char *key, size_t stringLen)
 {
     testOk(e & e_map_key, "parse_map_key called, key = '%.*s'", (int) stringLen, key);
     p_ret(e_map_key);
 }
-parse_result p_end_map(chFilter *filter)
+parse_result p_end_map(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_end_map, "parse_end_map called");
     p_ret(e_end_map);
 }
 
-parse_result p_start_array(chFilter *filter)
+parse_result p_start_array(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_start_array, "parse_start_array called");
     p_ret(e_start_array);
 }
-parse_result p_end_array(chFilter *filter)
+parse_result p_end_array(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_end_array, "parse_end_array called");
     p_ret(e_end_array);
 }
 
-long c_open(chFilter *filter)
+long c_open(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_open, "channel_open called");
     return 0;
 }
-void c_reg_pre(chFilter *filter, chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
+void c_reg_pre(chFilter *filter EPICS_UNUSED, chPostEventFunc **cb_out EPICS_UNUSED, void **arg_out EPICS_UNUSED, db_field_log *probe EPICS_UNUSED)
 {
     testOk(e & e_reg_pre, "channel_register_pre called");
 }
-void c_reg_post(chFilter *filter, chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
+void c_reg_post(chFilter *filter EPICS_UNUSED, chPostEventFunc **cb_out EPICS_UNUSED, void **arg_out EPICS_UNUSED, db_field_log *probe EPICS_UNUSED)
 {
     testOk(e & e_reg_post, "channel_register_post called");
 }
-void c_report(chFilter *filter, int level, const unsigned short indent)
+void c_report(chFilter *filter EPICS_UNUSED, int level, const unsigned short indent EPICS_UNUSED)
 {
     testOk(e & e_report, "channel_report called, level = %d", level);
 }
-void c_close(chFilter *filter)
+void c_close(chFilter *filter EPICS_UNUSED)
 {
     testOk(e & e_close, "channel_close called");
 }

@@ -36,7 +36,7 @@ mbbodset devMbboSoft = {
 };
 epicsExportAddress(dset, devMbboSoft);
 
-static long init_record(dbCommon *pcommon)
+static long init_record(dbCommon *pcommon EPICS_UNUSED)
 {
     /*dont convert*/
     return 2;

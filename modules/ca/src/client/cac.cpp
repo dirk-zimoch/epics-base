@@ -733,7 +733,7 @@ netReadNotifyIO & cac::readNotifyRequest (
 }
 
 bool cac::destroyIO (
-    CallbackGuard & callbackGuard,
+    CallbackGuard &,
     epicsGuard < epicsMutex > & guard,
     const cacChannel::ioid & idIn, nciu & chan )
 {

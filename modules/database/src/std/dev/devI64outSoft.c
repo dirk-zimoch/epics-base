@@ -26,7 +26,7 @@
 #include "int64outRecord.h"
 #include "epicsExport.h"
 
-static long init_record(dbCommon *common)
+static long init_record(dbCommon *common EPICS_UNUSED)
 {
     return 0;
 }

@@ -137,7 +137,7 @@ static db_field_log* filter(void* pvt, dbChannel *chan, db_field_log *pfl)
     return pfl;
 }
 
-static void channelRegisterPost(dbChannel *chan, void *pvt,
+static void channelRegisterPost(dbChannel *chan EPICS_UNUSED, void *pvt,
     chPostEventFunc **cb_out, void **arg_out, db_field_log *probe)
 {
     myStruct *my = (myStruct*) pvt;
@@ -158,7 +158,7 @@ static void channelRegisterPost(dbChannel *chan, void *pvt,
     *arg_out = pvt;
 }
 
-static void channel_report(dbChannel *chan, void *pvt, int level,
+static void channel_report(dbChannel *chan EPICS_UNUSED, void *pvt, int level EPICS_UNUSED,
     const unsigned short indent)
 {
     myStruct *my = (myStruct*) pvt;
@@ -180,7 +180,7 @@ static chfPluginIf pif = {
     NULL /* channel_close */
 };
 
-static void arrShutdown(void* ignore)
+static void arrShutdown(void* ignore EPICS_UNUSED)
 {
     if(myStructFreeList)
         freeListCleanup(myStructFreeList);

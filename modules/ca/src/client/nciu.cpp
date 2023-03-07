@@ -565,7 +565,7 @@ void nciu::disconnectAllIO (
 }
 
 void nciu::serviceShutdownNotify (
-    epicsGuard < epicsMutex > & callbackControlGuard,
+    epicsGuard < epicsMutex > & callbackControlGuard EPICS_UNUSED,
     epicsGuard < epicsMutex > & mutualExclusionGuard )
 {
     this->setServerAddressUnknown ( noopIIU, mutualExclusionGuard );
