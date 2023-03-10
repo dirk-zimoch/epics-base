@@ -264,116 +264,112 @@ struct Tokenize {
         redirect = NULL;
 
         int icout = 0;
-        bool inword = false;
-        bool backslash = false;
-        char quote = 0;
+        char* wordstart = line;
+        char c;
 
-        for (;;) {
-            char c = line[icin++];
-            if (c == '\0')
-                break;
-
-            bool sep = !quote && !backslash && (strchr (" \t(),\r", c));
-
-            if (!quote && !backslash) {
-                int redirectFd = 1;
-                if (c == '\\') {
-                    backslash = true;
-                    continue;
-                }
-                if (c == '<') {
-                    if (redirect != NULL) {
-                        break;
+        printf("splitting command line\n%s\n", line);
+        do {
+            c = line[icin++];
+            switch (c) {
+                case '\\':
+                    if (line[icin++] == 0) {
+                        if (noise)
+                            showError(filename, lineno, "Trailing backslash.");
+                        return true;
                     }
+                    continue;
+                case '"':
+                case '\'': {
+                    char quote = c;
+                    char* strstart = line + icout;
+                    while ((c = line[icin++]) != quote) {
+                        line[icout++] = c;
+                        if (c == '\\') {
+                            if ((line[icout++] = line[icin++]) == 0) {
+                                if (noise)
+                                    showError(filename, lineno, "Trailing quoted backslash.");
+                                return true;
+                            }
+                        }
+                        if (c == 0) {
+                            if (noise)
+                                showError(filename, lineno,
+                                    "Unbalanced quote: %c%s\n",
+                                    quote, strstart);
+                            return true;
+                        }
+                    }
+                    break;
+                }
+                case '<': {
                     redirect = &redirects[0];
-                    sep = 1;
                     redirect->mode = "r";
+                    line[icout++] = 0;
+                    wordstart = line + icout;
+                    break;
                 }
-                if ((c >= '1') && (c <= '9') && (line[icin] == '>')) {
-                    redirectFd = c - '0';
-                    c = '>';
-                    icin++;
-                }
-                if (c == '>') {
-                    if (redirect != NULL)
-                        break;
+                case '>': {
+                    int redirectFd = -1;
+                    if (icout > 0 &&
+                        (redirectFd = line[icout-1] - '0') >= 1 &&
+                        redirectFd <= 9)
+                            icout--;
+                    else
+                        redirectFd = 1;
+                    printf("redirect fd %d\n", redirectFd);
                     redirect = &redirects[redirectFd];
-                    sep = 1;
                     if (line[icin] == '>') {
                         icin++;
                         redirect->mode = "a";
                     }
-                    else {
+                    else
                         redirect->mode = "w";
-                    }
+                    line[icout++] = 0;
+                    wordstart = line + icout;
+                    break;
                 }
-            }
-            if (inword) {
-                if (c == quote) {
-                    quote = 0;
-                }
-                else {
-                    if (!quote && !backslash) {
-                        if (sep) {
-                            inword = false;
-                            // this "closes" a sub-string which was previously
-                            // stored in argv[] or redirects[].name
-                            line[icout++] = '\0';
+                default: {
+                    int spaces = strspn(line+icin-1, " \t(),\r");
+                    if (spaces || c == 0) {
+                        icin += spaces-1;
+                        line[icout++] = 0;
+                        if (redirect) {
+                            if (wordstart[0] == 0)
+                            {
+                                printf("%d space after redirection.\n", spaces);
+                                continue;
+                            }
+                            printf("redirect: %s\n", wordstart);
+                            if (redirect->name) {
+                                if (noise)
+                                    showError(filename, lineno,
+                                        "Ambigous redirection to %s was already redirected to %s.",
+                                        wordstart, redirect->name);
+                                return true;
+                            }
+                            redirect->name = wordstart;
+                            redirect = NULL;
+                        } else {
+                            printf("word: %s\n", wordstart);
+                            argv.push_back(wordstart);
                         }
-                        else if ((c == '"') || (c == '\'')) {
-                            quote = c;
-                        }
-                        else {
-                            line[icout++] = c;
-                        }
+                        wordstart = line + icout;
+                        printf("parse on: %s\n", line + icin);
                     }
-                    else {
+                    else
                         line[icout++] = c;
-                    }
                 }
             }
-            else {
-                if (!sep) {
-                    if (((c == '"') || (c == '\'')) && !backslash) {
-                        quote = c;
-                    }
-                    if (redirect != NULL) {
-                        if (redirect->name) { // double redirect?
-                            return false;
-                        }
-                        redirect->name = line + icout;
-                        redirect = NULL;
-                    }
-                    else {
-                        argv.push_back(line + icout);
-                    }
-                    if (!quote)
-                        line[icout++] = c;
-                    inword = true;
-                }
-            }
-            backslash = false;
-        }
-
-        if (inword)
-            line[icout++] = '\0';
-
-
-        if (redirect != NULL) {
-            if(noise)
+        } while(c);
+        if (redirect) {
+            if (noise)
                 showError(filename, lineno, "Illegal redirection.");
             return true;
         }
-        if (quote) {
-            if(noise)
-                showError(filename, lineno, "Unbalanced quote.");
-            return true;
-        }
-        if (backslash) {
-            if(noise)
-                showError(filename, lineno, "Trailing backslash.");
-            return true;
-        }
+
+        printf("split line:\n");
+        epicsStrPrintEscaped(stdout, line, icout);
+        printf("\n");
 
         argv.push_back(NULL);
 
@@ -1118,10 +1114,12 @@ iocshBody (const char *pathname, const char *commandLine, const char *macros)
          * Expand macros
          */
         free(line);
+        //printf ("before macro subst: %s\n", raw);
         if ((line = macDefExpand(raw, handle)) == NULL) {
             scope.errored = true;
             continue;
         }
+        //printf ("after macro subst: %s\n", line);
 
         /*
          * Skip leading white-space coming from a macro
