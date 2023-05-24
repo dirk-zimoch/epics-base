@@ -1,4 +1,4 @@
 [submodule ".ci"]
     path = .ci
-    url = https://github.com/epics-base/ci-scripts
+    url = https://github.com/dirk-zimoch/ci-scripts
     branch = master
