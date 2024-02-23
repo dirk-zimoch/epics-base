@@ -34,18 +34,18 @@ void fdHandler (void *pArg)
     pCBFD->trig = 1;
 }
 
-void fdCreateDestroyHandler (void *pArg, int fd, int open)
+void fdCreateDestroyHandler (void *pArg, SOCKET fd, int open)
 {
     cbStructCreateDestroyFD *pCBFD = (cbStructCreateDestroyFD *) pArg;
     int status;
 
     if (open) {
-        printf ("new fd = %d\n", fd);
+        printf ("new fd = %" PRISOCKET "\n", fd);
         status = fdmgr_add_callback (pCBFD->pfdm, fd, fdi_read, fdHandler, pArg);
         verify (status==0);
     }
     else {
-        printf ("terminated fd = %d\n", fd);
+        printf ("terminated fd = %" PRISOCKET "\n", fd);
         status = fdmgr_clear_callback (pCBFD->pfdm, fd, fdi_read);
         verify (status==0);
     }

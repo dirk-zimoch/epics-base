@@ -32,6 +32,7 @@
 #   include <stdarg.h>
 #endif
 
+#include "osiSock.h"
 #include "epicsThread.h"
 
 #include "libCaAPI.h"
@@ -655,7 +656,7 @@ LIBCA_API unsigned epicsStdCall ca_get_host_name ( chid pChan,
  *  if (!opened) then fd was deleted
  *
  */
-typedef void CAFDHANDLER (void *parg, int fd, int opened);
+typedef void CAFDHANDLER (void *parg, SOCKET sock, int opened);
 
 /*
  * ca_add_fd_registration()
