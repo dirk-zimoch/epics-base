@@ -118,7 +118,7 @@ LIBCOM_API void fdManager::process (double delay)
         fd_set * pReadSet = & this->fdSetsPtr[fdrRead];
         fd_set * pWriteSet = & this->fdSetsPtr[fdrWrite];
         fd_set * pExceptSet = & this->fdSetsPtr[fdrException];
-        int status = select (this->maxFD, pReadSet, pWriteSet, pExceptSet, &tv);
+        int status = select ((int)this->maxFD, pReadSet, pWriteSet, pExceptSet, &tv);
 
         this->pTimerQueue->process(epicsTime::getCurrent());
 
