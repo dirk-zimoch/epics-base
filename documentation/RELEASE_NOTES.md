@@ -22,6 +22,13 @@ should also be read to understand what has changed since earlier releases:
 
 ## Changes made on the 7.0 branch since 7.0.8.1
 
+### Allow to load the same alias multiple times
+
+Aliases can now be defined multiple times as long as they still refer to the
+same record, unless the shell variable dbRecordsOnceOnly is set.
+This allows to load database files multiple times, even if they contain
+alias definitions.
+
 ### DBE_PROPERTY event rate changed
 
 Updating property fields now only post DBE_PROPERTY events if the
