@@ -279,37 +279,49 @@ static void processCallback(epicsCallback *arg)
 #define get_dol(prec, fieldOffset) \
     &((linkGrp *) &prec->dly0)[fieldOffset >> 2].dol
 
+#define do_recursion_safe(func, plink, ...) \
+do { \
+    dbScanLock((dbCommon*)prec); \
+    DBLINK link = *(plink); \
+    (plink)->lset = NULL; \
+    func(&link, __VA_ARGS__); \
+    (plink)->lset = link.lset; \
+    dbScanUnlock((dbCommon*)prec); \
+} while(0)
+
 static long get_units(DBADDR *paddr, char *units)
 {
     seqRecord *prec = (seqRecord *) paddr->precord;
-    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY1);
+    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY0);
 
     if (fieldOffset >= 0)
-        switch (fieldOffset & 2) {
+        switch (fieldOffset & 3) {
         case 0: /* DLYn */
             strcpy(units, "s");
             break;
         case 2: /* DOn */
-            dbGetUnits(get_dol(prec, fieldOffset),
-                units, DB_UNITS_SIZE);
-    }
+            do_recursion_safe(dbGetUnits, get_dol(prec, fieldOffset),
+                                                units, DB_UNITS_SIZE);
+        }
     return 0;
 }
 
 static long get_precision(const DBADDR *paddr, long *pprecision)
 {
     seqRecord *prec = (seqRecord *) paddr->precord;
-    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY1);
+    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY0);
     short precision;
 
     if (fieldOffset >= 0)
-        switch (fieldOffset & 2) {
+        switch (fieldOffset & 3) {
         case 0: /* DLYn */
             *pprecision = seqDLYprecision;
             return 0;
         case 2: /* DOn */
-            if (dbGetPrecision(get_dol(prec, fieldOffset), &precision) == 0) {
-                *pprecision = precision;
+            {
+                long status;
+                do_recursion_safe(status = dbGetPrecision, get_dol(prec, fieldOffset), &precision);
+                if (status == 0) *pprecision = precision;
                 return 0;
             }
         }
@@ -321,18 +333,18 @@ static long get_precision(const DBADDR *paddr, long *pprecision)
 static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
 {
     seqRecord *prec = (seqRecord *) paddr->precord;
-    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY1);
+    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY0);
 
     if (fieldOffset >= 0)
-        switch (fieldOffset & 2) {
+        switch (fieldOffset & 3) {
         case 0: /* DLYn */
             pgd->lower_disp_limit = 0.0;
-            pgd->lower_disp_limit = 10.0;
+            pgd->upper_disp_limit = 10.0;
             return 0;
         case 2: /* DOn */
-            dbGetGraphicLimits(get_dol(prec, fieldOffset),
-                &pgd->lower_disp_limit,
-                &pgd->upper_disp_limit);
+            do_recursion_safe(dbGetGraphicLimits, get_dol(prec, fieldOffset),
+                                    &pgd->lower_disp_limit,
+                                    &pgd->upper_disp_limit);
             return 0;
         }
     recGblGetGraphicDouble(paddr, pgd);
@@ -341,9 +353,9 @@ static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
 
 static long get_control_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
 {
-    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY1);
+    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY0);
 
-    if (fieldOffset >= 0 && (fieldOffset & 2) == 0) { /* DLYn */
+    if (fieldOffset >= 0 && (fieldOffset & 3) == 0) { /* DLYn */
         pcd->lower_ctrl_limit = 0.0;
         pcd->upper_ctrl_limit = seqDLYlimit;
     }
@@ -355,12 +367,12 @@ static long get_control_double(DBADDR *paddr, struct dbr_ctrlDouble *pcd)
 static long get_alarm_double(DBADDR *paddr, struct dbr_alDouble *pad)
 {
     seqRecord *prec = (seqRecord *) paddr->precord;
-    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY1);
+    int fieldOffset = dbGetFieldIndex(paddr) - indexof(DLY0);
 
-    if (fieldOffset >= 0 && (fieldOffset & 2) == 2)  /* DOn */
-        dbGetAlarmLimits(get_dol(prec, fieldOffset),
-            &pad->lower_alarm_limit,   &pad->lower_warning_limit,
-            &pad->upper_warning_limit, &pad->upper_alarm_limit);
+    if (fieldOffset >= 0 && (fieldOffset & 3) == 2) /* DOn */
+        do_recursion_safe(dbGetAlarmLimits, get_dol(prec, fieldOffset),
+                        &pad->lower_alarm_limit,   &pad->lower_warning_limit,
+                        &pad->upper_warning_limit, &pad->upper_alarm_limit);
     else
         recGblGetAlarmDouble(paddr, pad);
     return 0;

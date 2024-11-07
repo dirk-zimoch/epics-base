@@ -302,6 +302,16 @@ static long get_outlinkNumber(int fieldIndex) {
     return -1;
 }
 
+#define do_recursion_safe(func, plink, ...) \
+do { \
+    dbScanLock((dbCommon*)prec); \
+    DBLINK link = *(plink); \
+    (plink)->lset = NULL; \
+    func(&link, __VA_ARGS__); \
+    (plink)->lset = link.lset; \
+    dbScanUnlock((dbCommon*)prec); \
+} while(0)
+
 static long get_units(DBADDR *paddr, char *units)
 {
     aSubRecord *prec = (aSubRecord *)paddr->precord;
@@ -309,12 +319,12 @@ static long get_units(DBADDR *paddr, char *units)
 
     linkNumber = get_inlinkNumber(dbGetFieldIndex(paddr));
     if (linkNumber >= 0) {
-        dbGetUnits(&prec->inpa + linkNumber, units, DB_UNITS_SIZE);
+        do_recursion_safe(dbGetUnits, &prec->inpa + linkNumber, units, DB_UNITS_SIZE);
         return 0;
     }
     linkNumber = get_outlinkNumber(dbGetFieldIndex(paddr));
     if (linkNumber >= 0) {
-        dbGetUnits(&prec->outa + linkNumber, units, DB_UNITS_SIZE);
+        do_recursion_safe(dbGetUnits, &prec->outa + linkNumber, units, DB_UNITS_SIZE);
     }
     return 0;
 }
@@ -322,27 +332,25 @@ static long get_units(DBADDR *paddr, char *units)
 static long get_precision(const DBADDR *paddr, long *pprecision)
 {
     aSubRecord *prec = (aSubRecord *)paddr->precord;
+    long status;
     int fieldIndex = dbGetFieldIndex(paddr);
     int linkNumber;
+    short precision;
 
     *pprecision = prec->prec;
     linkNumber = get_inlinkNumber(fieldIndex);
     if (linkNumber >= 0) {
-        short precision;
-
-        if (dbGetPrecision(&prec->inpa + linkNumber, &precision) == 0)
-            *pprecision = precision;
+        do_recursion_safe(status = dbGetPrecision, &prec->inpa + linkNumber, &precision);
+        if (status == 0) *pprecision = precision;
         return 0;
     }
-
     linkNumber = get_outlinkNumber(fieldIndex);
     if (linkNumber >= 0) {
-        short precision;
-
-        if (dbGetPrecision(&prec->outa + linkNumber, &precision) == 0)
-            *pprecision = precision;
-    } else
-        recGblGetPrec(paddr, pprecision);
+        do_recursion_safe(status = dbGetPrecision, &prec->outa + linkNumber, &precision);
+        if (status == 0) *pprecision = precision;
+        return 0;
+    }
+    recGblGetPrec(paddr, pprecision);
     return 0;
 }
 
@@ -354,16 +362,16 @@ static long get_graphic_double(DBADDR *paddr, struct dbr_grDouble *pgd)
 
     linkNumber = get_inlinkNumber(fieldIndex);
     if (linkNumber >= 0) {
-        dbGetGraphicLimits(&prec->inpa + linkNumber,
-            &pgd->lower_disp_limit,
-            &pgd->upper_disp_limit);
+        do_recursion_safe(dbGetGraphicLimits, &prec->inpa + linkNumber,
+                                &pgd->lower_disp_limit,
+                                &pgd->upper_disp_limit);
         return 0;
     }
     linkNumber = get_outlinkNumber(fieldIndex);
     if (linkNumber >= 0) {
-        dbGetGraphicLimits(&prec->outa + linkNumber,
-            &pgd->lower_disp_limit,
-            &pgd->upper_disp_limit);
+        do_recursion_safe(dbGetGraphicLimits, &prec->outa + linkNumber,
+                                &pgd->lower_disp_limit,
+                                &pgd->upper_disp_limit);
     }
     return 0;
 }
@@ -382,20 +390,20 @@ static long get_alarm_double(DBADDR *paddr, struct dbr_alDouble *pad)
 
     linkNumber = get_inlinkNumber(fieldIndex);
     if (linkNumber >= 0) {
-        dbGetAlarmLimits(&prec->inpa + linkNumber,
-            &pad->lower_alarm_limit,
-            &pad->lower_warning_limit,
-            &pad->upper_warning_limit,
-            &pad->upper_alarm_limit);
+        do_recursion_safe(dbGetAlarmLimits, &prec->inpa + linkNumber,
+                                &pad->lower_alarm_limit,
+                                &pad->lower_warning_limit,
+                                &pad->upper_warning_limit,
+                                &pad->upper_alarm_limit);
         return 0;
     }
     linkNumber = get_outlinkNumber(fieldIndex);
     if (linkNumber >= 0) {
-        dbGetAlarmLimits(&prec->outa + linkNumber,
-            &pad->lower_alarm_limit,
-            &pad->lower_warning_limit,
-            &pad->upper_warning_limit,
-            &pad->upper_alarm_limit);
+        do_recursion_safe(dbGetAlarmLimits, &prec->outa + linkNumber,
+                                &pad->lower_alarm_limit,
+                                &pad->lower_warning_limit,
+                                &pad->upper_warning_limit,
+                                &pad->upper_alarm_limit);
         return 0;
     }
     recGblGetAlarmDouble(paddr, pad);
