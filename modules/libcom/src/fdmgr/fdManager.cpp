@@ -37,6 +37,8 @@
 #include <vector>
 #if defined(_WIN32)
 #define poll WSAPoll
+#undef POLLWRBAND
+#define POLLWRBAND 0
 #else
 #include <poll.h>
 #endif
@@ -45,6 +47,9 @@ static const short PollEvents[] = { // must match fdRegType
     POLLRDNORM | POLLRDBAND | POLLIN | POLLHUP | POLLERR,
     POLLWRBAND | POLLWRNORM | POLLOUT | POLLERR,
     POLLPRI};
+// Filter for PollEvents that can only appear in revents.
+// Windows does not accept them in events.
+static const short PollEventsFilter = ~(POLLHUP | POLLERR);
 #endif
 
 #ifdef FDMGR_USE_SELECT
@@ -101,7 +106,9 @@ epicsTimer & fdManager::createTimer()
 fdManager fileDescriptorManager;
 
 static const unsigned mSecPerSec = 1000u;
+#ifdef FDMGR_USE_SELECT
 static const unsigned uSecPerSec = 1000u * mSecPerSec;
+#endif
 
 //
 // fdManager::fdManager()
@@ -179,11 +186,14 @@ LIBCOM_API void fdManager::process (double delay)
 
 #ifdef FDMGR_USE_POLL
 #if __cplusplus >= 201100L
-        priv->pollfds.emplace_back(pollfd{.fd = iter->getFD(), .events = PollEvents[iter->getType()]});
+        priv->pollfds.emplace_back(pollfd{
+            .fd = iter->getFD(),
+            .events = static_cast<short>(PollEvents[iter->getType()] & PollEventsFilter)
+        });
 #else
         struct pollfd pollfd;
         pollfd.fd = iter->getFD();
-        pollfd.events = PollEvents[iter->getType()];
+        pollfd.events = PollEvents[iter->getType()] & PollEventsFilter;
         pollfd.revents = 0;
         priv->pollfds.push_back(pollfd);
 #endif
@@ -234,7 +244,7 @@ LIBCOM_API void fdManager::process (double delay)
                 // But just in case...
                 int isave = i;
                 while (priv->pollfds[i].fd != iter->getFD() ||
-                    priv->pollfds[i].events != PollEvents[iter->getType()])
+                    priv->pollfds[i].events != (PollEvents[iter->getType()] & PollEventsFilter))
                 {
                     errlogPrintf("fdManager: skipping (removed?) pollfd %d (expected %d)\n", priv->pollfds[i].fd, iter->getFD());
                     i++; // skip pollfd of removed items
