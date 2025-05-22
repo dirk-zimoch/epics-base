@@ -22,8 +22,8 @@
 
 #include "libComAPI.h"
 
-/** \brief Number of input arguments to a calc expression (A-L) */
-#define CALCPERFORM_NARGS 12
+/** \brief Number of input arguments to a calc expression (A-U) */
+#define CALCPERFORM_NARGS 21
 /** \brief Size of the internal partial result stack */
 #define CALCPERFORM_STACK 80
 
@@ -163,11 +163,11 @@ extern "C" {
  *
  * -# ***Variables***
  *  Variables are used to provide inputs to an expression, and are named
- *  using the single letters A through L inclusive or the keyword VAL which
+ *  using the single letters A through U inclusive or the keyword VAL which
  *  refers to the previous result of this calculation. The software that
  *  makes use of the expression evaluation code should document how the
  *  individual variables are given values; for the calc record type the input
- *  links INPA through INPL can be used to obtain these from other record fields,
+ *  links INPA through INPU can be used to obtain these from other record fields,
  *  and VAL refers to the the VAL field (which can be overwritten from outside
  *  the record via Channel Access or a database link).
  *
@@ -310,7 +310,7 @@ LIBCOM_API long
  *
  * Evaluates the postfix expression against a set ot input values.
  *
- * \param parg Pointer to an array of double values for the arguments A-L
+ * \param parg Pointer to an array of double values for the arguments A-U
  * that can appear in the expression. Note that the argument values may be
  * modified if the expression uses the assignment operator.
  * \param presult Where to put the calculated result, which may be a NaN or Infinity.
@@ -331,8 +331,8 @@ LIBCOM_API long
  * for either of these pointers is legal if only the other is needed.
  *
  * The least significant bit (bit 0) of the bitmap at \c *pinputs will be set
- * if the expression depends on the argument A, and so on through bit 11 for
- * the argument L. An argument that is not used until after a value has been
+ * if the expression depends on the argument A, and so on through bit 20 for
+ * the argument U. An argument that is not used until after a value has been
  * assigned to it will not be set in the pinputs bitmap, thus the bits can
  * be used to determine whether a value needs to be supplied for their
  * associated argument or not for the purposes of evaluating the expression.
