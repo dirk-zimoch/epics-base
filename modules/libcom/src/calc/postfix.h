@@ -63,7 +63,7 @@
  *
  * This is not a hard limit, just the default size for the database
  */
-#define MAX_INFIX_SIZE 100
+#define MAX_INFIX_SIZE 160
 /**
  * \brief Size of a "standard" postfix buffer.
  *

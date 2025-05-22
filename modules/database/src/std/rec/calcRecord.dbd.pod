@@ -512,7 +512,7 @@ manner for the VAL field.
 		promptgroup("30 - Action")
 		special(SPC_CALC)
 		pp(TRUE)
-		size(80)
+		size(160)
 		initial("0")
 	}
 	field(INPA,DBF_INLINK) {
@@ -948,7 +948,7 @@ manner for the VAL field.
 		prompt("Reverse Polish Calc")
 		special(SPC_NOMOD)
 		interest(4)
-		extra("char	rpcl[INFIX_TO_POSTFIX_SIZE(80)]")
+		extra("char	rpcl[INFIX_TO_POSTFIX_SIZE(160)]")
 	}
 
 =head2 Record Support
