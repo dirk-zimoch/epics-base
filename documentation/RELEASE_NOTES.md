@@ -18,6 +18,12 @@ __This version of EPICS has not been released yet.__
 
 __Add new items below here__
 
+### Records calc, calcout and sub extended
+
+The record types calc, calcout and sub now have 21 inputs A-U.
+The new inputs can be use in calc links as well.
+The size of CALC and OCAL fields is now 160 chars.
+
 ### Reduce symbol and macro pollution from epicsAtomic.h on WIN32
 
 `epicsAtomic.h` no longer pulls in as many unneeded declarations and macros from
