@@ -112,6 +112,8 @@ typedef struct rpvtStruct {
     epicsCallback checkLinkCb;
     short    cbScheduled;
     short    caLinkStat; /* NO_CA_LINKS, CA_LINKS_ALL_OK, CA_LINKS_NOT_OK */
+    epicsUInt32 usedLinks; /* actually non-constant links */
+    epicsUInt32 stores;
 } rpvtStruct;
 
 static void checkAlarms(calcoutRecord *prec);
@@ -135,6 +137,8 @@ static long init_record(struct dbCommon *pcommon, int pass)
     short error_number;
     calcoutdset *pcalcoutDSET;
     rpvtStruct *prpvt;
+    epicsUInt32 usedLinks = ~((~0)<<(CALCPERFORM_NARGS+1)); /* set lowest CALCPERFORM_NARGS+1 bits */
+    unsigned long storesCALC, storesOCAL;
 
     if (pass == 0) {
         prec->rpvt = (rpvtStruct *) callocMustSucceed(1, sizeof(rpvtStruct), "calcoutRecord");
@@ -165,6 +169,7 @@ static long init_record(struct dbCommon *pcommon, int pass)
 
         if (dbLinkIsConstant(plink)) {
             *plinkValid = calcoutINAV_CON;
+            usedLinks &= ~(1<<i); /* clear usedLinks bit for constants */
         }
         else if (dbLinkIsVolatile(plink)) {
             int conn = dbIsLinkConnected(plink);
@@ -187,6 +192,7 @@ static long init_record(struct dbCommon *pcommon, int pass)
             }
         }
     }
+    prec->rpvt->usedLinks = usedLinks;
 
     prec->clcv = postfix(prec->calc, prec->rpcl, &error_number);
     if (prec->clcv){
@@ -195,6 +201,7 @@ static long init_record(struct dbCommon *pcommon, int pass)
         errlogPrintf("%s.CALC: %s in expression \"%s\"\n",
                      prec->name, calcErrorStr(error_number), prec->calc);
     }
+    calcArgUsage(prec->rpcl, NULL, &storesCALC);
 
     prec->oclv = postfix(prec->ocal, prec->orpc, &error_number);
     if (prec->dopt == calcoutDOPT_Use_OVAL && prec->oclv){
@@ -203,6 +210,8 @@ static long init_record(struct dbCommon *pcommon, int pass)
         errlogPrintf("%s.OCAL: %s in expression \"%s\"\n",
                      prec->name, calcErrorStr(error_number), prec->ocal);
     }
+    calcArgUsage(prec->rpcl, NULL, &storesOCAL);
+    prec->rpvt->stores = (epicsUInt32)(storesCALC | storesOCAL);
 
     prpvt = prec->rpvt;
     callbackSetCallback(checkLinksCallback, &prpvt->checkLinkCb);
@@ -319,6 +328,8 @@ static long special(DBADDR *paddr, int after)
     DBLINK      *plink;
     double      *pvalue;
     epicsEnum16 *plinkValid;
+    epicsUInt32 usedLinks;
+    unsigned long storesCALC, storesOCAL;
 
     if (!after) return 0;
     switch(fieldIndex) {
@@ -330,6 +341,9 @@ static long special(DBADDR *paddr, int after)
             errlogPrintf("%s.CALC: %s in expression \"%s\"\n",
                          prec->name, calcErrorStr(error_number), prec->calc);
         }
+        calcArgUsage(prec->rpcl, NULL, &storesCALC);
+        calcArgUsage(prec->rpcl, NULL, &storesOCAL);
+        prec->rpvt->stores = (epicsUInt32)(storesCALC | storesOCAL);
         db_post_events(prec, &prec->clcv, DBE_VALUE);
         return 0;
 
@@ -341,6 +355,9 @@ static long special(DBADDR *paddr, int after)
             errlogPrintf("%s.OCAL: %s in expression \"%s\"\n",
                          prec->name, calcErrorStr(error_number), prec->ocal);
         }
+        calcArgUsage(prec->rpcl, NULL, &storesCALC);
+        calcArgUsage(prec->rpcl, NULL, &storesOCAL);
+        prec->rpvt->stores = (epicsUInt32)(storesCALC | storesOCAL);
         db_post_events(prec, &prec->oclv, DBE_VALUE);
         return 0;
       case(calcoutRecordINPA):
@@ -369,6 +386,7 @@ static long special(DBADDR *paddr, int after)
         plink   = &prec->inpa + lnkIndex;
         pvalue  = &prec->a    + lnkIndex;
         plinkValid = &prec->inav + lnkIndex;
+        usedLinks = prec->rpvt->usedLinks | (1<<lnkIndex); /* set usedLinks bit for this link */
 
         if (fieldIndex != calcoutRecordOUT)
             recGblInitConstantLink(plink, DBF_DOUBLE, pvalue);
@@ -376,6 +394,7 @@ static long special(DBADDR *paddr, int after)
         if (dbLinkIsConstant(plink)) {
             db_post_events(prec, pvalue, DBE_VALUE);
             *plinkValid = calcoutINAV_CON;
+            usedLinks &= ~(1<<lnkIndex); /* clear usedLinks bit for constants */
         } else if (dbLinkIsVolatile(plink)) {
             int conn = dbIsLinkConnected(plink);
 
@@ -401,6 +420,7 @@ static long special(DBADDR *paddr, int after)
                     prec->name, lnkIndex);
             }
         }
+        prec->rpvt->usedLinks = usedLinks;
         db_post_events(prec, plinkValid, DBE_VALUE);
         return 0;
       case(calcoutRecordOEVT):
@@ -660,7 +680,7 @@ static void monitor(calcoutRecord *prec)
     unsigned        monitor_mask;
     double          *pnew;
     double          *pprev;
-    int             i;
+    epicsUInt32     usedInputs;
 
     monitor_mask = recGblResetAlarms(prec);
 
@@ -675,10 +695,16 @@ static void monitor(calcoutRecord *prec)
         db_post_events(prec, &prec->val, monitor_mask);
     }
 
-    /* check all input fields for changes*/
-    for (i = 0, pnew = &prec->a, pprev = &prec->la; i<CALCPERFORM_NARGS;
-         i++, pnew++, pprev++) {
-        if ((*pnew != *pprev) || (monitor_mask&DBE_ALARM)) {
+    /* check all assigned to input fields for changes */
+    if (monitor_mask & DBE_ALARM)
+        usedInputs = ~((~0)<<CALCPERFORM_NARGS); /* on alarm change post all */
+    else
+        usedInputs = prec->rpvt->stores |
+            (prec->rpvt->usedLinks & ~((~0)<<CALCPERFORM_NARGS)); /* don't check OUT */
+    for (pnew = &prec->a, pprev = &prec->la;
+        usedInputs;
+        usedInputs >>= 1, pnew++, pprev++) {
+        if ((monitor_mask & DBE_ALARM) || ((usedInputs & 1) && (*pnew != *pprev))) {
             db_post_events(prec, pnew, monitor_mask|DBE_VALUE|DBE_LOG);
             *pprev = *pnew;
         }
@@ -693,19 +719,22 @@ static void monitor(calcoutRecord *prec)
 
 static int fetch_values(calcoutRecord *prec)
 {
-        DBLINK  *plink; /* structure of the link field  */
-        double          *pvalue;
-        long            status = 0;
-        int             i;
+    DBLINK  *plink; /* structure of the link field  */
+    double *pvalue;
+    long status = 0;
+    epicsUInt32 usedLinks = prec->rpvt->usedLinks & ~((~0)<<CALCPERFORM_NARGS); /* don't fetch OUT link */
 
-        for (i = 0, plink = &prec->inpa, pvalue = &prec->a; i<CALCPERFORM_NARGS;
-            i++, plink++, pvalue++) {
+    for (plink = &prec->inpa, pvalue = &prec->a;
+        usedLinks;
+        usedLinks >>= 1, plink++, pvalue++) {
+        if (usedLinks & 1) {
             int newStatus;
-
             newStatus = dbGetLink(plink, DBR_DOUBLE, pvalue, 0, 0);
             if (!status) status = newStatus;
         }
-        return(status);
+    }
+
+    return status;
 }
 
 static void checkLinksCallback(epicsCallback *arg)
@@ -729,19 +758,20 @@ static void checkLinks(calcoutRecord *prec)
 
     DBLINK *plink;
     rpvtStruct *prpvt = prec->rpvt;
-    int i;
     int stat;
     int caLink   = 0;
     int caLinkNc = 0;
     epicsEnum16 *plinkValid;
+    epicsUInt32 usedLinks;
 
-    if (calcoutRecDebug) printf("checkLinks() for %p\n", prec);
+    if (calcoutRecDebug) printf("checkLinks() for %s\n", prec->name);
 
     plink   = &prec->inpa;
     plinkValid = &prec->inav;
-
-    for (i = 0; i<CALCPERFORM_NARGS+1; i++, plink++, plinkValid++) {
-        if (dbLinkIsVolatile(plink)) {
+    for (usedLinks = prec->rpvt->usedLinks;
+        usedLinks;
+        usedLinks >>= 1, plink++, plinkValid++) {
+        if ((usedLinks & 1) && dbLinkIsVolatile(plink)) {
             caLink = 1;
             stat = dbIsLinkConnected(plink);
             if (!stat && (*plinkValid == calcoutINAV_EXT_NC)) {
