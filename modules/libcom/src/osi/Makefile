@@ -64,6 +64,7 @@ INC += devLibVMEImpl.h
 INC += osdVME.h
 INC += epicsMMIO.h
 INC += epicsMMIODef.h
+INC += sharedPtr.h
 
 INC_clang += epicsAtomicGCC.h
 INC_gcc   += epicsAtomicGCC.h
