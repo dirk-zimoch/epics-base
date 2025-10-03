@@ -216,6 +216,12 @@ namespace epics{
  * (use auto_ptr or unique_ptr explicitly).
  */
 #if __cplusplus>=201103L
+#ifndef HAVE_UNIQUE_PTR
+#define HAVE_UNIQUE_PTR 1
+#endif
+#endif
+
+#if HAVE_UNIQUE_PTR
 template<typename T>
 using auto_ptr = std::unique_ptr<T>;
 template<typename T>
