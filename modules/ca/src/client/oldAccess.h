@@ -26,28 +26,16 @@
 #ifndef INC_oldAccess_H
 #define INC_oldAccess_H
 
-#include <memory>
-
 #include "tsFreeList.h"
 #include "compilerDependencies.h"
 #include "osiSock.h"
+#include "sharedPtr.h"
 
 #include "libCaAPI.h"
 #include "caProto.h"
 #include "cacIO.h"
 #include "cadef.h"
 #include "syncGroup.h"
-
-namespace ca {
-#if __cplusplus>=201103L
-template<typename T>
-using auto_ptr = std::unique_ptr<T>;
-#define PTRMOVE(AUTO) std::move(AUTO)
-#else
-using std::auto_ptr;
-#define PTRMOVE(AUTO) (AUTO)
-#endif
-}
 
 struct oldChannelNotify : private cacChannelNotify {
 public:
@@ -404,8 +392,8 @@ private:
     epicsEvent ioDone;
     epicsEvent callbackThreadActivityComplete;
     epicsThreadId createdByThread;
-    ca::auto_ptr < CallbackGuard > pCallbackGuard;
-    ca::auto_ptr < cacContext > pServiceContext;
+    epics::auto_ptr < CallbackGuard > pCallbackGuard;
+    epics::auto_ptr < cacContext > pServiceContext;
     caExceptionHandler * ca_exception_func;
     void * ca_exception_arg;
     caPrintfFunc * pVPrintfFunc;

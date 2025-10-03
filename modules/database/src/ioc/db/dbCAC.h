@@ -21,13 +21,12 @@
 
 #include "stdlib.h"
 
-#include <memory> // std::auto_ptr
-
 #include "tsDLList.h"
 #include "tsFreeList.h"
 #include "resourceLib.h"
 #include "cacIO.h"
 #include "compilerDependencies.h"
+#include "sharedPtr.h"
 
 #include "dbCoreAPI.h"
 
@@ -39,17 +38,6 @@
 #include "dbCommon.h"
 #include "db_convert.h"
 #include "resourceLib.h"
-
-namespace ca {
-#if __cplusplus>=201103L
-template<typename T>
-using auto_ptr = std::unique_ptr<T>;
-#define PTRMOVE(AUTO) std::move(AUTO)
-#else
-using std::auto_ptr;
-#define PTRMOVE(AUTO) (AUTO)
-#endif
-}
 
 extern "C" int putNotifyPut ( processNotify *ppn, notifyPutType notifyPutType );
 extern "C" void putNotifyCompletion ( processNotify *ppn );
@@ -197,7 +185,7 @@ private:
     epicsMutex & mutex;
     epicsMutex & cbMutex;
     cacContextNotify & notify;
-    ca::auto_ptr < cacContext > pNetContext;
+    epics::auto_ptr < cacContext > pNetContext;
     char * pStateNotifyCache;
     bool isolated;
 

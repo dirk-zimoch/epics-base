@@ -153,13 +153,13 @@ ca_client_context::ca_client_context ( bool enablePreemptiveCallback ) :
         this->localPort = htons ( tmpAddr.ia.sin_port );
     }
 
-    ca::auto_ptr < CallbackGuard > pCBGuard;
+    epics::auto_ptr < CallbackGuard > pCBGuard;
     if ( ! enablePreemptiveCallback ) {
         pCBGuard.reset ( new CallbackGuard ( this->cbMutex ) );
     }
 
     // multiple steps ensure exception safety
-    this->pCallbackGuard = PTRMOVE(pCBGuard);
+    this->pCallbackGuard = std::move(pCBGuard);
 }
 
 ca_client_context::~ca_client_context ()
