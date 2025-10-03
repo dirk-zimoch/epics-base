@@ -230,6 +230,13 @@ static inline void swap(auto_ptr<T>& lhs, auto_ptr<T>& rhs) {
     lhs = rhs;
     rhs = temp;
 }
+}
+namespace std{
+/* Fake a std::move() for auto_ptr implementation to make code
+   more portable.
+*/
+template<typename T>
+static inline epics::auto_ptr<T>& move(epics::auto_ptr<T>& p) { return p; }
 #endif
 }
 
