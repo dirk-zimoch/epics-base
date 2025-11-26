@@ -51,7 +51,7 @@ epicsStdCall macParseDefns(
     size_t nbytes;
     size_t *start;
     size_t *end;
-    int *del;
+    char *del;
     char *memCp, **memCpp;
     size_t c;
     char *s, *d, **p;
@@ -68,7 +68,7 @@ epicsStdCall macParseDefns(
         numMax = altNumMax;
     start = (size_t *) calloc( numMax, sizeof( size_t ) );
     end = (size_t *) calloc( numMax, sizeof( size_t ) );
-    del = (int *) calloc( numMax, sizeof( int ) );
+    del = (char *) calloc( numMax, sizeof( char ) );
     if ( start == NULL || end == NULL  || del == NULL ) goto error;
 
     /* go through definitions, noting indices of starts and ends of macro
