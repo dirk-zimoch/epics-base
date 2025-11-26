@@ -24,9 +24,9 @@
 
 /*
  * Parse macros definitions in "a=xxx,b=yyy" format and convert them to
- * a contiguously allocated array pointers to names and values, and the
- * name and value strings, terminated with two NULL pointers. Quotes
- * and escapes are honored but only removed from macro names (not
+ * a contiguously allocated array of pointers to names and values,
+ * terminated with two NULL pointers, and the name and value strings.
+ * Quotes and escapes are honored but only removed from macro names (not
  * values)
  */
 long                            /* #defns encountered; <0 = ERROR */
@@ -49,11 +49,11 @@ epicsStdCall macParseDefns(
     int quote;
     int escape;
     size_t nbytes;
-    const char **ptr;
-    const char **end;
+    size_t *start;
+    size_t *end;
     int *del;
     char *memCp, **memCpp;
-    const char *c;
+    size_t c;
     char *s, *d, **p;
     enum { preName, inName, preValue, inValue } state;
 
@@ -61,63 +61,63 @@ epicsStdCall macParseDefns(
     if ( handle && (handle->debug & 1) )
         printf( "macParseDefns( %s )\n", defns );
 
-    /* allocate temporary pointer arrays; in worst case they need to have
+    /* allocate temporary index arrays; in worst case they need to have
        as many entries as the length of the defns string */
     numMax = strlen( defns );
     if ( numMax < altNumMax )
         numMax = altNumMax;
-    ptr = (const char **) calloc( numMax, sizeof( char * ) );
-    end = (const char **) calloc( numMax, sizeof( char * ) );
+    start = (size_t *) calloc( numMax, sizeof( size_t ) );
+    end = (size_t *) calloc( numMax, sizeof( size_t ) );
     del = (int *) calloc( numMax, sizeof( int ) );
-    if ( ptr == NULL || end == NULL  || del == NULL ) goto error;
+    if ( start == NULL || end == NULL  || del == NULL ) goto error;
 
-    /* go through definitions, noting pointers to starts and ends of macro
+    /* go through definitions, noting indices of starts and ends of macro
        names and values; honor quotes and escapes; ignore white space
        around assignment and separator characters */
     num    = 0;
     del[0] = FALSE;
     quote  = 0;
     state  = preName;
-    for ( c = (const char *) defns; *c != '\0'; c++ ) {
+    for ( c = 0; defns[c] != '\0'; c++ ) {
 
         /* handle quotes */
         if ( quote )
-            quote = ( *c == quote ) ? 0 : quote;
-        else if ( *c == '\'' || *c == '"' )
-            quote = *c;
+            quote = ( defns[c] == quote ) ? 0 : quote;
+        else if ( defns[c] == '\'' || defns[c] == '"' )
+            quote = defns[c];
 
-        /* handle escapes (pointer incremented below) */
-        escape = ( *c == '\\' && *( c + 1 ) != '\0' );
+        /* handle escapes (index incremented below) */
+        escape = ( defns[c] == '\\' && defns[c + 1] != '\0' );
 
         switch ( state ) {
           case preName:
-            if ( !quote && !escape && ( isspace( (int) *c ) || *c == ',' ) ) break;
-            ptr[num] = c;
+            if ( !quote && !escape && ( isspace( (int) defns[c] ) || defns[c] == ',' ) ) break;
+            start[num] = c;
             state = inName;
             /* fall through (may be empty name) */
 
           case inName:
-            if ( quote || escape || ( *c != '=' && *c != ',' ) ) break;
+            if ( quote || escape || ( defns[c] != '=' && defns[c] != ',' ) ) break;
             end[num] = c;
-            while ( end[num] > ptr[num] && isspace( (int) *( end[num] - 1 ) ) )
+            while ( end[num] > start[num] && isspace( (int) defns[end[num] - 1] ) )
                 end[num]--;
             num++;
             del[num] = FALSE;
             state = preValue;
-            if ( *c != ',' ) break;
+            if ( defns[c] != ',' ) break;
             del[num] = TRUE;
             /* fall through (','; will delete) */
 
           case preValue:
-            if ( !quote && !escape && isspace( (int) *c ) ) break;
-            ptr[num] = c;
+            if ( !quote && !escape && isspace( (int) defns[c] ) ) break;
+            start[num] = c;
             state = inValue;
             /* fall through (may be empty value) */
 
           case inValue:
-            if ( quote || escape || *c != ',' ) break;
+            if ( quote || escape || defns[c] != ',' ) break;
             end[num] = c;
-            while ( end[num] > ptr[num] && isspace( (int) *( end[num] - 1 ) ) )
+            while ( end[num] > start[num] && isspace( (int) defns[end[num] - 1] ) )
                 end[num]--;
             num++;
             del[num] = FALSE;
@@ -125,7 +125,7 @@ epicsStdCall macParseDefns(
             break;
         }
 
-        /* if this was escape, increment pointer now (couldn't do
+        /* if this was escape, increment index now (couldn't do
            before because could have ignored escape at start of name
            or value) */
         if ( escape ) c++;
@@ -137,15 +137,15 @@ epicsStdCall macParseDefns(
         break;
       case inName:
         end[num] = c;
-        while ( end[num] > ptr[num] && isspace( (int) *( end[num] - 1 ) ) )
+        while ( end[num] > start[num] && isspace( (int) defns[end[num] - 1] ) )
             end[num]--;
         num++;
         del[num] = TRUE;
       case preValue:
-        ptr[num] = c;
+        start[num] = c;
       case inValue:
         end[num] = c;
-        while ( end[num] > ptr[num] && isspace( (int) *( end[num] - 1 ) ) )
+        while ( end[num] > start[num] && isspace( (int) defns[end[num] - 1] ) )
             end[num]--;
         num++;
         del[num] = FALSE;
@@ -155,8 +155,8 @@ epicsStdCall macParseDefns(
     if ( handle != NULL && handle->debug & 4 )
         for ( i = 0; i < num; i += 2 )
             printf( "[%ld] %.*s = [%ld] %.*s (%s) (%s)\n",
-                    (long) (end[i+0] - ptr[i+0]), (int) (end[i+0] - ptr[i+0]), ptr[i+0],
-                    (long) (end[i+1] - ptr[i+1]), (int) (end[i+1] - ptr[i+1]), ptr[i+1],
+                    (long) (end[i+0] - start[i+0]), (int) (end[i+0] - start[i+0]), defns + start[i+0],
+                    (long) (end[i+1] - start[i+1]), (int) (end[i+1] - start[i+1]), defns + start[i+1],
                     del[i+0] ? "del" : "nodel",
                     del[i+1] ? "del" : "nodel" );
 
@@ -164,7 +164,7 @@ epicsStdCall macParseDefns(
        strings */
     nbytes = ( num + 2 ) * sizeof( char * );
     for ( i = 0; i < num; i++ )
-        nbytes += end[i] - ptr[i] + 1;
+        nbytes += end[i] - start[i] + 1;
 
     /* allocate memory and set returned pairs pointer */
     memCp = malloc( nbytes );
@@ -184,8 +184,8 @@ epicsStdCall macParseDefns(
             *memCpp++ = memCp;
 
         /* copy value regardless of the above */
-        strncpy( memCp, (const char *) ptr[i], end[i] - ptr[i] );
-        memCp += end[i] - ptr[i];
+        strncpy( memCp, defns + start[i], end[i] - start[i] );
+        memCp += end[i] - start[i];
         *memCp++ = '\0';
     }
 
@@ -224,9 +224,9 @@ epicsStdCall macParseDefns(
     }
 
     /* free workspace */
-    free( ( void * ) ptr );
-    free( ( void * ) end );
-    free( ( char * ) del );
+    free( start );
+    free( end );
+    free( del );
 
     /* debug output */
     if ( handle != NULL && handle->debug & 1 )
@@ -238,9 +238,9 @@ epicsStdCall macParseDefns(
     /* error exit */
 error:
     errlogPrintf( "macParseDefns: failed to allocate memory\n" );
-    if ( ptr != NULL ) free( ( void * ) ptr );
-    if ( end != NULL ) free( ( void * ) end );
-    if ( del != NULL ) free( ( char * ) del );
+    if ( start != NULL ) free( start );
+    if ( end != NULL )   free( end );
+    if ( del != NULL )   free( del );
     *pairs = NULL;
     return -1;
 }
