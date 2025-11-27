@@ -42,10 +42,9 @@ epicsStdCall macParseDefns(
                                 /* value} pair strings; all storage is */
                                 /* allocated contiguously */
 {
-    static const size_t altNumMax = 4;
-    size_t numMax;
-    int i;
-    int num;
+    unsigned int numMax;
+    unsigned int i;
+    unsigned int num;
     int quote;
     int escape;
     size_t nbytes;
@@ -62,10 +61,9 @@ epicsStdCall macParseDefns(
         printf( "macParseDefns( %s )\n", defns );
 
     /* allocate temporary index arrays; in worst case they need to have
-       as many entries as the length of the defns string */
-    numMax = strlen( defns );
-    if ( numMax < altNumMax )
-        numMax = altNumMax;
+       two entries (name and value) for each comma plus one in the defns string */
+    numMax = 2;
+    for ( c = 0; defns[c] != '\0'; c++ ) if ( defns[c] == ',' ) numMax += 2;
     start = (size_t *) calloc( numMax, sizeof( size_t ) );
     end = (size_t *) calloc( numMax, sizeof( size_t ) );
     del = (char *) calloc( numMax, sizeof( char ) );
@@ -79,7 +77,6 @@ epicsStdCall macParseDefns(
     quote  = 0;
     state  = preName;
     for ( c = 0; defns[c] != '\0'; c++ ) {
-
         /* handle quotes */
         if ( quote )
             quote = ( defns[c] == quote ) ? 0 : quote;
