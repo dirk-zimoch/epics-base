@@ -16,3 +16,9 @@ insert_final_newline = false
 [*.{c,cc,cpp,h,hpp,pl,py,yml}]
 indent_style = space
 trim_trailing_whitespace = true
+
+[*.{c,cc,cpp,h,hpp,pl,py}]
+indent_size = 4
+
+[*.{yml,yaml}]
+indent_size = 2
