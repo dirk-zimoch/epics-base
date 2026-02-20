@@ -1,0 +1,17 @@
+---
+# MegaLinter Workflow
+name: Lint
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v7
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_EDITORCONFIG: false 
