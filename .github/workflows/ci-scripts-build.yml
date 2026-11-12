@@ -71,7 +71,8 @@ jobs:
                                   -Wno-error=format-overflow
                                   -Wno-error=stringop-overread
                                   -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3'
-                    CMD_LDFLAGS=-Wl,-z,relro"
+                    CMD_LDFLAGS=-Wl,-z,relro
+                    INSTALL_LOCATION=/tmp/epics"
 
 #          - name: "Ub-22 gcc C++11, static"
 #            os: ubuntu-22.04
